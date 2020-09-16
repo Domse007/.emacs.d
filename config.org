@@ -1,0 +1,994 @@
+#+Title: eMax - Personal Emacs Config
+#+Author: Dominik Keller
+#+OPTIONS: toc:t date:nil
+#+EXPORT_FILE_NAME: README
+#+SETUPFILE: ~/.emacs.d/org-html-themes/setup/theme-readtheorg.setup
+#+LATEX_CLASS: modern
+#+LANGUAGE: de
+
+* Changes without packages
+** Configure package sources
+Configure package.el to include MELPA.
+
+#+BEGIN_SRC emacs-lisp
+(require 'package)
+(add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/") t)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
+(package-initialize)
+#+END_SRC 
+
+** CUA Mode
+Enables standard commands like C - c, C - v
+#+BEGIN_SRC emacs-lisp
+(cua-mode t)
+#+END_SRC
+
+** GUI Elements
+Disables the GUI elements:
+
+#+BEGIN_SRC emacs-lisp
+(tool-bar-mode -1) ;; This disables the tool bar with the picture elements
+(toggle-scroll-bar -1) ;; This is to disable the scroll bar
+(menu-bar-mode -1) ;; This disables the menu bar
+#+END_SRC
+
+** Ensure everything is installed
+Ensure that use-package is installed.
+If use-package isn't already installed, it's extremely likely that this is a
+fresh installation! So we'll want to update the package repository and
+install use-package before loading the literate configuration.
+
+#+BEGIN_SRC emacs-lisp
+(when (not (package-installed-p 'use-package))
+  (package-refresh-contents)
+  (package-install 'use-package))
+#+END_SRC
+
+** package installation path
+Tell emacs where is your personal elisp lib dir
+
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'load-path "~/.emacs.d/elpa/")
+#+END_SRC
+
+** emacs
+#+BEGIN_SRC emacs-lisp
+(use-package emacs 
+    :config 
+    (setq ring-bell-function 'ignore)
+    (setq frame-title-format '("Emacs")))
+#+END_SRC
+
+set the exit-minibuffer keybinding.
+
+#+begin_src emacs-lisp
+;;(global-set-key (kbd "C-g") 'exit-minibuffer)
+#+end_src
+
+** emacsclient
+Emacsclient has the weird behavior of showing the scrollbar, even if it is disabled. 
+
+#+BEGIN_SRC emacs-lisp
+(defun my/disable-scroll-bars (frame)
+  (modify-frame-parameters frame
+                           '((vertical-scroll-bars . nil)
+                             (horizontal-scroll-bars . nil))))
+(add-hook 'after-make-frame-functions 'my/disable-scroll-bars)
+#+END_SRC
+
+Also emacsclient starts normally into the scratch buffer, but I want it to display the
+dashboard. 
+
+#+BEGIN_SRC emacs-lisp
+(setq initial-buffer-choice (lambda () (get-buffer-create "*dashboard*")))
+#+END_SRC
+
+** line numbers
+#+BEGIN_SRC emacs-lisp
+(add-hook 'org-mode-hook 'display-line-numbers-mode)
+(add-hook 'prog-mode-hook 'display-line-numbers-mode)
+#+END_SRC
+
+** Hack
+Currently I am using the Hack font. To use the original font, jsut remove the code.
+I was recommended [[https://www.reddit.com/r/emacs/comments/5twcka/which_font_do_you_use/][here]]. Here is the [[https://github.com/source-foundry/Hack][GitHub Repo]].
+
+#+BEGIN_SRC emacs-lisp
+(set-face-attribute 'default nil
+                    :family "Hack"
+                    ;; :height 110
+                    :weight 'normal
+                    :width 'normal)
+#+END_SRC
+
+** RecentF files
+The recent file have to be moved in a folder that is ignored by git.
+
+#+begin_src emacs-lisp
+(setq recentf-save-file (expand-file-name "recentf" "~/.emacs.d/A_temp"))
+#+end_src
+
+** yes-or-no
+To answer yes is too exhausting.
+
+#+begin_src emacs-lisp
+(defalias 'yes-or-no-p 'y-or-n-p)
+#+end_src
+
+** garbage collection
+#+begin_src emacs-lisp
+(setq gc-cons-threshold (eval-when-compile (* 1024 1024 1024)))
+(run-with-idle-timer 2 t (lambda () (garbage-collect)))   
+#+end_src
+
+** Date in Modeline
+
+[[https://www.emacswiki.org/emacs/DisplayTime][Source]]
+
+   #+begin_src emacs-lisp
+(display-time-mode 1)   
+(setq display-time-24hr-format t)
+(setq display-time-day-and-date t)
+   #+end_src
+
+** fullscreen
+
+   #+begin_src emacs-lisp
+(add-to-list 'default-frame-alist '(fullscreen . maximized))   
+   #+end_src
+
+** Dired
+Kill Dired Buffers after visiting them.
+
+#+begin_src emacs-lisp
+(eval-after-load "dired"
+  (lambda ()
+    (put 'dired-find-alternate-file 'disabled nil)
+    (define-key dired-mode-map (kbd "RET") #'dired-find-alternate-file)))
+#+end_src
+
+** battery
+Display the current Status of the battery.
+
+#+begin_src emacs-lisp
+(display-battery-mode 1)
+#+end_src
+
+* Display Preferences
+** Theme
+- [[https://github.com/ogdenwebb/emacs-kaolin-themes][Link to Kaolin Themes]]
+- [[https://github.com/osener/emacs-afternoon-theme][afternoon-theme]]
+- [[https://github.com/cpaulik/emacs-material-theme][material-design]]
+- doom-one
+  - doom-molokai & Doom-one
+  - doom-city-lights
+  - doom-dark+
+  - doom-monokai-pro, doom-monokai-classic
+  - doom-city-lights
+  - doom-tomorrow-night
+
+#+begin_src emacs-lisp
+(use-package doom-themes
+  :config
+  ;; Global settings (defaults)
+  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+	doom-themes-enable-italic t) ; if nil, italics is universally disabled
+  ;; (setq doom-one-brighter-modeline t)
+  (load-theme 'doom-monokai-pro t)
+  
+  ;; Corrects (and improves) org-mode's native fontification.
+  (doom-themes-org-config))
+#+end_src
+
+- [[https://github.com/ianpan870102/vscode-dark-plus-emacs-theme][vscode]]
+
+#+begin_src emacs-lisp
+;;(use-package vscode-dark-plus-theme
+;;  :config
+;;  (load-theme 'vscode-dark-plus t))
+#+end_src
+
+- [[https://github.com/owainlewis/emacs-color-themes][emacs-themes]]
+
+#+begin_src emacs-lisp
+;;(use-package sublime-themes
+;;  :init (load-theme 'spolsky t))
+#+end_src
+
+** All the icons
+Because a lot of packages allow using these nice pictures.
+
+On Windows the fonts have to be installed in the directory "c:/Windows/Fonts".
+You can install with the command =M-x all-the-icons-install-fonts=  admin required.
+
+#+BEGIN_SRC emacs-lisp
+(use-package all-the-icons)
+#+END_SRC
+
+** Dashboard
+To have a nice bootup [[https://github.com/emacs-dashboard/emacs-dashboard][screen]]:
+
+#+BEGIN_SRC emacs-lisp
+(use-package dashboard
+  :ensure t
+  :init
+  (progn
+    (setq dashboard-startup-banner 'logo)
+    ;; Value can be
+    ;; 'official which displays the official emacs logo
+    ;; 'logo which displays an alternative emacs logo
+    ;; 1, 2 or 3 which displays one of the text banners
+    ;; "path/to/your/image.png" which displays whatever image you would prefer
+
+    ;; To disable shortcut "jump" indicators for each section, set
+    (setq dashboard-show-shortcuts t)
+
+    (setq dashboard-center-content t)
+    (setq dashboard-set-file-icons t)
+    (setq dashboard-set-heading-icons t)
+
+    (setq dashboard-items '((recents  . 15)))
+    )
+  :config
+  (dashboard-setup-startup-hook)) 
+#+END_SRC
+
+To prevent that the tab bar is filled with unneccessary tabs, I disable them wit this:
+
+#+begin_src emacs-lisp
+(defun centaur-tabs-hide-tab (x)
+  (let ((name (format "%s" x)))
+    (or
+     (string-prefix-p "*scratch*" name)
+     (string-prefix-p "*Messages*" name)
+     (string-prefix-p "*Completions*" name)
+     (string-prefix-p "*Org PDF LaTeX Output*" name)
+     (and (string-prefix-p "magit" name)
+	  (not (file-name-extension name)))
+     )))
+#+end_src
+
+Sometimes the grouping is really random. With this function everything is grouped to the emacs group.
+
+#+begin_src emacs-lisp
+(defun centaur-tabs-buffer-groups ()
+      "`centaur-tabs-buffer-groups' control buffers' group rules.
+
+    Group centaur-tabs with mode if buffer is derived from `eshell-mode' `emacs-lisp-mode' `dired-mode' `org-mode' `magit-mode'.
+    All buffer name start with * will group to \"Emacs\".
+    Other buffer group by `centaur-tabs-get-group-name' with project name."
+      (list
+	(cond
+	 ("Emacs")
+	 (t
+	  (centaur-tabs-get-group-name (current-buffer))))))   
+#+end_src
+
+** centaur-tabs
+I like a list of all Buffers, that are currently open. A very easy way to do it is the
+[[https://github.com/ema2159/centaur-tabs][centaur-tabs]]. 
+
+#+BEGIN_SRC emacs-lisp
+(use-package centaur-tabs
+  :config (centaur-tabs-mode t)
+  :bind (("C-ä" . 'centaur-tabs-backward)
+	 ("C-$" . 'centaur-tabs-forward)))
+
+(setq centaur-tabs-set-icons t)
+(setq centaur-tabs-height 32)
+(setq centaur-tabs-set-bar 'over)
+(setq centaur-tabs-plain-icons nil)
+(setq centaur-tabs-style "rounded")
+#+END_SRC
+
+To prevent that the tab bar is filled with unneccessary tabs, I disable them wit this: 
+
+#+BEGIN_SRC emacs-lisp
+(defun centaur-tabs-hide-tab (x)
+  (let ((name (format "%s" x)))
+    (or
+     (string-prefix-p "*scratch*" name)
+     (string-prefix-p "*Messages*" name)
+     (string-prefix-p "*Completions*" name)
+     (string-prefix-p "*Org PDF LaTeX Output*" name)
+     (and (string-prefix-p "magit" name)
+	  (not (file-name-extension name)))
+     )))
+#+END_SRC
+
+Sometimes the grouping is really random. With this function everything is grouped to the
+emacs group.
+
+ #+begin_src emacs-lisp
+(defun centaur-tabs-buffer-groups ()
+      "`centaur-tabs-buffer-groups' control buffers' group rules.
+
+    Group centaur-tabs with mode if buffer is derived from `eshell-mode' `emacs-lisp-mode' `dired-mode' `org-mode' `magit-mode'.
+    All buffer name start with * will group to \"Emacs\".
+    Other buffer group by `centaur-tabs-get-group-name' with project name."
+      (list
+	(cond
+	 ("Emacs")
+	 (t
+	  (centaur-tabs-get-group-name (current-buffer))))))  
+  #+end_src
+
+** Dimmer
+#+BEGIN_SRC emacs-lisp
+(use-package dimmer
+  :disabled
+  :custom
+  (dimmer-fraction 0.5)
+  (dimmer-exclusion-regexp-list
+       '(".*Minibuf.*"
+         ".*which-key.*"
+         ".*NeoTree.*"
+         ".*Messages.*"
+         ".*Async.*"
+         ".*Warnings.*"
+         ".*LV.*"
+         ".*Ilist.*"))
+  :config
+  (dimmer-mode t))
+#+END_SRC
+
+** Beacon
+Never loose cursor ever again.
+
+#+BEGIN_SRC emacs-lisp
+(use-package beacon
+  :custom
+  (beacon-color "#51afef")
+  :hook (after-init . beacon-mode))
+#+END_SRC
+
+** Rainbow Mode
+show written color as background color of characters
+
+#+BEGIN_SRC emacs-lisp
+(use-package rainbow-mode
+  :diminish
+  :hook (emacs-lisp-mode . rainbow-mode))
+#+END_SRC
+
+** doom-modeline
+
+   #+begin_src emacs-lisp
+(use-package doom-modeline
+  :ensure t
+  :init (doom-modeline-mode 1))   
+   #+end_src
+
+** Zoom
+Because I use Emacs most of the time on a laptop, I have to use the limited space as good
+as possible. Thats why I use [[https://github.com/cyrus-and/zoom][Zoom]].
+
+#+BEGIN_SRC emacs-lisp
+(use-package zoom
+  :config
+  (custom-set-variables
+   '(zoom-mode t)
+   '(zoom-size '(120 . 30))
+   '(temp-buffer-resize-mode t))
+  (zoom-mode nil)
+  :bind
+  ("C-c z" . zoom-mode))
+#+END_SRC
+
+* Programming
+** LSP-Mode
+[[https://www.reddit.com/r/emacs/comments/ijmgtx/tip_how_to_use_a_stable_and_fast_environment_to/][Source]]
+
+#+begin_src emacs-lisp
+(use-package lsp-mode
+  :defer 3
+  :commands lsp
+  :init (setq-default lsp-prefer-flymake nil
+                      lsp-restart 'auto-restart ;; Otherwise will get the restart message on exit.
+                      lsp-pyls-plugins-pylint-enabled nil
+                      lsp-pyls-configuration-sources ["flake8"])
+  ;; THE lsp hook now goes here.
+  :hook ((python-mode) . lsp))
+
+(use-package lsp-python-ms
+  ;; Need to demand otherwise this never gets loaded.
+  :demand t
+  ;; But only after lsp otherwise for some cryptic emacsy reason this doesn't work properly.
+  :after lsp
+  :config
+  (setq lsp-python-ms-executable (executable-find "Microsoft.Python.LanguageServer")))   
+   
+(use-package lsp-ui
+  :commands lsp-ui-mode
+  :after lsp-python-ms)
+
+#+end_src
+
+** C++
+Series followed for C++: [[https://www.youtube.com/watch?v=HTUE03LnaXA][b yuksel]].
+
+**** autocomplete
+#+BEGIN_SRC emacs-lisp
+(use-package auto-complete)
+
+(use-package auto-complete-config
+  :config (ac-config-default))
+#+END_SRC
+
+**** yasnippet
+#+BEGIN_SRC emacs-lisp
+(require 'yasnippet)
+(yas-global-mode 1)
+#+END_SRC
+
+**** autocomplete c headers
+#+BEGIN_SRC emacs-lisp
+(defun c-header-init()
+  (require 'auto-complete-c-headers)
+    (add-to-list 'ac-sources 'ac-source-c-headers)
+    (add-to-list 'achead:include-directories
+    '"C:/MinGW/lib/gcc/mingw32/9.2.0/include/c++"))
+
+(add-hook 'c++-mode-hook 'c-header-init)
+(add-hook 'c-mode-hook 'c-header-init)
+#+END_SRC
+
+**** irony-mode
+
+     #+begin_src emacs-lisp
+(add-hook 'c++-mode-hook 'irony-mode)
+(add-hook 'c-mode-hook 'irony-mode)
+(add-hook 'objc-mode-hook 'irony-mode)
+
+(add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)     
+     #+end_src
+
+**** iedit
+
+Multiline variable renaming with the shortcut "C-x ,".
+
+#+BEGIN_SRC emacs-lisp
+(require 'iedit)
+(define-key global-map (kbd "C-x ,") 'iedit-mode)
+#+END_SRC
+
+**** CEDET
+
+#+BEGIN_SRC emacs-lisp
+(semantic-mode 1)
+
+(defun my:add-semantic-to-autocomplete() 
+  (add-to-list 'ac-sources 'ac-source-semantic)
+)
+(add-hook 'c++-mode-common-hook 'my:add-semantic-to-autocomplete)
+#+END_SRC
+
+**** [[https://github.com/tuhdo/semantic-refactor][Semantic Refactor]]
+
+#+begin_src emacs-lisp
+(require 'srefactor)
+
+(define-key c-mode-map (kbd "M-RET") 'srefactor-refactor-at-point)
+(define-key c++-mode-map (kbd "M-RET") 'srefactor-refactor-at-point)     
+#+end_src
+
+**** better syntax highlight
+
+     #+begin_src emacs-lisp
+(require 'modern-cpp-font-lock)
+(modern-c++-font-lock-global-mode t)
+       #+end_src
+
+** Web
+**** Emmet
+
+For completion I use [[https://github.com/smihica/emmet-mode][Emmet]],
+
+To use it you type the name and then =C-j= and it comnpletes it. The basic structure can
+be generated by typing "!" and then =C-j=.
+
+#+BEGIN_SRC emacs-lisp
+(use-package emmet-mode
+  :hook ((css-mode . emmet-mode)
+	 (html-mode . emmet-mode)))
+;;(require 'emmet-mode)
+;;(add-hook 'css-mode-hook  'emmet-mode) ;; enable Emmet's css abbreviation.
+;;(add-hook 'html-mode-hook 'emmet-mode)
+#+END_SRC
+
+**** js2-mode
+Improved JavaScript editing mode for GNU Emacs
+For improved JavaScript editing I use [[https://github.com/mooz/js2-mode][js2-mode]].
+
+This needs a lot of work. I don't think it is working yet.
+
+#+BEGIN_SRC emacs-lisp
+(use-package js2-mode)
+;;(require 'js2-mode)
+#+END_SRC
+
+**** company
+There are also some changes to company.
+
+#+BEGIN_SRC emacs-lisp
+(use-package company-web)
+(use-package company-web-html)
+
+(defun my-web-mode-hook ()
+  (set (make-local-variable 'company-backends) '(company-css company-web))
+)
+;; Enable JavaScript completion between <script>...</script> etc.
+(advice-add 'company-tern :before
+            #'(lambda (&rest _)
+                (if (equal major-mode 'web-mode)
+                    (let ((web-mode-cur-language
+                          (web-mode-language-at-pos)))
+                      (if (or (string= web-mode-cur-language "javascript")
+                              (string= web-mode-cur-language "jsx"))
+                          (unless tern-mode (tern-mode))
+                        (if tern-mode (tern-mode -1)))))))
+#+END_SRC
+
+** elisp
+**** highlight defined
+
+     #+begin_src emacs-lisp
+(use-package highlight-defined
+  :hook (emacs-lisp-mode . highlight-defined-mode))
+     #+end_src
+
+**** company
+
+     #+begin_src emacs-lisp
+(use-package company
+  :ensure t
+  :config
+  (progn
+    (add-hook 'after-init-hook 'global-company-mode)))
+     #+end_src
+
+** general
+**** rainbow parantheses
+
+    #+begin_src emacs-lisp
+;;(use-package rainbow-delimiters
+;;  :hook (prog-mode . rainbow-delimiters-mode))
+
+(require 'rainbow-delimiters)
+(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
+    #+end_src
+
+* Org Mode
+** Org Babel
+enabling tab in babel
+[[https://orgmode.org/worg/org-contrib/babel/][Org Babel]]
+
+#+BEGIN_SRC emacs-lisp
+(setq org-src-fontify-natively t
+    org-src-preserve-indentation t
+    org-src-tab-acts-natively t)
+#+END_SRC
+
+Enabling python support for babel
+
+#+BEGIN_SRC emacs-lisp
+(org-babel-do-load-languages
+ 'org-babel-load-languages '((python . t)))
+#+END_SRC
+
+After org mode 9.2 "<s TAB> stopped working.
+
+#+BEGIN_SRC emacs-lisp
+(setq initial-major-mode 'org-mode)
+(setq org-reveal-note-key-char nil)
+(require 'org-tempo)
+#+END_SRC
+
+** Org Bullets
+
+Enables [[https://github.com/sabof/org-bullets][Org Bullets]] Orgmode
+standard org-bullets-mode: 1
+
+#+BEGIN_SRC emacs-lisp
+(use-package org-bullets
+  :hook (org-mode . (lambda () (org-bullets-mode 1))))
+
+;;(require 'org-bullets)
+;;(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+#+END_SRC
+
+** auto newline
+
+This enables auto new-line in org mode.
+The number after fill-collumn tells emacs the amount of characters there are before there's a new-line happening.
+
+#+BEGIN_SRC emacs-lisp
+(add-hook 'org-mode-hook '(lambda () (setq fill-column 70)))
+(add-hook 'org-mode-hook 'turn-on-auto-fill)
+#+END_SRC
+
+** Table of Contents
+
+Because sometimes there is a header that I don't want in the [[https://emacs.stackexchange.com/questions/3479/org-mode-exclude-specific-headlines-from-toc-when-exporting][TOC]].
+
+#+BEGIN_SRC emacs-lisp
+(defun org-export-collect-headlines (info &optional n)
+    "Collect headlines in order to build a table of contents. [...]
+
+  Return a list of all exportable headlines as parsed elements.
+  Footnote sections, if any, will be ignored."
+  (let ((limit (plist-get info :headline-levels)))
+    (setq n (if (wholenump n) (min n limit) limit))
+    (org-element-map (plist-get info :parse-tree) 'headline
+      #'(lambda (headline)
+          (unless (or (org-element-property :NOTOC headline)               ; new condition
+                      (org-element-property :footnote-section-p headline)) ; old condition
+            (let ((level (org-export-get-relative-level headline info)))
+              (and (<= level n) headline))))
+      info)))
+#+END_SRC
+
+** Org Mouse
+
+#+BEGIN_SRC emacs-lisp
+(require 'org-mouse)
+#+END_SRC
+
+** google this
+
+#+BEGIN_SRC emacs-lisp
+(google-this-mode 1)
+(global-set-key (kbd "C-x g") 'google-this-mode-submap)
+#+END_SRC
+
+** yasnippet
+
+this Code makes yasnippet work in Org Mode.
+
+#+begin_src emacs-lisp
+(defun my-org-mode-hook ()
+  (setq-local yas-buffer-local-condition
+              '(not (org-in-src-block-p t))))
+(add-hook 'org-mode-hook #'my-org-mode-hook )  
+#+end_src
+
+** LaTeX templates
+
+    #+begin_src emacs-lisp
+(with-eval-after-load 'ox-latex
+  (add-to-list 'org-latex-classes
+	       '("selftemp"
+		 "\\documentclass[11pt]{scrartcl}
+                  \\usepackage[utf8]{inputenc}
+                  \\usepackage[T1]{fontenc}
+                  \\usepackage{graphicx}
+                  \\usepackage{longtable}
+                  \\usepackage{listings}
+                  \\usepackage[ngerman]{babel}
+                  \\usepackage{float}
+                  \\usepackage{soul}
+                  \\usepackage{amssymb}
+                  \\usepackage{hyperref}"
+		 ("\\section{%s}" . "\\section{%s}")
+		 ("\\subsection{%s}" . "\\subsection{%s}")
+		 ("\\subsubsection{%s}" . "\\subsubsection{%s}")
+		 ("\\paragraph{%s}" . "\\paragraph{%s}")
+		 ("\\subparagraph{%s}" . "\\subparagraph{%s}")))
+  (add-to-list 'org-latex-classes
+             '("modern"
+               "\\documentclass{scrartcl}
+                \\usepackage{microtype}
+                \\usepackage{tgpagella}
+                \\usepackage[scale=.9]{tgheros}
+                \\usepackage{tgcursor}
+                \\usepackage{paralist}
+                \\newcommand{\\rc}{$^{14}C$}"
+               ("\\section{%s}" . "\\section*{%s}")
+               ("\\subsection{%s}" . "\\subsection*{%s}")
+               ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+               ("\\paragraph{%s}" . "\\paragraph*{%s}")
+               ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))))
+    #+end_src
+
+** Spell Checking
+Try: [[https://200ok.ch/posts/2020-08-22_setting_up_spell_checking_with_multiple_dictionaries.html][this]].
+[[https://www.reddit.com/r/emacs/comments/dgj0ae/tutorial_spellchecking_with_hunspell_170_for/][Source]]
+Enable spellcheck for both English and German in all org-mode and text-mode buffers. 
+
+#+begin_src emacs-lisp
+(setq ispell-program-name "hunspell")
+(setq ispell-hunspell-dict-paths-alist
+      '(("de_DE" "C:/Users/Dominik/AppData/Roaming/.emacs.d/dict/de_DE_frami.aff")))
+(setq ispell-local-dictionary "de_DE")
+(setq ispell-local-dictionary-alist
+      ;; Please note the list `("-d" "en_US")` contains ACTUAL parameters passed to hunspell
+      ;; You could use `("-d" "en_US,en_US-med")` to check with multiple dictionaries
+      '(("de_DE" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil ("-d" "de_DE") nil utf-8))) 
+;; the following line won't make flyspell-mode enabled by default as you might think
+(flyspell-mode 1)
+(global-set-key (kbd "C-.") 'ispell-word)
+(add-hook 'text-mode-hook 'flyspell-mode)
+(add-hook 'org-mode-hook 'flyspell-mode)
+#+end_src
+
+** Hide markers
+
+   #+begin_src emacs-lisp
+(setq org-hide-emphasis-markers t)   
+   #+end_src
+
+** htmlize
+
+This package converts the buffer text and the associated decorations
+to HTML.
+
+#+begin_src emacs-lisp
+(use-package htmlize)
+#+end_src
+
+* behavior
+** ivy/counsel/swiper
+
+   #+begin_src emacs-lisp
+(when window-system
+  (use-package ivy
+    :init (ivy-mode 1)
+    :config (setq enable-recursive-minibuffers t)
+    :bind (("M-x" . counsel-M-x)
+	   ("C-x C-f" . counsel-find-file))))
+
+(use-package swiper
+  :after ivy
+  :config (setq search-default-mode #'char-fold-to-regexp)
+  :bind ("\C-s" . 'swiper))  
+
+(use-package ivy-posframe
+  :after ivy
+  :init (ivy-posframe-mode 1)
+  :config (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-top-center))
+		ivy-posframe-border-width 8))
+
+(setq ivy-posframe-parameters
+      '((left-fringe . 8)
+        (right-fringe . 8)))
+(setq ivy-posframe-border-width 10)
+
+(use-package amx
+  :ensure t
+  :after ivy
+  :custom
+  (amx-backend 'auto)
+  (amx-save-file "~/.emacs.d/A_temp/amx-items")
+  (amx-history-length 50)
+  (amx-show-key-bindings nil)
+  :config (amx-mode 1))
+
+(use-package ivy-rich
+  :ensure t
+  :after ivy
+  :custom (setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line)
+  :config (ivy-rich-mode 1))
+   #+end_src
+
+** smex
+ido for M-x.
+
+s#+begin_src emacs-lisp
+(use-package smex)
+(smex-initialize)
+
+(global-set-key (kbd "M-x") 'smex)
+(global-set-key (kbd "M-X") 'smex-major-mode-commands)
+  ;; This is your old M-x.
+(global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
+s#+end_src
+
+s#+begin_src emacs-lisp
+(defadvice smex (around space-inserts-hyphen activate compile)
+  (let ((ido-cannot-complete-command 
+         `(lambda ()
+            (interactive)
+            (if (string= " " (this-command-keys))
+                (insert ?-)
+              (funcall ,ido-cannot-complete-command)))))
+    ad-do-it))
+s#+end_src
+
+** ido
+
+standard way of autocompletion in minibuffer
+
+#+BEGIN_SRC emacs-lisp
+;;(require 'ido)
+;;(ido-mode t)
+#+END_SRC
+
+** shell fix
+
+M-x shell prompt fix
+This fixes the prompt being removable from M-x shell by backspacing.
+
+#+BEGIN_SRC emacs-lisp
+(setq comint-prompt-read-only t)
+#+END_SRC
+
+** UTF-8 fix
+
+Because Emacs is not encoding files in UTF-8, I added this
+
+#+BEGIN_SRC emacs-lisp
+(set-language-environment "UTF-8")
+#+END_SRC
+
+** no littering
+
+The .emacs.d directory is alwas flooded with temporary file. So move them!!!!
+
+#+begin_src emacs-lisp
+(setq no-littering-etc-directory
+      (expand-file-name "A_temp/config/" user-emacs-directory))
+(setq no-littering-var-directory
+      (expand-file-name "A_temp/data/" user-emacs-directory))
+(require 'no-littering)
+#+end_src
+
+One of the most common types of files that Emacs creates automatically is auto-save
+files. By default, these appear in the current directory of a visited file. No-littering
+does not change this, but you can add the following code to your init.el file to store
+these files in the var directory: 
+
+#+begin_src emacs-lisp
+(setq auto-save-file-name-transforms
+      `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
+#+end_src
+
+* Custom
+** My Macros
+This Function enables that I can press =C-c §= and it asks for the name and inserts all
+the necessary parts to export it nicely.
+
+The information for the minibuffer-read is from [[http://ergoemacs.org/emacs/elisp_idioms_prompting_input.html][here]]. The Information for function is from
+the official [[https://www.gnu.org/software/emacs/manual/html_node/eintr/Interactive-multiply_002dby_002dseven.html#Interactive-multiply_002dby_002dseven][GNU]] website.
+
+   #+begin_src emacs-lisp
+(global-set-key (kbd "C-c m") 'my-macros) ;; main function
+(global-set-key (kbd "C-c §") 'insertorg) ;; std org template
+
+(defun my-macros ()
+  "Function to have a few personal shortcuts"
+  (interactive)
+  (setq my-input-macro (read-from-minibuffer "Macro ((org, orgtemplate), (pic, picture), frac, (eq, equation), center): ")) 
+        ;; insert std org template
+  (cond ((or (string-equal my-input-macro "stdtemplate")
+	     (string-equal my-input-macro "orgtemplate")
+	     (string-equal my-input-macro "org"))
+	 (insertorg))
+	;; insert fraction
+	((string-equal my-input-macro "frac")            
+	 (insert "\\displaystyle\\frac{}{}"))
+	;; insert template for equation
+	((or (string-equal my-input-macro "eq")
+	     (string-equal my-input-macro "equation"))
+	 (insert "\\[=\\]"))
+	;; insert template to center stuff
+	((string-equal my-input-macro "center")
+	 (if (string-equal (buffer-substring-no-properties (line-beginning-position)
+							   (line-end-position))
+			   "")
+	     (insert "\n") ;; then
+	   (insert "\n\n")) ;; else
+	 (insert "\\begin{center}\n\n"
+		 "\\end{center}\n")
+	 (dotimes (i 2) ;; for loop
+	   (previous-line)))
+	;; insert picture
+	((or (string-equal my-input-macro "picture")
+	     (string-equal my-input-macro "pic"))
+	 (insert-org-picture))
+	;; else statement of cond -> if input is not a macro
+	(t (message "Not a macro!"))))
+
+(defun insert-org-picture ()
+  "insert necessary things for a picture"
+  (interactive)
+  (insert "#+CAPTION: "
+	  (read-string "Enter caption for picture: ")
+	  "\n[[" (read-string "Location of the Picture: ./") "]]\n\n")
+  (message "Inline Pictures can be enabled with C-c C-x C-v"))
+
+(defun insertorg ()
+  "Insert template for org mode"
+  (interactive)
+  (point-to-register ?r)
+  (beginning-of-buffer)
+  (insert "#+Title: " (read-string "Enter title of document (empty: buffername): " nil nil (if (string-equal (substring (buffer-name) -4) ".org")
+											       (substring (buffer-name) 0 -4)
+											     (buffer-name)))
+	  "\n#+Author: Dominik Keller"
+	  "\n#+OPTIONS: toc:t date:nil"
+	  "\n#+EXPORT_FILE_NAME: " (substring (buffer-name) 0 -4)
+	  "\n#+SETUPFILE: ~/.emacs.d/org-html-themes/setup/theme-readtheorg.setup"
+	  "\n#+LATEX_CLASS: " )
+
+  (setq latex-class-input (read-string "Enter Class (article, modern, book, report, selftemp): " nil nil "modern"))
+  (if (string-equal latex-class-input "")
+      (insert "modern")
+    (if (or (string-equal "article" latex-class-input)
+	    (string-equal "modern" latex-class-input)
+	    (string-equal "book" latex-class-input)
+	    (string-equal "report" latex-class-input)
+	    (string-equal "selftemp" latex-class-input))
+	(insert latex-class-input)
+      (insert "modern")
+      (message "Input not a defined class. Inserted stadard class.")))
+
+  (insert "\n#+LANGUAGE: de"
+	  "\n\n")
+  (jump-to-register ?r)
+  (message "Successfully inserted Org-Template"))
+#+end_src
+   
+** Help
+Custom Buffer to provide an overview about options.
+
+not functional -> [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Temporary-Displays.html#Temporary-Displays][promissing source]]
+
+#+begin_src emacs-lisp
+(global-set-key (kbd "C-c h m") 'my-macros-help)
+
+(defun my-macros-help ()
+  (interactive)
+  (with-output-to-temp-buffer "*my-help*"
+    ;;((org, orgtemplate), (pic, picture), frac, (eq, equation), center
+    (print "Possible completions are:")
+    (print "org / orgtemplate / stdtemplate          Insert my standard Org Template")
+    (print "pic / picture                            Insert template for pictures")
+    (print "frac                                     Insert LaTeX template for fractions")
+    (print "eq / equation                            Insert a LaTeX equation")
+    (print "center                                   Insert LaTeX template to center"))
+  (switch-to-buffer "*my-help*")
+  (delete-other-windows)
+  (local-set-key (kbd "q") 'kill-my-buffer))
+
+(defun kill-my-buffer ()
+  (interactive)
+  (delete-other-windows)
+  (kill-buffer "*my-help*")
+  (message "Buffer killed"))
+#+end_src
+
+** org-settings
+
+   #+begin_src emacs-lisp
+(defun org-settings ()
+  (interactive)
+  (setq org-settings-input (read-string "Setting {toc; date}:")
+	(cond ((string-equal org-settings-input "toc")
+	       (point-to-register ?g)
+	       (beginning-of-buffer)))))
+   #+end_src  
+
+* Todos
+- eshell
+- dumb-jump
+- [[https://github.com/eschulte/org-ehtml][org-ehtml]]
+  - dependecy: [[https://github.com/eschulte/emacs-web-server][emacs web server]]
+
+** Sunshine (weather forecast)
+[[https://github.com/aaronbieber/sunshine.el][Github Repo]]
+
+#+begin_src emacs-lisp
+(require 'sunshine)
+(setq sunshine-location "90210,USA")
+(setq sunshine-appid "ba58f40d412bbff1bf2abc84ae519cf1")
+#+end_src
+
+* issues
+- semantic / cedet is not working: [[https://www.youtube.com/watch?v=Ib914gNr0ys][link]]
+- sunshine is not working
+* important
+
+[[https://github.com/ianpan870102/.personal-emacs.d/blob/master/init.el][emacsconifg lsp minibufffer alignement]]
+-> postframe
+

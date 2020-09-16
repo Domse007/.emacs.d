@@ -1,0 +1,25 @@
+﻿<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Microsoft.Python.Parsing</id>
+    <version>$version$</version>
+    <title>Microsoft Python Static Analysis</title>
+    <authors>Microsoft</authors>
+    <owners>Microsoft</owners>
+    <!--<license type="expression">Apache-2.0</license> Nuget 5.x-->
+    <licenseUrl>https://github.com/Microsoft/python-language-server/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/Microsoft/python-language-server</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Microsoft Python Parsing Library</description>
+    <releaseNotes>Initial release.</releaseNotes>
+    <copyright>© Microsoft Corporation. All rights reserved.</copyright>
+    <tags>Python</tags>
+    <dependencies>
+      <dependency id="Microsoft.Extensions.FileSystemGlobbing" version="3.0.0" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="Microsoft.Python.Core.dll" target="lib\netstandard2.0\Microsoft.Python.Core.dll" />
+    <file src="Microsoft.Python.Parsing.dll" target="lib\netstandard2.0\Microsoft.Python.Parsing.dll" />
+  </files>
+</package>

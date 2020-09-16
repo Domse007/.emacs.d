@@ -1,0 +1,2 @@
+;;; Generated package description from c:/Users/Dominik Keller/AppData/Roaming/.emacs.d/elpa/zoom-20200708.1105/zoom.el  -*- no-byte-compile: t -*-
+(define-package "zoom" "20200708.1105" "Fixed and automatic balanced window layout" '((emacs "24.4")) :commit "a373e7eed59ad93315e5ae88c816ca70404d2d34" :keywords '("frames") :authors '(("Andrea Cardaci" . "cyrus.and@gmail.com")) :maintainer '("Andrea Cardaci" . "cyrus.and@gmail.com") :url "https://github.com/cyrus-and/zoom")

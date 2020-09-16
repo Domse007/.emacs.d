@@ -1,0 +1,16 @@
+A_temp/
+srecode-map.el
+A_temp/*.*
+A_temp/*
+A_temp/recentf
+A_temp/recentf~
+A_temp.*
+A_temp/*
+README.el
+ac-comphist.dat
+README.pdf
+README.tex
+srecode-map.el
+.smex-items
+config.el
+*.html
