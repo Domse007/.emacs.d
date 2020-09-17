@@ -6,12 +6,44 @@
 #+LATEX_CLASS: modern
 #+LANGUAGE: de
 
-* Installation specific stuff
+* Overview
+This is my personal emacs conifg. I use emacs for the most time on
+Windows 10. Currently I am using =GNU emacs 28.0.50= and there are no
+major bugs, although on startup =cl= returns an error. 
+
+This config is maintained and will get updated in the future. There
+could be some major changes with one commit, because of a really
+boring lesson.
+
+I use this config mostly for =org mode= but there are plans, that it is
+going to be my IDE for everyhing, but that is delayed, because I have
+some trouble with LSP.
+
+* Installation (Windows)
+An installation of =GNU emacs= preferably with version =28.0.50=. After
+first start emacs will create a folder in the home directory (Windows:
+=C:/users/USER/appdata/roaming/.emacs.d=). Then close emacs.
+
+Next, install [[https://git-scm.com/download/win][git]] and open the file explorer in the emacs
+directory. Then click the right mousbutton and select ="git bash
+here"=. Then copy these commands:
+1. =git init=
+2. =git remote add origin https://www.github.com/domse007/.emacs.d=
+3. =git pull origin master=
+
+Now everytime there is a new commit, it can be installed with: 
+=git pull origin master=
+
+If this is just the startpoint, you could just make 
+=git clone https://www.github.com/domse007/.emacs.d .= in the =Roaming=
+directory. 
+
+** dependencies
 - autocomplete c headers wants to know where the header files are.
 - installation of miktex
   - Windows: added to PATH Variables
-- Git installation
-  - Windows: MinGW
+- Windows: MinGW
+  - For C++ development
 - [[https://github.com/mlt/hunspell/releases/download/appveyor_v1.7.0/hunspell-msvc-Release-x64.zip][Hunspell installation]]
   - Windows:
     - add to =PATH=
