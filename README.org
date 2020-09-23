@@ -21,7 +21,7 @@ some trouble with LSP.
 
 * Installation (Windows)
 An installation of =GNU emacs= preferably with version =28.0.50=. After
-first start emacs will create a folder in the home directory (Windows:
+first start emacs will create a folder in the home directory (Windows:\\
 =C:/users/USER/appdata/roaming/.emacs.d=). Then close emacs.
 
 Next, install [[https://git-scm.com/download/win][git]] and open the file explorer in the emacs
@@ -34,9 +34,13 @@ here"=. Then copy these commands:
 Now everytime there is a new commit, it can be installed with: 
 =git pull origin master=
 
-If this is just the startpoint, you could just make 
-=git clone https://www.github.com/domse007/.emacs.d .= in the =Roaming=
-directory. 
+If this is just the startpoint, you could just make:
+
+
+=git clone https://www.github.com/domse007/.emacs.d .=
+
+
+in the =.emacs.d= directory. 
 
 ** dependencies
 - autocomplete c headers wants to know where the header files are.
@@ -54,17 +58,95 @@ directory.
   - install additional functionality
     - =pip install pyls-black pyls-isort pyls-mypy=
 - install Hack Font
-* Custom Keybindings
+* Keybindings
+** Movememnt
+|------------+---------------------+----------------------|
+| Keybinding | Function            | Description          |
+|------------+---------------------+----------------------|
+| =C-p=        | previous-line       | go one line up       |
+| =C-n=        | next-line           | go one line down     |
+| =C-f=        | forward-char        | go one char forward  |
+| =C-b=        | backward-char       | go one char back     |
+| =M-f=        | forward-word        | go one word forward  |
+| =M-b=        | backward-word       | go one word back     |
+| =M-<=        | beginning-of-buffer | goto start of buffer |
+| =M-S-<=      | end-of-buffer       | goto end of buffer   |
+|------------+---------------------+----------------------|
 
+** Manipulate Buffer
+|-------------+--------------+-----------------------------------|
+| Keybinging  | Function     | Description                       |
+|-------------+--------------+-----------------------------------|
+| =<backspace>= |              | delete backward                   |
+| =DEL=         |              | delete forward                    |
+| =C-k=         |              | delete active line (point -> end) |
+| =C-SPC=       | cua-set-mark | set-mark / clear-mark             |
+| =C-c=         |              | copy                              |
+| =C-v=         | yank         | paste                             |
+| =C-x=         |              | cut                               |
+|-------------+--------------+-----------------------------------|
+
+** General
+|------------+------------------------+-----------------------------------|
+| Keybinding | Function               | Description                       |
+|------------+------------------------+-----------------------------------|
+| =C-g=        | quit                   | quit active function              |
+| =C-x C-f=    | find-file              | find file with path               |
+| =C-x C-s=    | save-buffer            | save state of buffer              |
+| =C-x 1=      | delete-other-windows   | collapse all buffer except active |
+| =C-x 2=      | split-window-below     | split window below                |
+| =C-x 3=      | split-window-right     | split windows horizontal          |
+| =C-x 4 0=    | kill-buffer-and-window | kill active window                |
+| =C-x b=      | ivy-switch-buffer      | get list of buffers to switch     |
+| =C-x C-b=    | list-buffers           | get list of buffers to switch     |
+| =C-x k=      | kill-buffer            | get list of buffers to kill       |
+| =C-l=        | recenter-top-bottom    | recenter at point                 |
+|------------+------------------------+-----------------------------------|
+
+** help
+|------------+-------------------+---------------------|
+| Keybinding | Function          | Description         |
+|------------+-------------------+---------------------|
+| =C-h f=      | describe-function | describe function   |
+| =C-h k=      | describe-key      | describe keybinding |
+| =C-h v=      | describe-variable | describe varible    |
+|------------+-------------------+---------------------|
+
+** Org-moode
+|------------+-----------------------+----------------------------------------|
+| Keybinding | Function              | Description                            |
+|------------+-----------------------+----------------------------------------|
+| =C-i= / =TAB=  | org-cycle             | collapse headings                      |
+| =M-RET=      | org-meta-return       | insert new heading according to region |
+| =C-c C-e=    | org-export-dispatch   | export org file                        |
+| =C-a=        | org-beginning-of-line | goto start active line                 |
+| =C-e=        | org-end-of-line       | goto end active line                   |
+| =C-c C-c=    | org-ctrl-c-ctrl-c     | multipurpose function                  |
+| =C-c C-s=    | org-schdule           | make scheduled agenda entry            |
+| =C-c C-d=    | org-deadline          | made agenda entry with deadline        |
+| =C-c '=      | org-edit-special      | Call environment for element at point  |
+|------------+-----------------------+----------------------------------------|
+
+** Custom Keybindings
 |------------+-----------------------------+-------------------|
 | Keybinding | Function                    | Package           |
 |------------+-----------------------------+-------------------|
 | =C-c m=      | my-macros                   | *CUSTOM*            |
 | =C-c §=      | insertorg                   | *CUSTOM*            |
 | =C-c z=      | zoom-mode                   | zoom              |
+| =C-$=        | centaur-tabs-forward        | centaur-tabs      |
+| =C-ä=        | centaur-tabs-backward       | centaur-tabs      |
 | =C-x ,=      | iedit-mode                  | iedit             |
 | =M-RET=      | srefactor-refactor-at-point | semantic-refactor |
 | =C-j=        | emmet-mode-complete         | emmet             |
 | =C-x g=      | google-this-mode-submap     | google-thisp      |
 | =C-.=        | ispell-word                 | ispell            |
+| =C-c z=      | zoom-mode                   | zoom              |
 |------------+-----------------------------+-------------------|
+
+insertorg is part of my-macros. After calling the function with =C-c
+m=. It can be exited with =C-g=. The function expect an input through the
+minibuffer. Possible options are printed in the minibuffer. After that
+press =RET= and then follow the instruction of the subfunctions.
+Examples: =C-c m org RET RET RET= or =C-c m org RET test RET article
+RET=. The functions are really basic and easy to modify.  

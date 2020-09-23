@@ -155,6 +155,14 @@ Display the current Status of the battery.
 (display-battery-mode 1)
 #+end_src
 
+** highlight wurrent line
+
+   #+begin_src emacs-lisp
+(global-hl-line-mode)
+		;; Marked number
+		(set-face-background hl-line-face "#090405")   
+   #+end_src
+
 * Display Preferences
 ** Theme
 - [[https://github.com/ogdenwebb/emacs-kaolin-themes][Link to Kaolin Themes]]
@@ -339,7 +347,7 @@ Never loose cursor ever again.
 #+BEGIN_SRC emacs-lisp
 (use-package beacon
   :custom
-  (beacon-color "#51afef")
+  (beacon-color "#FFFFFF")
   :hook (after-init . beacon-mode))
 #+END_SRC
 
