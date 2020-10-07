@@ -7,9 +7,10 @@
 #+LANGUAGE: de
 
 * Overview
-This is my personal emacs conifg. I use emacs for the most time on
+This is my personal emacs config. I use emacs for the most time on
 Windows 10. Currently I am using =GNU emacs 28.0.50= and there are no
-major bugs, although on startup =cl= returns an error. 
+major bugs, although on startup =cl= returns an error. If you are using
+LSP, then you should use 27.X.XX. 
 
 This config is maintained and will get updated in the future. There
 could be some major changes with one commit, because of a really
@@ -42,7 +43,7 @@ If this is just the startpoint, you could just make:
 
 in the =.emacs.d= directory. 
 
-** dependencies
+* dependencies
 - autocomplete c headers wants to know where the header files are.
 - installation of miktex
   - Windows: added to PATH Variables
@@ -58,6 +59,16 @@ in the =.emacs.d= directory.
   - install additional functionality
     - =pip install pyls-black pyls-isort pyls-mypy=
 - install Hack Font
+- install [[https://rustup.rs/][Rust]]
+  - install Rust linter [[https://github.com/rust-lang/rust-clippy][Clippy]]
+    - environment variables are set automatically
+  - change compiler with: =rustup set default-host
+    x86_64-pc-windows-gnu=
+  - install [[https://github.com/rust-analyzer/rust-analyzer/releases/tag][rust analyzer]]
+    - either copy =rust-analyzer-windows.exe= to
+      =C:\Users\USERNAME\.cargo\bin= or set additional environment
+      variable.
+    - rename file to =rust-analyzer.exe=
 * Keybindings
 ** Movememnt
 |------------+---------------------+----------------------|

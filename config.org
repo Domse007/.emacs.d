@@ -288,6 +288,8 @@ I like a list of all Buffers, that are currently open. A very easy way to do it 
 (setq centaur-tabs-set-bar 'over)
 (setq centaur-tabs-plain-icons nil)
 (setq centaur-tabs-style "rounded")
+
+;;(add-hook 'before-make-frame-hook 'centaur-tabs-local-mode)
 #+END_SRC
 
 To prevent that the tab bar is filled with unneccessary tabs, I disable them wit this: 
@@ -300,6 +302,9 @@ To prevent that the tab bar is filled with unneccessary tabs, I disable them wit
      (string-prefix-p "*Messages*" name)
      (string-prefix-p "*Completions*" name)
      (string-prefix-p "*Org PDF LaTeX Output*" name)
+     (string-prefix-p "*rust-analyzer::stderr*" name)
+     (string-prefix-p "*rust-analyzer*" name)
+     (string-prefix-p "*Flymake log*" name)
      (and (string-prefix-p "magit" name)
 	  (not (file-name-extension name)))
      )))
@@ -392,25 +397,30 @@ as possible. Thats why I use [[https://github.com/cyrus-and/zoom][Zoom]].
 (use-package lsp-mode
   :defer 3
   :commands lsp
-  :init (setq-default lsp-prefer-flymake nil
-                      lsp-restart 'auto-restart ;; Otherwise will get the restart message on exit.
-                      lsp-pyls-plugins-pylint-enabled nil
-                      lsp-pyls-configuration-sources ["flake8"])
+;;  :init (setq-default lsp-prefer-flymake nil
+  ;;                    lsp-restart 'auto-restart ;; Otherwise will get the restart message on exit.
+    ;;                  lsp-pyls-plugins-pylint-enabled nil
+      ;;                lsp-pyls-configuration-sources ["flake8"])
   ;; THE lsp hook now goes here.
-  :hook ((python-mode) . lsp))
+  :hook ((python-mode . lsp)
+	 (rust-mode . lsp)))
 
 (use-package lsp-python-ms
   ;; Need to demand otherwise this never gets loaded.
   :demand t
   ;; But only after lsp otherwise for some cryptic emacsy reason this doesn't work properly.
   :after lsp
-  :config
-  (setq lsp-python-ms-executable (executable-find "Microsoft.Python.LanguageServer")))   
+  :config)
+;;  (setq lsp-python-ms-executable (executable-find "Microsoft.Python.LanguageServer")))   
    
 (use-package lsp-ui
   :commands lsp-ui-mode
-  :after lsp-python-ms)
+;;  :after lsp-python-ms
+  :config (lsp-ui-doc-enable t))
 
+;; test
+(setq lsp-rust-server 'rust-analyzer)
+(setq lsp-enable-completion-at-point t)
 #+end_src
 
 ** C++
@@ -569,6 +579,17 @@ There are also some changes to company.
 
 (require 'rainbow-delimiters)
 (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
+    #+end_src
+
+** Rust
+*** Rust-mode
+
+    #+begin_src emacs-lisp
+(use-package rust-mode
+  :config
+  (setq rust-format-on-save t)
+  :bind
+  (("C-c C-c" . rust-run)))
     #+end_src
 
 * Org Mode
@@ -738,6 +759,12 @@ to HTML.
 #+begin_src emacs-lisp
 (use-package htmlize)
 #+end_src
+
+** Org-agenda
+
+   #+begin_src emacs-lisp
+(setq org-agenda-files '("C:/Users/Dominik Keller/CloudStation/TODOs"))   
+   #+end_src
 
 * behavior
 ** ivy/counsel/swiper
