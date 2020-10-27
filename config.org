@@ -242,36 +242,7 @@ To have a nice bootup [[https://github.com/emacs-dashboard/emacs-dashboard][scre
   (dashboard-setup-startup-hook)) 
 #+END_SRC
 
-To prevent that the tab bar is filled with unneccessary tabs, I disable them wit this:
-
-#+begin_src emacs-lisp
-(defun centaur-tabs-hide-tab (x)
-  (let ((name (format "%s" x)))
-    (or
-     (string-prefix-p "*scratch*" name)
-     (string-prefix-p "*Messages*" name)
-     (string-prefix-p "*Completions*" name)
-     (string-prefix-p "*Org PDF LaTeX Output*" name)
-     (and (string-prefix-p "magit" name)
-	  (not (file-name-extension name)))
-     )))
-#+end_src
-
 Sometimes the grouping is really random. With this function everything is grouped to the emacs group.
-
-#+begin_src emacs-lisp
-(defun centaur-tabs-buffer-groups ()
-      "`centaur-tabs-buffer-groups' control buffers' group rules.
-
-    Group centaur-tabs with mode if buffer is derived from `eshell-mode' `emacs-lisp-mode' `dired-mode' `org-mode' `magit-mode'.
-    All buffer name start with * will group to \"Emacs\".
-    Other buffer group by `centaur-tabs-get-group-name' with project name."
-      (list
-	(cond
-	 ("Emacs")
-	 (t
-	  (centaur-tabs-get-group-name (current-buffer))))))   
-#+end_src
 
 ** centaur-tabs
 I like a list of all Buffers, that are currently open. A very easy way to do it is the
@@ -298,7 +269,6 @@ To prevent that the tab bar is filled with unneccessary tabs, I disable them wit
 (defun centaur-tabs-hide-tab (x)
   (let ((name (format "%s" x)))
     (or
-     (string-prefix-p "*scratch*" name)
      (string-prefix-p "*Messages*" name)
      (string-prefix-p "*Completions*" name)
      (string-prefix-p "*Org PDF LaTeX Output*" name)
@@ -766,6 +736,12 @@ to HTML.
 (setq org-agenda-files '("C:/Users/Dominik Keller/CloudStation/TODOs"))   
    #+end_src
 
+** GNUplot
+
+   #+begin_src emacs-lisp
+(use-package gnuplot)   
+   #+end_src
+
 * behavior
 ** ivy/counsel/swiper
 
@@ -882,6 +858,19 @@ these files in the var directory:
       `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
 #+end_src
 
+** restart-emacs
+
+[[https://github.com/iqbalansari/restart-emacs][Github Repo]]
+
+   #+begin_src emacs-lisp
+(use-package restart-emacs
+  :config (setq restart-emacs-restore-frames t))
+
+(defun restart ()
+  (interactive)
+  (restart-emacs))
+   #+end_src
+
 * Custom
 ** My Macros
 This Function enables that I can press =C-c §= and it asks for the name and inserts all
@@ -898,7 +887,7 @@ the official [[https://www.gnu.org/software/emacs/manual/html_node/eintr/Interac
   "Function to have a few personal shortcuts"
   (interactive)
   (setq my-input-macro (read-from-minibuffer "Macro ((org, orgtemplate), (pic, picture), frac, (eq, equation), center): ")) 
-        ;; insert std org template
+  ;; insert std org template
   (cond ((or (string-equal my-input-macro "stdtemplate")
 	     (string-equal my-input-macro "orgtemplate")
 	     (string-equal my-input-macro "org"))
@@ -931,10 +920,33 @@ the official [[https://www.gnu.org/software/emacs/manual/html_node/eintr/Interac
 (defun insert-org-picture ()
   "insert necessary things for a picture"
   (interactive)
-  (insert "#+CAPTION: "
-	  (read-string "Enter caption for picture: ")
-	  "\n[[" (read-string "Location of the Picture: ./") "]]\n\n")
-  (message "Inline Pictures can be enabled with C-c C-x C-v"))
+
+  (let ((new-lines-pictures 0))
+    (save-excursion
+      (previous-line)
+      (message (string (line-number-at-pos)))
+      (if (string-equal (buffer-substring-no-properties (line-beginning-position)
+							(line-end-position))
+			"")
+	  (progn 
+	    (previous-line)
+	    (when (not (string-equal (buffer-substring-no-properties (line-beginning-position)
+								     (line-end-position))
+				     ""))
+	      (setq new-lines-pictures 1)))
+	(setq new-lines-pictures 2)))
+    (when (equal new-lines-pictures 1)
+      (insert "\n"))
+    (when (equal new-lines-pictures 2)
+      (insert "\n\n")))
+  
+  (let ((actual-caption (read-string "Enter caption for picture: ")))
+    (when (not (string-equal actual-caption ""))
+      (insert "#+CAPTION: " actual-caption))
+    (insert "\n#+ATTR_LATEX: :float nil :scale " 
+	    (read-string "Custom scaling (empty: auto; arg: float>0): ")
+	    "\n[[" (read-string "Location of the Picture: ./") "]]\n\n")
+    (message "Inline Pictures can be enabled with C-c C-x C-v")))
 
 (defun insertorg ()
   "Insert template for org mode"
@@ -963,6 +975,7 @@ the official [[https://www.gnu.org/software/emacs/manual/html_node/eintr/Interac
       (message "Input not a defined class. Inserted stadard class.")))
 
   (insert "\n#+LANGUAGE: de"
+	  "\n#+LATEX_HEADER: \usepackage[AUTO]{babel}"
 	  "\n\n")
   (jump-to-register ?r)
   (message "Successfully inserted Org-Template"))
@@ -1013,6 +1026,7 @@ not functional -> [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Te
 - dumb-jump
 - [[https://github.com/eschulte/org-ehtml][org-ehtml]]
   - dependecy: [[https://github.com/eschulte/emacs-web-server][emacs web server]]
+- implement newline after [[https://emacs.stackexchange.com/questions/42558/org-mode-export-force-page-break-after-toc][toc]] -> means new setups
 
 ** Sunshine (weather forecast)
 [[https://github.com/aaronbieber/sunshine.el][Github Repo]]

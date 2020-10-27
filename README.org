@@ -69,6 +69,9 @@ in the =.emacs.d= directory.
       =C:\Users\USERNAME\.cargo\bin= or set additional environment
       variable.
     - rename file to =rust-analyzer.exe=
+- install GNUplot
+  - add it to =PATH=
+    - checkbox available in installer
 * Keybindings
 ** Movememnt
 |------------+---------------------+----------------------|
