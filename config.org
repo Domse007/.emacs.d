@@ -742,6 +742,15 @@ to HTML.
 (use-package gnuplot)   
    #+end_src
 
+** literate calc 
+[[https://github.com/sulami/literate-calc-mode.el][GitHub Repo]]
+[[https://www.reddit.com/r/emacs/comments/jivljk/literate_calculations_in_emacs/][Reddit Post]]
+   #+begin_src emacs-lisp
+(use-package literate-calc-mode
+  :ensure t
+  :init (add-hook 'org-mode 'literate-calc-minor-mode))   
+   #+end_src
+
 * behavior
 ** ivy/counsel/swiper
 
@@ -975,7 +984,7 @@ the official [[https://www.gnu.org/software/emacs/manual/html_node/eintr/Interac
       (message "Input not a defined class. Inserted stadard class.")))
 
   (insert "\n#+LANGUAGE: de"
-	  "\n#+LATEX_HEADER: \usepackage[AUTO]{babel}"
+	  "\n#+LATEX_HEADER: \\usepackage[AUTO]{babel}"
 	  "\n\n")
   (jump-to-register ?r)
   (message "Successfully inserted Org-Template"))
