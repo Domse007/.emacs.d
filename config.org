@@ -135,7 +135,8 @@ To answer yes is too exhausting.
 ** fullscreen
 
    #+begin_src emacs-lisp
-(add-to-list 'default-frame-alist '(fullscreen . maximized))   
+(when (display-graphic-p)
+(add-to-list 'default-frame-alist '(fullscreen . maximized)))
    #+end_src
 
 ** Dired
@@ -561,6 +562,20 @@ There are also some changes to company.
   :bind
   (("C-c C-c" . rust-run)))
     #+end_src
+
+** C#
+
+   #+begin_src emacs-lisp
+(use-package omnisharp
+  :init (omnisharp-mode)
+  :hook (csharp-mode . omnisharp-mode)
+  :bind (("C-c C-c" . recompile)
+	 ("C-c r r" . omnisharp-run-code-action-refactoring))
+  :config (eval-after-load
+	      'company
+	    '(add-to-list 'company-backends #'company-omnisharp)
+	    ))
+   #+end_src
 
 * Org Mode
 ** Org Babel

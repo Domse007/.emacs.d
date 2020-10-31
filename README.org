@@ -72,6 +72,11 @@ in the =.emacs.d= directory.
 - install GNUplot
   - add it to =PATH=
     - checkbox available in installer
+* Packages
+- Download fonts with =M-x all-the-icons-install-fonts RET=
+  - Install the fonts
+- install C#-LSP-Server with =M-x omnisharp-install-server RET=
+- install Python LSP-Server by opening a python file and answer with =y=
 * Keybindings
 ** Movememnt
 |------------+---------------------+----------------------|
