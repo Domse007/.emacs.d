@@ -1044,6 +1044,40 @@ not functional -> [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Te
 	       (point-to-register ?g)
 	       (beginning-of-buffer)))))
    #+end_src  
+* snipsearch
+snipsearch will be a package at some point
+
+  #+begin_src emacs-lisp
+(define-derived-mode snipsearch-mode special-mode "snipsearch"
+  (use-local-map snipsearch-mode-map))
+
+(defun snipsearch (&optional searchword)
+  (interactive)
+  (switch-to-buffer "*snipsearch*")
+  (snipsearch-mode)
+  (snipsearch-write-to-buffer))
+
+(defun snipsearch-write-to-buffer (&optional snipsearch-key-pressed)
+  (let ((inhibit-read-only t))
+    (insert "Search: ")
+    (if (not (equal snipsearch-key-pressed nil))
+	(insert snipsearch-key-pressed))))
+
+(defun snipsearch-init-keymap ()
+  (local-set-key "a" (snipsearch-insert-key "a")))
+
+(defvar snipsearchmode-map nil "Keymap for `my-mode-mode'")
+
+(progn
+  (setq snipsearch-mode-map (make-sparse-keymap))
+
+  
+  (define-key snipsearch-mode-map (kbd "a") 'snipsearch-write-to-buffer-a))
+
+(defun snipsearch-write-to-buffer-a ()
+  (let ((inhibit-read-only t))
+    (insert "a")))
+  #+end_src
 
 * Todos
 - eshell
