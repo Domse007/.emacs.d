@@ -763,7 +763,7 @@ to HTML.
    #+begin_src emacs-lisp
 (use-package literate-calc-mode
   :ensure t
-  :init (add-hook 'org-mode 'literate-calc-minor-mode))   
+  :hook (org-mode . literate-calc-minor-mode))   
    #+end_src
 
 * behavior
@@ -910,7 +910,7 @@ the official [[https://www.gnu.org/software/emacs/manual/html_node/eintr/Interac
 (defun my-macros ()
   "Function to have a few personal shortcuts"
   (interactive)
-  (setq my-input-macro (read-from-minibuffer "Macro ((org, orgtemplate), (pic, picture), frac, (eq, equation), center): ")) 
+  (setq my-input-macro (read-from-minibuffer "Macro ((org, orgtemplate), (pic, picture), frac, (eq, equation), eqi, (vec, vector), center): ")) 
   ;; insert std org template
   (cond ((or (string-equal my-input-macro "stdtemplate")
 	     (string-equal my-input-macro "orgtemplate")
@@ -938,6 +938,12 @@ the official [[https://www.gnu.org/software/emacs/manual/html_node/eintr/Interac
 	((or (string-equal my-input-macro "picture")
 	     (string-equal my-input-macro "pic"))
 	 (insert-org-picture))
+	((or (string-equal my-input-macro "vec")
+	     (string-equal my-input-macro "vector"))
+	 (progn (insert "\\begin{pmatrix}  \\\\  \\\\  \\end{pmatrix}")
+		(message "insert Numbers in whitespaces")))
+	((string-equal my-input-macro "eqi")
+	 (insert "\\(=\\)"))
 	;; else statement of cond -> if input is not a macro
 	(t (message "Not a macro!"))))
 
@@ -1047,7 +1053,14 @@ not functional -> [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Te
 * snipsearch
 snipsearch will be a package at some point
 
-  #+begin_src emacs-lisp
+snipsearch-20201102.0936
+
+This package is in active development and is located in =~/.emacs.d/dev/=.
+
+#+begin_src emacs-lisp
+(use-package snipsearch)
+#+end_src
+
 (define-derived-mode snipsearch-mode special-mode "snipsearch"
   (use-local-map snipsearch-mode-map))
 
@@ -1077,15 +1090,16 @@ snipsearch will be a package at some point
 (defun snipsearch-write-to-buffer-a ()
   (let ((inhibit-read-only t))
     (insert "a")))
-  #+end_src
+
 
 * Todos
+- org-download
 - eshell
 - dumb-jump
 - [[https://github.com/eschulte/org-ehtml][org-ehtml]]
   - dependecy: [[https://github.com/eschulte/emacs-web-server][emacs web server]]
 - implement newline after [[https://emacs.stackexchange.com/questions/42558/org-mode-export-force-page-break-after-toc][toc]] -> means new setups
-
+hello =  
 ** Sunshine (weather forecast)
 [[https://github.com/aaronbieber/sunshine.el][Github Repo]]
 
