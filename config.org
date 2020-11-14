@@ -184,7 +184,8 @@ Display the current Status of the battery.
   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
 	doom-themes-enable-italic t) ; if nil, italics is universally disabled
   ;; (setq doom-one-brighter-modeline t)
-  (load-theme 'doom-monokai-pro t)
+;;  (load-theme 'doom-monokai-pro t)                                      ;; main theme
+  (load-theme 'doom-vibrant t)
   
   ;; Corrects (and improves) org-mode's native fontification.
   (doom-themes-org-config))
@@ -253,7 +254,8 @@ I like a list of all Buffers, that are currently open. A very easy way to do it 
 (use-package centaur-tabs
   :config (centaur-tabs-mode t)
   :bind (("C-ä" . 'centaur-tabs-backward)
-	 ("C-$" . 'centaur-tabs-forward)))
+	 ("C-$" . 'centaur-tabs-forward))
+  :hook (company-box-mode . centaur-tabs-local-mode))
 
 (setq centaur-tabs-set-icons t)
 (setq centaur-tabs-height 32)
@@ -538,7 +540,10 @@ There are also some changes to company.
 
 (use-package company-posframe
   :config
-  (company-posframe-mode 1))
+  (company-posframe-mode 0))
+
+(use-package company-box
+  :hook (company-mode . company-box-mode))
      #+end_src
 
 ** general
@@ -574,7 +579,8 @@ There are also some changes to company.
   :config (eval-after-load
 	      'company
 	    '(add-to-list 'company-backends #'company-omnisharp)
-	    ))
+	    )
+  :hook (csharp-mode-hook . flycheck-mode))
    #+end_src
 
 * Org Mode
@@ -764,6 +770,14 @@ to HTML.
 (use-package literate-calc-mode
   :ensure t
   :hook (org-mode . literate-calc-minor-mode))   
+   #+end_src
+
+** LaTeX formula preview
+[[https://github.com/io12/org-fragtog][org-fragtog]]
+
+   #+begin_src emacs-lisp
+(use-package org-fragtog
+  :hook (org-mode-hook . org-fragtog-mode))
    #+end_src
 
 * behavior
@@ -1090,8 +1104,7 @@ This package is in active development and is located in =~/.emacs.d/dev/=.
 (defun snipsearch-write-to-buffer-a ()
   (let ((inhibit-read-only t))
     (insert "a")))
-
-
+    
 * Todos
 - org-download
 - eshell

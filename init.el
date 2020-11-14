@@ -12,7 +12,7 @@
  '(ivy-posframe-mode t nil (ivy-posframe))
  '(linum-format " %7i ")
  '(package-selected-packages
-   '(omnisharp literate-calc-mode gnuplot restart-emacs rust-mode company-posframe centaur-tabs doom-modeline zoom htmlize cyberpunk-theme sublime-themes vscode-dark-plus-theme sunshine ivy-rich amx counsel ivy-posframe swiper ivy lsp-python-ms projectile company-lsp lsp-ui lsp-mode no-littering irony suggest highlight-defined rainbow-delimiters company-web js2-mode emmet-mode rainbow-mode beacon dimmer google-this org-bullets iedit auto-complete-c-headers yasnippet-snippets yasnippet auto-complete theme-looper doom-themes all-the-icons dashboard))
+   '(org-fragtog company-box omnisharp literate-calc-mode gnuplot restart-emacs rust-mode company-posframe centaur-tabs doom-modeline zoom htmlize cyberpunk-theme sublime-themes vscode-dark-plus-theme sunshine ivy-rich amx counsel ivy-posframe swiper ivy lsp-python-ms projectile company-lsp lsp-ui lsp-mode no-littering irony suggest highlight-defined rainbow-delimiters company-web js2-mode emmet-mode rainbow-mode beacon dimmer google-this org-bullets iedit auto-complete-c-headers yasnippet-snippets yasnippet auto-complete theme-looper doom-themes all-the-icons dashboard))
  '(temp-buffer-resize-mode t)
  '(zoom-mode t nil (zoom))
  '(zoom-size '(0.618 . 0.618)))
