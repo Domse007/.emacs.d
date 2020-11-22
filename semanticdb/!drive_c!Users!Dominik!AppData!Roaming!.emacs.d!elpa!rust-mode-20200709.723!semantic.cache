@@ -1,0 +1,16 @@
+;; Object semanticdb-project-database-file-cc5ef8c
+;; SEMANTICDB Tags save file
+(semanticdb-project-database-file "semanticdb-project-database-file-cc5ef8c"
+  :tables
+  (list
+    (semanticdb-table "semanticdb-table-cc5ef6c"
+      :major-mode emacs-lisp-mode
+      :tags nil
+      :file "rust-mode-autoloads.el"
+      :pointmax 357
+      :fsize 846
+      :lastmodtime '(24506 37348 0 0)
+      :unmatched-syntax nil))
+  :file "!drive_c!Users!Dominik!AppData!Roaming!.emacs.d!elpa!rust-mode-20200709.723!semantic.cache"
+  :semantic-tag-version "2.0"
+  :semanticdb-version "2.2")

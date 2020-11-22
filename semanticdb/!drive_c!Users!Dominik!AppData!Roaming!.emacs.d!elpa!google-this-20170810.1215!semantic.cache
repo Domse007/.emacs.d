@@ -1,0 +1,16 @@
+;; Object semanticdb-project-database-file-e4a1e38
+;; SEMANTICDB Tags save file
+(semanticdb-project-database-file "semanticdb-project-database-file-e4a1e38"
+  :tables
+  (list
+    (semanticdb-table "semanticdb-table-e4a1e18"
+      :major-mode emacs-lisp-mode
+      :tags nil
+      :file "google-this-autoloads.el"
+      :pointmax 361
+      :fsize 4762
+      :lastmodtime '(24506 37359 0 0)
+      :unmatched-syntax nil))
+  :file "!drive_c!Users!Dominik!AppData!Roaming!.emacs.d!elpa!google-this-20170810.1215!semantic.cache"
+  :semantic-tag-version "2.0"
+  :semanticdb-version "2.2")

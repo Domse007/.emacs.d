@@ -1,0 +1,16 @@
+;; Object semanticdb-project-database-file-55e4aa4
+;; SEMANTICDB Tags save file
+(semanticdb-project-database-file "semanticdb-project-database-file-55e4aa4"
+  :tables
+  (list
+    (semanticdb-table "semanticdb-table-55e4ab0"
+      :major-mode emacs-lisp-mode
+      :tags nil
+      :file "ivy-posframe-autoloads.el"
+      :pointmax 363
+      :fsize 1306
+      :lastmodtime '(24506 37388 0 0)
+      :unmatched-syntax nil))
+  :file "!drive_c!Users!Dominik!AppData!Roaming!.emacs.d!elpa!ivy-posframe-20201026.319!semantic.cache"
+  :semantic-tag-version "2.0"
+  :semanticdb-version "2.2")

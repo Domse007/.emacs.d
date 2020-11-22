@@ -1,0 +1,16 @@
+;; Object semanticdb-project-database-file-cc9d69c
+;; SEMANTICDB Tags save file
+(semanticdb-project-database-file "semanticdb-project-database-file-cc9d69c"
+  :tables
+  (list
+    (semanticdb-table "semanticdb-table-cc9d6a8"
+      :major-mode emacs-lisp-mode
+      :tags nil
+      :file "gnuplot-autoloads.el"
+      :pointmax 353
+      :fsize 3907
+      :lastmodtime '(24506 37363 0 0)
+      :unmatched-syntax nil))
+  :file "!drive_c!Users!Dominik!AppData!Roaming!.emacs.d!elpa!gnuplot-20200322.53!semantic.cache"
+  :semantic-tag-version "2.0"
+  :semanticdb-version "2.2")

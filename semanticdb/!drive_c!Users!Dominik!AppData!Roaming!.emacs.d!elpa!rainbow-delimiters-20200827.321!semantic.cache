@@ -1,0 +1,16 @@
+;; Object semanticdb-project-database-file-e7d0258
+;; SEMANTICDB Tags save file
+(semanticdb-project-database-file "semanticdb-project-database-file-e7d0258"
+  :tables
+  (list
+    (semanticdb-table "semanticdb-table-e7d0238"
+      :major-mode emacs-lisp-mode
+      :tags nil
+      :file "rainbow-delimiters-autoloads.el"
+      :pointmax 375
+      :fsize 1285
+      :lastmodtime '(24506 37347 0 0)
+      :unmatched-syntax nil))
+  :file "!drive_c!Users!Dominik!AppData!Roaming!.emacs.d!elpa!rainbow-delimiters-20200827.321!semantic.cache"
+  :semantic-tag-version "2.0"
+  :semanticdb-version "2.2")

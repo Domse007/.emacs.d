@@ -1,0 +1,16 @@
+;; Object semanticdb-project-database-file-3f5b738
+;; SEMANTICDB Tags save file
+(semanticdb-project-database-file "semanticdb-project-database-file-3f5b738"
+  :tables
+  (list
+    (semanticdb-table "semanticdb-table-3f5b754"
+      :major-mode emacs-lisp-mode
+      :tags nil
+      :file "swiper-autoloads.el"
+      :pointmax 351
+      :fsize 1541
+      :lastmodtime '(24506 37385 0 0)
+      :unmatched-syntax nil))
+  :file "!drive_c!Users!Dominik!AppData!Roaming!.emacs.d!elpa!swiper-20201002.1049!semantic.cache"
+  :semantic-tag-version "2.0"
+  :semanticdb-version "2.2")

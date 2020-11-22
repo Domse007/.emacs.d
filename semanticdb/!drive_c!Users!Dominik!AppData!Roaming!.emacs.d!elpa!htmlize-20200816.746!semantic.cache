@@ -1,0 +1,16 @@
+;; Object semanticdb-project-database-file-12331048
+;; SEMANTICDB Tags save file
+(semanticdb-project-database-file "semanticdb-project-database-file-12331048"
+  :tables
+  (list
+    (semanticdb-table "semanticdb-table-12331064"
+      :major-mode emacs-lisp-mode
+      :tags nil
+      :file "htmlize-autoloads.el"
+      :pointmax 353
+      :fsize 3028
+      :lastmodtime '(24506 37360 0 0)
+      :unmatched-syntax nil))
+  :file "!drive_c!Users!Dominik!AppData!Roaming!.emacs.d!elpa!htmlize-20200816.746!semantic.cache"
+  :semantic-tag-version "2.0"
+  :semanticdb-version "2.2")

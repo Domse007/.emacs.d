@@ -367,9 +367,8 @@ Series followed for C++: [[https://www.youtube.com/watch?v=HTUE03LnaXA][b yuksel
 (use-package auto-complete
   :ensure t)
 
-(use-package auto-complete-config
-  :ensure t
-  :config (ac-config-default))
+(require 'auto-complete-config)
+(ac-config-default)
 #+END_SRC
 
 **** yasnippet
@@ -477,8 +476,7 @@ There are also some changes to company.
 #+BEGIN_SRC emacs-lisp
 (use-package company-web
   :ensure t)
-(use-package company-web-html
-  :ensure t)
+(require 'company-web-html)
 
 (defun my-web-mode-hook ()
   (set (make-local-variable 'company-backends) '(company-css company-web))
@@ -592,8 +590,7 @@ After org mode 9.2 "<s TAB> stopped working.
 #+BEGIN_SRC emacs-lisp
 (setq initial-major-mode 'org-mode)
 (setq org-reveal-note-key-char nil)
-(use-package org-tempo
-  :ensure t)
+(require 'org-tempo)
 #+END_SRC
 
 ** Org Bullets
@@ -644,14 +641,16 @@ Because sometimes there is a header that I don't want in the [[https://emacs.sta
 ** Org Mouse
 
 #+BEGIN_SRC emacs-lisp
-(use-package org-mouse
-  :ensure t)
+(require 'org-mouse)
 #+END_SRC
 
 ** google this
 
 #+BEGIN_SRC emacs-lisp
-(google-this-mode 1)
+(use-package google-this
+  :ensure t
+  :config
+  (google-this-mode 1))
 (global-set-key (kbd "C-x g") 'google-this-mode-submap)
 #+END_SRC
 
@@ -788,6 +787,8 @@ to HTML.
 
    #+begin_src emacs-lisp
 (when window-system
+  (use-package counsel
+    :ensure t)
   (use-package ivy
     :ensure t
     :init (ivy-mode 1)
@@ -1080,7 +1081,7 @@ snipsearch-20201102.0936
 This package is in active development and is located in =~/.emacs.d/dev/=.
 
 #+begin_src emacs-lisp
-(use-package snipsearch)
+;;(use-package snipsearch)
 #+end_src
 
 (define-derived-mode snipsearch-mode special-mode "snipsearch"

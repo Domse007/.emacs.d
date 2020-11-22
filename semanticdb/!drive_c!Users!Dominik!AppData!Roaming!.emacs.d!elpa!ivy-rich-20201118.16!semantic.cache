@@ -1,0 +1,16 @@
+;; Object semanticdb-project-database-file-9b5407c
+;; SEMANTICDB Tags save file
+(semanticdb-project-database-file "semanticdb-project-database-file-9b5407c"
+  :tables
+  (list
+    (semanticdb-table "semanticdb-table-9b539f8"
+      :major-mode emacs-lisp-mode
+      :tags nil
+      :file "ivy-rich-autoloads.el"
+      :pointmax 355
+      :fsize 1299
+      :lastmodtime '(24506 37390 0 0)
+      :unmatched-syntax nil))
+  :file "!drive_c!Users!Dominik!AppData!Roaming!.emacs.d!elpa!ivy-rich-20201118.16!semantic.cache"
+  :semantic-tag-version "2.0"
+  :semanticdb-version "2.2")

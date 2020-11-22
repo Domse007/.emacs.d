@@ -14,3 +14,4 @@ srecode-map.el
 .smex-items
 config.el
 *.html
+elpa/*

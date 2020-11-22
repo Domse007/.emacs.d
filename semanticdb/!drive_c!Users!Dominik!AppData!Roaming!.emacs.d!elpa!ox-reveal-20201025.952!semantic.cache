@@ -1,0 +1,16 @@
+;; Object semanticdb-project-database-file-3cf2698
+;; SEMANTICDB Tags save file
+(semanticdb-project-database-file "semanticdb-project-database-file-3cf2698"
+  :tables
+  (list
+    (semanticdb-table "semanticdb-table-3cf26b4"
+      :major-mode emacs-lisp-mode
+      :tags nil
+      :file "ox-reveal-autoloads.el"
+      :pointmax 357
+      :fsize 893
+      :lastmodtime '(24506 37380 0 0)
+      :unmatched-syntax nil))
+  :file "!drive_c!Users!Dominik!AppData!Roaming!.emacs.d!elpa!ox-reveal-20201025.952!semantic.cache"
+  :semantic-tag-version "2.0"
+  :semanticdb-version "2.2")

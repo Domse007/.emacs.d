@@ -1,0 +1,16 @@
+;; Object semanticdb-project-database-file-1232ec00
+;; SEMANTICDB Tags save file
+(semanticdb-project-database-file "semanticdb-project-database-file-1232ec00"
+  :tables
+  (list
+    (semanticdb-table "semanticdb-table-1232ec1c"
+      :major-mode emacs-lisp-mode
+      :tags nil
+      :file "amx-autoloads.el"
+      :pointmax 345
+      :fsize 1965
+      :lastmodtime '(24506 37389 0 0)
+      :unmatched-syntax nil))
+  :file "!drive_c!Users!Dominik!AppData!Roaming!.emacs.d!elpa!amx-20200701.2108!semantic.cache"
+  :semantic-tag-version "2.0"
+  :semanticdb-version "2.2")
