@@ -65,7 +65,7 @@ set the exit-minibuffer keybinding.
 #+begin_src emacs-lisp
 ;;(global-set-key (kbd "C-g") 'exit-minibuffer)
 #+end_src
-
+g
 ** emacsclient
 Emacsclient has the weird behavior of showing the scrollbar, even if it is disabled. 
 
@@ -164,6 +164,14 @@ Display the current Status of the battery.
 		(set-face-background hl-line-face "#090405")   
    #+end_src
 
+** Margin in Buffer
+   
+   #+begin_src emacs-lisp
+;;(when (display-graphic-p)
+;;  (setq-default left-margin-width 20)
+;;  (setq right-margin-width 2))
+   #+end_src
+   
 * Display Preferences
 ** Theme
 - [[https://github.com/ogdenwebb/emacs-kaolin-themes][Link to Kaolin Themes]]
@@ -179,6 +187,7 @@ Display the current Status of the battery.
 
 #+begin_src emacs-lisp
 (use-package doom-themes
+  :ensure t
   :config
   ;; Global settings (defaults)
   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
@@ -213,7 +222,8 @@ On Windows the fonts have to be installed in the directory "c:/Windows/Fonts".
 You can install with the command =M-x all-the-icons-install-fonts=  admin required.
 
 #+BEGIN_SRC emacs-lisp
-(use-package all-the-icons)
+(use-package all-the-icons
+  :ensure t)
 #+END_SRC
 
 ** Dashboard
@@ -246,63 +256,10 @@ To have a nice bootup [[https://github.com/emacs-dashboard/emacs-dashboard][scre
 
 Sometimes the grouping is really random. With this function everything is grouped to the emacs group.
 
-** centaur-tabs
-I like a list of all Buffers, that are currently open. A very easy way to do it is the
-[[https://github.com/ema2159/centaur-tabs][centaur-tabs]]. 
-
-#+BEGIN_SRC emacs-lisp
-(use-package centaur-tabs
-  :config (centaur-tabs-mode t)
-  :bind (("C-ä" . 'centaur-tabs-backward)
-	 ("C-$" . 'centaur-tabs-forward))
-  :hook (company-box-mode . centaur-tabs-local-mode))
-
-(setq centaur-tabs-set-icons t)
-(setq centaur-tabs-height 32)
-(setq centaur-tabs-set-bar 'over)
-(setq centaur-tabs-plain-icons nil)
-(setq centaur-tabs-style "rounded")
-
-;;(add-hook 'before-make-frame-hook 'centaur-tabs-local-mode)
-#+END_SRC
-
-To prevent that the tab bar is filled with unneccessary tabs, I disable them wit this: 
-
-#+BEGIN_SRC emacs-lisp
-(defun centaur-tabs-hide-tab (x)
-  (let ((name (format "%s" x)))
-    (or
-     (string-prefix-p "*Messages*" name)
-     (string-prefix-p "*Completions*" name)
-     (string-prefix-p "*Org PDF LaTeX Output*" name)
-     (string-prefix-p "*rust-analyzer::stderr*" name)
-     (string-prefix-p "*rust-analyzer*" name)
-     (string-prefix-p "*Flymake log*" name)
-     (and (string-prefix-p "magit" name)
-	  (not (file-name-extension name)))
-     )))
-#+END_SRC
-
-Sometimes the grouping is really random. With this function everything is grouped to the
-emacs group.
-
- #+begin_src emacs-lisp
-(defun centaur-tabs-buffer-groups ()
-      "`centaur-tabs-buffer-groups' control buffers' group rules.
-
-    Group centaur-tabs with mode if buffer is derived from `eshell-mode' `emacs-lisp-mode' `dired-mode' `org-mode' `magit-mode'.
-    All buffer name start with * will group to \"Emacs\".
-    Other buffer group by `centaur-tabs-get-group-name' with project name."
-      (list
-	(cond
-	 ("Emacs")
-	 (t
-	  (centaur-tabs-get-group-name (current-buffer))))))  
-  #+end_src
-
 ** Dimmer
 #+BEGIN_SRC emacs-lisp
 (use-package dimmer
+  :ensure t
   :disabled
   :custom
   (dimmer-fraction 0.5)
@@ -324,6 +281,7 @@ Never loose cursor ever again.
 
 #+BEGIN_SRC emacs-lisp
 (use-package beacon
+  :ensure t
   :custom
   (beacon-color "#FFFFFF")
   :hook (after-init . beacon-mode))
@@ -334,6 +292,7 @@ show written color as background color of characters
 
 #+BEGIN_SRC emacs-lisp
 (use-package rainbow-mode
+  :ensure t
   :diminish
   :hook (emacs-lisp-mode . rainbow-mode))
 #+END_SRC
@@ -352,6 +311,7 @@ as possible. Thats why I use [[https://github.com/cyrus-and/zoom][Zoom]].
 
 #+BEGIN_SRC emacs-lisp
 (use-package zoom
+  :ensure t
   :config
   (custom-set-variables
    '(zoom-mode t)
@@ -368,6 +328,7 @@ as possible. Thats why I use [[https://github.com/cyrus-and/zoom][Zoom]].
 
 #+begin_src emacs-lisp
 (use-package lsp-mode
+  :ensure t
   :defer 3
   :commands lsp
 ;;  :init (setq-default lsp-prefer-flymake nil
@@ -379,6 +340,7 @@ as possible. Thats why I use [[https://github.com/cyrus-and/zoom][Zoom]].
 	 (rust-mode . lsp)))
 
 (use-package lsp-python-ms
+  :ensure t
   ;; Need to demand otherwise this never gets loaded.
   :demand t
   ;; But only after lsp otherwise for some cryptic emacsy reason this doesn't work properly.
@@ -387,6 +349,7 @@ as possible. Thats why I use [[https://github.com/cyrus-and/zoom][Zoom]].
 ;;  (setq lsp-python-ms-executable (executable-find "Microsoft.Python.LanguageServer")))   
    
 (use-package lsp-ui
+  :ensure t
   :commands lsp-ui-mode
 ;;  :after lsp-python-ms
   :config (lsp-ui-doc-enable t))
@@ -401,25 +364,29 @@ Series followed for C++: [[https://www.youtube.com/watch?v=HTUE03LnaXA][b yuksel
 
 **** autocomplete
 #+BEGIN_SRC emacs-lisp
-(use-package auto-complete)
+(use-package auto-complete
+  :ensure t)
 
 (use-package auto-complete-config
+  :ensure t
   :config (ac-config-default))
 #+END_SRC
 
 **** yasnippet
 #+BEGIN_SRC emacs-lisp
-(require 'yasnippet)
+(use-package yasnippet
+  :ensure t)
 (yas-global-mode 1)
 #+END_SRC
 
 **** autocomplete c headers
 #+BEGIN_SRC emacs-lisp
 (defun c-header-init()
-  (require 'auto-complete-c-headers)
-    (add-to-list 'ac-sources 'ac-source-c-headers)
-    (add-to-list 'achead:include-directories
-    '"C:/MinGW/lib/gcc/mingw32/9.2.0/include/c++"))
+  (use-package auto-complete-c-headers
+    :ensure t)
+  (add-to-list 'ac-sources 'ac-source-c-headers)
+  (add-to-list 'achead:include-directories
+	       '"C:/MinGW/lib/gcc/mingw32/9.2.0/include/c++"))
 
 (add-hook 'c++-mode-hook 'c-header-init)
 (add-hook 'c-mode-hook 'c-header-init)
@@ -440,7 +407,8 @@ Series followed for C++: [[https://www.youtube.com/watch?v=HTUE03LnaXA][b yuksel
 Multiline variable renaming with the shortcut "C-x ,".
 
 #+BEGIN_SRC emacs-lisp
-(require 'iedit)
+(use-package iedit
+  :ensure t)
 (define-key global-map (kbd "C-x ,") 'iedit-mode)
 #+END_SRC
 
@@ -458,7 +426,8 @@ Multiline variable renaming with the shortcut "C-x ,".
 **** [[https://github.com/tuhdo/semantic-refactor][Semantic Refactor]]
 
 #+begin_src emacs-lisp
-(require 'srefactor)
+(use-package srefactor
+  :ensure t)
 
 (define-key c-mode-map (kbd "M-RET") 'srefactor-refactor-at-point)
 (define-key c++-mode-map (kbd "M-RET") 'srefactor-refactor-at-point)     
@@ -467,7 +436,8 @@ Multiline variable renaming with the shortcut "C-x ,".
 **** better syntax highlight
 
      #+begin_src emacs-lisp
-(require 'modern-cpp-font-lock)
+(use-package modern-cpp-font-lock
+  :ensure t)
 (modern-c++-font-lock-global-mode t)
        #+end_src
 
@@ -481,6 +451,7 @@ be generated by typing "!" and then =C-j=.
 
 #+BEGIN_SRC emacs-lisp
 (use-package emmet-mode
+  :ensure t
   :hook ((css-mode . emmet-mode)
 	 (html-mode . emmet-mode)))
 ;;(require 'emmet-mode)
@@ -495,7 +466,8 @@ For improved JavaScript editing I use [[https://github.com/mooz/js2-mode][js2-mo
 This needs a lot of work. I don't think it is working yet.
 
 #+BEGIN_SRC emacs-lisp
-(use-package js2-mode)
+(use-package js2-mode
+  :ensure t)
 ;;(require 'js2-mode)
 #+END_SRC
 
@@ -503,8 +475,10 @@ This needs a lot of work. I don't think it is working yet.
 There are also some changes to company.
 
 #+BEGIN_SRC emacs-lisp
-(use-package company-web)
-(use-package company-web-html)
+(use-package company-web
+  :ensure t)
+(use-package company-web-html
+  :ensure t)
 
 (defun my-web-mode-hook ()
   (set (make-local-variable 'company-backends) '(company-css company-web))
@@ -526,6 +500,7 @@ There are also some changes to company.
 
      #+begin_src emacs-lisp
 (use-package highlight-defined
+  :ensure t
   :hook (emacs-lisp-mode . highlight-defined-mode))
      #+end_src
 
@@ -539,10 +514,12 @@ There are also some changes to company.
     (add-hook 'after-init-hook 'global-company-mode)))
 
 (use-package company-posframe
+  :ensure t
   :config
   (company-posframe-mode 0))
 
 (use-package company-box
+  :ensure t
   :hook (company-mode . company-box-mode))
      #+end_src
 
@@ -553,7 +530,8 @@ There are also some changes to company.
 ;;(use-package rainbow-delimiters
 ;;  :hook (prog-mode . rainbow-delimiters-mode))
 
-(require 'rainbow-delimiters)
+(use-package rainbow-delimiters
+  :ensure t)
 (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
     #+end_src
 
@@ -562,6 +540,7 @@ There are also some changes to company.
 
     #+begin_src emacs-lisp
 (use-package rust-mode
+  :ensure t
   :config
   (setq rust-format-on-save t)
   :bind
@@ -572,6 +551,7 @@ There are also some changes to company.
 
    #+begin_src emacs-lisp
 (use-package omnisharp
+  :ensure t
   :init (omnisharp-mode)
   :hook (csharp-mode . omnisharp-mode)
   :bind (("C-c C-c" . recompile)
@@ -584,6 +564,12 @@ There are also some changes to company.
    #+end_src
 
 * Org Mode
+** Org Mode
+   #+begin_src emacs-lisp
+(add-hook 'org-mode-hook 'org-toggle-pretty-entities) ;;better html editing
+(setq org-startup-folded t)
+   #+end_src
+   
 ** Org Babel
 enabling tab in babel
 [[https://orgmode.org/worg/org-contrib/babel/][Org Babel]]
@@ -606,7 +592,8 @@ After org mode 9.2 "<s TAB> stopped working.
 #+BEGIN_SRC emacs-lisp
 (setq initial-major-mode 'org-mode)
 (setq org-reveal-note-key-char nil)
-(require 'org-tempo)
+(use-package org-tempo
+  :ensure t)
 #+END_SRC
 
 ** Org Bullets
@@ -616,6 +603,7 @@ standard org-bullets-mode: 1
 
 #+BEGIN_SRC emacs-lisp
 (use-package org-bullets
+  :ensure t
   :hook (org-mode . (lambda () (org-bullets-mode 1))))
 
 ;;(require 'org-bullets)
@@ -656,7 +644,8 @@ Because sometimes there is a header that I don't want in the [[https://emacs.sta
 ** Org Mouse
 
 #+BEGIN_SRC emacs-lisp
-(require 'org-mouse)
+(use-package org-mouse
+  :ensure t)
 #+END_SRC
 
 ** google this
@@ -748,7 +737,8 @@ This package converts the buffer text and the associated decorations
 to HTML.
 
 #+begin_src emacs-lisp
-(use-package htmlize)
+(use-package htmlize
+  :ensure t)
 #+end_src
 
 ** Org-agenda
@@ -760,7 +750,8 @@ to HTML.
 ** GNUplot
 
    #+begin_src emacs-lisp
-(use-package gnuplot)   
+(use-package gnuplot
+  :ensure t)   
    #+end_src
 
 ** literate calc 
@@ -777,26 +768,41 @@ to HTML.
 
    #+begin_src emacs-lisp
 (use-package org-fragtog
+  :ensure t
   :hook (org-mode-hook . org-fragtog-mode))
    #+end_src
 
-* behavior
+** org-reveal
+[[https://github.com/yjwen/org-reveal][source and documentation]]
+
+#+begin_src emacs-lisp
+(use-package ox-reveal
+  :ensure t)
+
+(setq org-reveal-root "http://cdn.jsdelivr.net/reveal.js/3.0.0/")
+(setq org-reveal-mathjax t)
+#+end_src
+
+* Behavior
 ** ivy/counsel/swiper
 
    #+begin_src emacs-lisp
 (when window-system
   (use-package ivy
+    :ensure t
     :init (ivy-mode 1)
     :config (setq enable-recursive-minibuffers t)
     :bind (("M-x" . counsel-M-x)
 	   ("C-x C-f" . counsel-find-file))))
 
 (use-package swiper
+  :ensure t
   :after ivy
   :config (setq search-default-mode #'char-fold-to-regexp)
   :bind ("\C-s" . 'swiper))  
 
 (use-package ivy-posframe
+  :ensure t
   :after ivy
   :init (ivy-posframe-mode 1)
   :config (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-top-center))
@@ -883,7 +889,8 @@ The .emacs.d directory is alwas flooded with temporary file. So move them!!!!
       (expand-file-name "A_temp/config/" user-emacs-directory))
 (setq no-littering-var-directory
       (expand-file-name "A_temp/data/" user-emacs-directory))
-(require 'no-littering)
+(use-package no-littering
+  :ensure t)
 #+end_src
 
 One of the most common types of files that Emacs creates automatically is auto-save
@@ -902,13 +909,14 @@ these files in the var directory:
 
    #+begin_src emacs-lisp
 (use-package restart-emacs
+  :ensure t
   :config (setq restart-emacs-restore-frames t))
 
 (defun restart ()
   (interactive)
   (restart-emacs))
    #+end_src
-
+   
 * Custom
 ** My Macros
 This Function enables that I can press =C-c §= and it asks for the name and inserts all
@@ -924,7 +932,7 @@ the official [[https://www.gnu.org/software/emacs/manual/html_node/eintr/Interac
 (defun my-macros ()
   "Function to have a few personal shortcuts"
   (interactive)
-  (setq my-input-macro (read-from-minibuffer "Macro ((org, orgtemplate), (pic, picture), frac, (eq, equation), eqi, (vec, vector), center): ")) 
+  (setq my-input-macro (read-from-minibuffer "Macro ((org, orgtemplate), (pic, picture), frac, (eq, equation), (eqi, ieq), (vec, vector), center): ")) 
   ;; insert std org template
   (cond ((or (string-equal my-input-macro "stdtemplate")
 	     (string-equal my-input-macro "orgtemplate")
@@ -956,7 +964,7 @@ the official [[https://www.gnu.org/software/emacs/manual/html_node/eintr/Interac
 	     (string-equal my-input-macro "vector"))
 	 (progn (insert "\\begin{pmatrix}  \\\\  \\\\  \\end{pmatrix}")
 		(message "insert Numbers in whitespaces")))
-	((string-equal my-input-macro "eqi")
+	((or (string-equal my-input-macro "eqi") (string-equal my-input-macro "ieq"))
 	 (insert "\\(=\\)"))
 	;; else statement of cond -> if input is not a macro
 	(t (message "Not a macro!"))))
@@ -1117,7 +1125,8 @@ hello =
 [[https://github.com/aaronbieber/sunshine.el][Github Repo]]
 
 #+begin_src emacs-lisp
-(require 'sunshine)
+(use-package sunshine
+  :ensure t)
 (setq sunshine-location "90210,USA")
 (setq sunshine-appid "ba58f40d412bbff1bf2abc84ae519cf1")
 #+end_src
@@ -1129,4 +1138,4 @@ hello =
 
 [[https://github.com/ianpan870102/.personal-emacs.d/blob/master/init.el][emacsconifg lsp minibufffer alignement]]
 -> postframe
-
+[[https://www.youtube.com/watch?v=0g9BcZvQbXU][Org Talk]]
