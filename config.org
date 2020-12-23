@@ -701,6 +701,86 @@ this Code makes yasnippet work in Org Mode.
                ("\\subsection{%s}" . "\\subsection*{%s}")
                ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
                ("\\paragraph{%s}" . "\\paragraph*{%s}")
+               ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+  (add-to-list 'org-latex-classes
+	       '("poster"
+		 "\\usepackage[english]{babel} 
+\\usepackage{microtype} 
+\\usepackage{amsmath,amsfonts,amsthm} 
+\\usepackage[svgnames]{xcolor} 
+\\usepackage[hang, small, labelfont=bf, up, textfont=it]{caption} 
+\\usepackage{booktabs} 
+\\usepackage{lastpage}
+\\usepackage{graphicx}
+\\usepackage{enumitem} 
+\\setlist{noitemsep} 
+\\usepackage{sectsty} 
+\\allsectionsfont{\\usefont{OT1}{phv}{b}{n}}
+\\usepackage{geometry}
+\\geometry{
+	top=1cm,
+	bottom=1.5cm,
+	left=2cm,
+	right=2cm,
+	includehead,
+	includefoot,
+}
+\\setlength{\\columnsep}{7mm}
+\\usepackage[T1]{fontenc}
+\\usepackage[utf8]{inputenc} 
+\\usepackage{XCharter}
+\\usepackage{fancyhdr}
+\\pagestyle{fancy}
+\\renewcommand{\\headrulewidth}{0.0pt}
+\\renewcommand{\\footrulewidth}{0.4pt} 
+\\renewcommand{\\sectionmark}[1]{\\markboth{#1}{}}
+\\lhead{} 
+\\chead{\\textit{\\thetitle}} 
+\\rhead{} 
+\\lfoot{} 
+\\cfoot{} 
+\\rfoot{\\footnotesize Page \\thepage\\ of \\pageref{LastPage}} 
+\\fancypagestyle{firstpage}{ 
+	\\fancyhf{}
+	\\renewcommand{\\footrulewidth}{0pt}
+}
+\\newcommand{\\authorstyle}[1]{{\\large\\usefont{OT1}{phv}{b}{n}\\color{DarkRed}#1}}
+\\newcommand{\\institution}[1]{{\\footnotesize\\usefont{OT1}{phv}{m}{sl}\\color{Black}#1}}
+\\usepackage{titling}
+\\newcommand{\\HorRule}{\\color{DarkGoldenrod}\\rule{\\linewidth}{1pt}}
+\\pretitle{
+	\\vspace{-30pt}
+	\\HorRule\\vspace{10pt}
+	\\fontsize{32}{36}\\usefont{OT1}{phv}{b}{n}\\selectfont
+	\\color{DarkRed}
+}
+\\posttitle{\\par\\vskip 15pt} 
+\\preauthor{}
+\\postauthor{
+	\\vspace{10pt}
+	\\par\\HorRule
+	\\vspace{20pt}
+}
+\\usepackage{lettrine}
+\\usepackage{fix-cm}
+\\newcommand{\\initial}[1]{
+	\\lettrine[lines=3,findent=4pt,nindent=0pt]{
+		\\color{DarkGoldenrod}
+		{#1}
+	}{}
+}
+
+\\usepackage{xstring}
+\\newcommand{\\lettrineabstract}[1]{
+	\\StrLeft{#1}{1}[\\firstletter]
+	\\initial{\\firstletter}\\textbf{\\StrGobbleLeft{#1}{1}} 
+}
+\\usepackage[backend=bibtex,style=authoryear,natbib=true]{biblatex}
+\\usepackage[autostyle=true]{csquotes}"
+               ("\\section{%s}" . "\\section*{%s}")
+               ("\\subsection{%s}" . "\\subsection*{%s}")
+               ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+               ("\\paragraph{%s}" . "\\paragraph*{%s}")
                ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))))
     #+end_src
 
@@ -808,7 +888,8 @@ to HTML.
     :init (ivy-mode 1)
     :config (setq enable-recursive-minibuffers t)
     :bind (("M-x" . counsel-M-x)
-	   ("C-x C-f" . counsel-find-file))))
+	   ("C-x C-f" . counsel-find-file)
+	   ("C-x C-b" . ivy-switch-buffer))))
 
 (use-package swiper
   :ensure t
@@ -933,6 +1014,17 @@ Mouse sucks in =Org-Mode=.
   :hook (org-mode . disable-mouse-mode))
 #+end_src
    
+** scroll on jump
+
+   #+begin_src emacs-lisp
+(use-package scroll-on-jump
+  :ensure t
+  :quelpa (scroll-on-jump
+	   :fetcher git
+	   :repo "https://gitlab.com/ideasman42/emacs-scroll-on-jump")
+  :config (setq scroll-on-jump-duration 0.6))
+   #+end_src
+
 * Custom
 ** My Macros
 This Function enables that I can press =C-c §= and it asks for the name and inserts all

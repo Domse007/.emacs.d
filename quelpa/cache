@@ -1,1 +1,1 @@
-((valign :fetcher github :repo "casouri/valign"))
+((scroll-on-jump :fetcher gitlab :repo "ideasman42/emacs-scroll-on-jump") (valign :fetcher github :repo "casouri/valign"))
