@@ -1,0 +1,10 @@
+recent/*
+srecode-map.el
+ac-comphist.dat
+README.pdf
+README.tex
+.smex-items
+*.html
+elpa/*
+*.el~
+config/*.el~
