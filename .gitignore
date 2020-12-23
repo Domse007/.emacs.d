@@ -12,3 +12,8 @@ config/*.el~
 .last-package-update-day
 auto-save-list/*
 *.org~
+resources/*
+*.el#
+config/*.el#
+*.org#
+config/custom.el

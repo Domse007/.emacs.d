@@ -15,16 +15,13 @@
 (when (not (package-installed-p 'use-package))
   (package-refresh-contents)
   (package-install 'use-package))
+
+(require 'use-package)
+
 (use-package quelpa-use-package
   :ensure t)
 
-(setq my-package-list '(use-package))
-
-(dolist (package my-package-list)
-  (unless (package-installed-p package)
-    (package-install package)))
-
-(add-to-list 'load-path "~/.emacs.d/packages/")
+(add-to-list 'load-path "~/.emacs.d/resources/")
 
 (use-package auto-package-update
    :ensure t
