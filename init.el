@@ -33,6 +33,19 @@
 ;; special key-bindings:
 (cua-mode t)
 
+;; custom functions to set the base path according to the system.
+(defvar user-system-name (system-name)
+  :string)
+
+(defvar user-system-base-path ""
+  :string)
+
+(defun user-change-base-path ()
+  (when (string-equal user-system-name "DESKTOP-9R2BNNM")
+    (setq user-system-base-path "c:/Users/Dominik/DomiCloud/")))
+
+(user-change-base-path)
+
 ;; load the custom config:
 (load-file (concat user-emacs-directory "/config/emacs.el"))
 (load-file (concat user-emacs-directory "/config/design.el"))
@@ -40,4 +53,5 @@
 (load-file (concat user-emacs-directory "/config/org-mode.el"))
 (load-file (concat user-emacs-directory "/config/programming.el"))
 (load-file (concat user-emacs-directory "/config/custom-funcs.el"))
+(load-file (concat user-emacs-directory "/config/test.el"))
 (setq custom-file (concat user-emacs-directory "/config/custom.el"))

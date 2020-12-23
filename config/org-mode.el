@@ -5,19 +5,18 @@
 			    (push '("[ ]" . "☐") prettify-symbols-alist)
 			    (push '("[X]" . "☑" ) prettify-symbols-alist)
 			    (push '("[-]" . "❍" ) prettify-symbols-alist)
-			    (push '("\\leftrightharpoons" . "⇌") prettify-symbols-alist)
 			    (prettify-symbols-mode)))
 	 (org-mode . (lambda () (setq fill-column 70)))
 	 (org-mode  . turn-on-auto-fill))
-  :init (setq org-startup-folded t
-	      org-src-fontify-natively t
-	      org-adapt-indentation nil
-	      org-src-preserve-indentation nil
-	      org-src-tab-acts-natively t
-	      initial-major-mode 'org-mode
-	      org-reveal-note-key-char nil
-	      org-hide-emphasis-markers t
-	      org-agenda-files '("C:/Users/Dominik Keller/CloudStation/TODOs")))
+  :custom ((org-startup-folded t)
+	   (org-src-fontify-natively t)
+	   (org-adapt-indentation nil)
+	   (org-src-tab-acts-natively t)
+	   (initial-major-mode 'org-mode)
+	   (org-hide-emphasis-markers t)
+	   (org-agenda-files '(when (string-equal system-name "DESKTOP-9R2BNNM")
+				(return "C:/Users/Dominik Keller/CloudStation/TODOs")))))
+
 (defun org-export-collect-headlines (info &optional n)
 "Collect headlines in order to build a table of contents. [...]
   Return a list of all exportable headlines as parsed elements.
@@ -47,9 +46,9 @@
 		 ("\\paragraph{%s}" . "\\paragraph*{%s}")
 		 ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))))
 
-(use-package org-bullets
+(use-package org-superstar
   :ensure t
-  :hook (org-mode . (lambda () (org-bullets-mode 1))))
+  :hook (org-mode . (lambda () (org-superstar-mode 1))))
 
 (use-package google-this
   :ensure t
@@ -70,10 +69,10 @@
 
 (use-package ox-reveal
   :ensure t
-  :config
-  (setq org-reveal-root "https://cdn.jsdelivr.net/npm/reveal.js"
-	org-reveal-mathjax t
-	org-reveal-ignore-speaker-notes nil))
+  :custom ((org-reveal-root "https://cdn.jsdelivr.net/npm/reveal.js")
+	   (org-reveal-mathjax t)
+	   (org-reveal-ignore-speaker-notes nil)
+	   (org-reveal-note-key-char nil)))
 
 
 

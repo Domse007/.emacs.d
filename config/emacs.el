@@ -5,7 +5,7 @@
 		   frame-title-format '("EMACS - " emacs-version ": %b - %m" "-mode")
 		   initial-buffer-choice (lambda () (get-buffer-create "*dashboard*"))
 		   recentf-save-file (expand-file-name "recentf" "~/.emacs.d/recent")
-		   default-directory "C:/users/"
+		   default-directory user-system-base-path
 		   display-time-24hr-format t
 		   display-time-day-and-date t
 		   comint-prompt-read-only t)

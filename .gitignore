@@ -17,3 +17,5 @@ resources/*
 config/*.el#
 *.org#
 config/custom.el
+.gitignore~
+.cache/

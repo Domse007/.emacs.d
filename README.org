@@ -72,6 +72,9 @@ in the =.emacs.d= directory.
 - install GNUplot
   - add it to =PATH=
     - checkbox available in installer
+- install sqlite (for =org-roam=)
+  - =choco install sqlite=
+    
 * Packages
 - Download fonts with =M-x all-the-icons-install-fonts RET=
   - Install the fonts

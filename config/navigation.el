@@ -53,7 +53,8 @@
 		enable-recursive-minibuffers t
 		search-default-mode #'char-fold-to-regexp
 		ivy-posframe-height-alist '((swiper . 20)
-					    (t      . 15))))
+					    (t      . 15)))
+  :bind ("C-x C-b" . ivy-switch-buffer))
 
 (use-package amx
   :ensure t
