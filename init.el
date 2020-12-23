@@ -48,6 +48,7 @@
 
 ;; load the custom config:
 (load-file (concat user-emacs-directory "/config/emacs.el"))
+(load-file (concat user-emacs-directory "/config/qol.el"))
 (load-file (concat user-emacs-directory "/config/design.el"))
 (load-file (concat user-emacs-directory "/config/navigation.el"))
 (load-file (concat user-emacs-directory "/config/org-mode.el"))

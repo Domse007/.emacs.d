@@ -19,3 +19,13 @@ config/*.el#
 config/custom.el
 .gitignore~
 .cache/
+org-roam.db
+.lsp-session-v*
+quelpa/
+transient/
+A_temp/
+eshell/
+auto-saves-list/
+quelpa/
+recent/
+snippets/
