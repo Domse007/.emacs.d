@@ -29,3 +29,5 @@ auto-saves-list/
 quelpa/
 recent/
 snippets/
+*.elc
+config/*.elc

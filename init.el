@@ -3,6 +3,9 @@
 ;; set the correct encoding for all files:
 (set-language-environment "UTF-8")
 
+;; load custom variables
+(load-file (concat user-emacs-directory "/config/vars.el"))
+
 ;; ensure that packages are installed correctly:
 (require 'package)
 
@@ -23,26 +26,15 @@
 
 (add-to-list 'load-path "~/.emacs.d/resources/")
 
-(use-package auto-package-update
-   :ensure t
-   :config
-   (setq auto-package-update-delete-old-versions t
-         auto-package-update-interval 4)
-   (auto-package-update-maybe))
-
 ;; special key-bindings:
 (cua-mode t)
 
 ;; custom functions to set the base path according to the system.
-(defvar user-system-name (system-name)
-  :string)
-
-(defvar user-system-base-path ""
-  :string)
-
 (defun user-change-base-path ()
   (when (string-equal user-system-name "DESKTOP-9R2BNNM")
-    (setq user-system-base-path "c:/Users/Dominik/DomiCloud/")))
+    (setq user-system-base-path "c:/Users/Dominik/DomiCloud/"))
+  (when (string-equal user-system-name "SURFACBOOK2")
+    (setq user-system-base-path "c:/Users/Dominik Keller/CloudStation/")))
 
 (user-change-base-path)
 

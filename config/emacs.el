@@ -32,7 +32,3 @@
 	     ;; gloabl line numbers
 	     (global-linum-mode)
 	     :hook (after-make-frame-functions . my/disable-scroll-bars))
-
-(use-package restart-emacs
-  :ensure t
-  :config (setq restart-emacs-restore-frames t))
