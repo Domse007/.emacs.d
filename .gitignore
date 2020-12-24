@@ -31,3 +31,4 @@ recent/
 snippets/
 *.elc
 config/*.elc
+config/languages/*.elc
