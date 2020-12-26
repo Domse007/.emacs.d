@@ -18,10 +18,21 @@
 
 ;; DisableUnnecessaryInterface
 (menu-bar-mode -1)
-(unless (and (display-graphic-p) (eq system-type 'darwin))
-  (push '(menu-bar-lines . 0) default-frame-alist))
-(push '(tool-bar-lines . 0) default-frame-alist)
-(push '(vertical-scroll-bars) default-frame-alist)
+(unless (display-graphic-p)
+  (setq default-frame-alist '((left . 613)
+			      (top . 391)
+			      (width . 95)
+			      (height . 60)
+			      (menu-bar-lines . 0)
+			      (tool-bar-lines . 0)
+			      (vertical-scroll-bars . nil))
+	initial-frame-alist '((left . 613)
+			      (top . 391)
+			      (width . 95)
+			      (height . 60)
+			      (menu-bar-lines . 0)
+			      (tool-bar-lines . 0)
+			      (vertical-scroll-bars . nil))))
 ;; -DisableUnnecessaryInterface
 
 (provide 'early-init)

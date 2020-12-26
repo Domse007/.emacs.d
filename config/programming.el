@@ -43,6 +43,10 @@
   :ensure t
   :hook (prog-mode-hook . rainbow-delimiters-mode))
 
+;; git version control system
+(use-package magit
+  :ensure t)
+
 
 (load-file (concat user-emacs-directory "/config/languages/web-dev.el"))
 (load-file (concat user-emacs-directory "/config/languages/elisp.el"))

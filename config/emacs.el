@@ -8,7 +8,15 @@
 		   default-directory user-system-base-path
 		   display-time-24hr-format t
 		   display-time-day-and-date t
-		   comint-prompt-read-only t)
+		   comint-prompt-read-only t
+		   initial-frame-alist '( ;; initial window
+					 (width . 95) ; character
+					 (height . 60) ; lines
+					 )
+		   default-frame-alist '( ;; default/sebsequent window
+					 (width . 95) ; character
+					 (height . 60) ; linesN
+					 ))
 	     ;; enable additional information in modeline
 	     (display-time-mode 1)
 	     (display-battery-mode 1)

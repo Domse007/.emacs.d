@@ -33,7 +33,7 @@
 (defun user-change-base-path ()
   (when (string-equal user-system-name "DESKTOP-9R2BNNM")
     (setq user-system-base-path "c:/Users/Dominik/DomiCloud/"))
-  (when (string-equal user-system-name "SURFACBOOK2")
+  (when (string-equal user-system-name "SURFACEBOOK2")
     (setq user-system-base-path "c:/Users/Dominik Keller/CloudStation/")))
 
 (user-change-base-path)
