@@ -73,7 +73,3 @@
 	   (org-reveal-mathjax t)
 	   (org-reveal-ignore-speaker-notes nil)
 	   (org-reveal-note-key-char nil)))
-
-
-
-

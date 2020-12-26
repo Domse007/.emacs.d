@@ -6,15 +6,14 @@
 ;; This variable contains the used path in the current session
   :string)
 
+;; (defconst user-ivy-posframe-background-color "#4C4;; C4C"
+;; ;; This avariable describes the posframe background color.
+;;   :string)
 
-(defconst user-ivy-posframe-background-color "#171717"
-;; This avariable describes the posframe background color.
-  :string)
+;; (defconst user-ivy-posframe-border-color "#FF9505"
+;; ;; This avariable describes the posframe border color.
+;;   :string)
 
-(defconst user-ivy-posframe-border-color "#3B2441"
-;; This avariable describes the posframe border color.
-  :string)
-
-(defconst user-ivy-posframe-cursor-color "#51AFEF"
-;; This avariable describes the posframe cursor color.
-  :string)
+;; (defconst user-ivy-posframe-cursor-color "#50C517"
+;; ;; This avariable describes the posframe cursor color.
+;;   :string)

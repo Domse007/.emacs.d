@@ -90,9 +90,22 @@
   :config (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-center))
 		ivy-posframe-border-width 4)
   :custom-face
-  (ivy-posframe ((t (:background "#171717"))))
-  (ivy-posframe-border ((t (:background "#3B2441"))))
-  (ivy-posframe-cursor ((t (:background "#51AFEF")))))
+  (ivy-posframe ((t (:background "#0C0D0D"))))
+  (ivy-posframe-border ((t (:background "#FF9505"))))
+  (ivy-posframe-cursor ((t (:background "#50C517")))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; * THEME VARIABLES:			        ;;
+;; ** doom-vibrant			        ;;
+;; user-ivy-posframe-background-color "#171717" ;;
+;; user-ivy-posframe-border-color "#3B2441"     ;;
+;; user-ivy-posframe-cursor-color "#51AFEF"     ;;
+;; 					        ;;
+;; ** humanoid-dark			        ;;
+;; user-ivy-posframe-background-color "#0C0D0D" ;;
+;; user-ivy-posframe-border-color "#FF9505"     ;;
+;; user-ivy-posframe-cursor-color "#50C517"     ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (use-package disable-mouse
   :ensure t

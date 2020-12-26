@@ -15,3 +15,10 @@
    (setq auto-package-update-delete-old-versions t
          auto-package-update-interval 4)
    (auto-package-update-maybe))
+
+(use-package unkillable-scratch
+  :ensure t
+  :config (unkillable-scratch t))
+
+(use-package memory-usage
+  :ensure t)

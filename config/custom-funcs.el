@@ -77,13 +77,13 @@
   (interactive)
   (point-to-register ?r)
   (beginning-of-buffer)
-  (insert "#+Title: " (read-string "Enter title of document (empty: buffername): " nil nil (if (string-equal (substring (buffer-name) -4) ".org")
+  (insert "#+TITLE: " (read-string "Enter title of document (empty: buffername): " nil nil (if (string-equal (substring (buffer-name) -4) ".org")
 											       (substring (buffer-name) 0 -4)
 											     (buffer-name)))
-	  "\n#+Author: Dominik Keller"
+	  "\n#+AUTHOR: Dominik Keller"
 	  "\n#+OPTIONS: toc:t date:nil \\n:to"
 	  "\n#+EXPORT_FILE_NAME: " (substring (buffer-name) 0 -4)
-	  "\n#+SETUPFILE: ~/.emacs.d/org-html-themes/setup/theme-readtheorg.setup"
+	  "\n#+SETUPFILE: https://fniessen.github.io/org-html-themes/org/theme-readtheorg.setup"
 	  "\n#+REVEAL_ROOT: https://cdn.jsdelivr.net/npm/reveal.js"
 	  "\n#+LATEX_CLASS: " )
 
