@@ -32,3 +32,4 @@ snippets/
 *.elc
 config/*.elc
 config/languages/*.elc
+server/
