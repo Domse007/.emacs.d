@@ -4,14 +4,21 @@
   :defer 3
   :commands lsp
   :config (setq lsp-rust-server 'rust-analyzer
-		lsp-enable-completion-at-point t)
+		lsp-enable-completion-at-point t
+		lsp-ui-doc-enable t)
   :hook ((python-mode . lsp)
 	 (rust-mode . lsp)))
    
 (use-package lsp-ui
   :ensure t
   :commands lsp-ui-mode
-  :config (lsp-ui-doc-enable t))
+  :config
+  (lsp-ui-doc-enable)
+  (setq lsp-ui-doc-max-height 52
+	lsp-ui-doc-max-width 64
+	lsp-ui-doc-position 'point
+	lsp-ui-doc-show-with-mouse t
+	lsp-ui-doc-show-with-cursor t))
 
 (use-package lsp-python-ms
   :ensure t
@@ -33,7 +40,7 @@
 (use-package company-posframe
   :ensure t
   :config
-  (company-posframe-mode 0))
+  (company-posframe-mode t))
 
 (use-package company-box
   :ensure t

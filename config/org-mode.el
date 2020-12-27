@@ -14,6 +14,7 @@
 	   (org-src-tab-acts-natively t)
 	   (initial-major-mode 'org-mode)
 	   (org-hide-emphasis-markers t)
+	   (org-ellipsis " ▼ ")
 	   (org-agenda-files '(when (string-equal system-name "DESKTOP-9R2BNNM")
 				(return "C:/Users/Dominik Keller/CloudStation/TODOs")))))
 
@@ -48,7 +49,12 @@
 
 (use-package org-superstar
   :ensure t
-  :hook (org-mode . (lambda () (org-superstar-mode 1))))
+  :hook (org-mode . (lambda () (org-superstar-mode 1)))
+  :config (setq org-superstar-prettify-item-bullets t
+		org-superstar-configure-like-org-bullets t
+		org-hide-leading-stars nil
+		org-superstar-leading-bullet ?\s
+		org-superstar-special-todo-items t))
 
 (use-package google-this
   :ensure t

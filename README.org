@@ -126,10 +126,12 @@ in the =.emacs.d= directory.
 | =C-x 3=      | split-window-right     | split windows horizontal          |
 | =C-x 4 0=    | kill-buffer-and-window | kill active window                |
 | =C-x b=      | ivy-switch-buffer      | get list of buffers to switch     |
-| =C-x C-b=    | list-buffers           | get list of buffers to switch     |
 | =C-x k=      | kill-buffer            | get list of buffers to kill       |
 | =C-l=        | recenter-top-bottom    | recenter at point                 |
 |------------+------------------------+-----------------------------------|
+
+*** Good to know
+- when =C-x b= the buffer at point can be killed with =C-k=.
 
 ** help
 |------------+-------------------+---------------------|
