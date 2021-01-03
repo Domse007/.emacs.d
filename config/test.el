@@ -66,3 +66,23 @@
 
 (setq prettify-symbols-unprettify-at-point 'right-edge)
 (add-hook 'org-mode-hook 'prettify-symbols-mode)
+
+
+;; spell checking
+;; (setq ispell-program-name "hunspell")
+(setq ispell-hunspell-dict-paths-alist
+      '(("en_US" "c:/Users/Dominik/AppData/Roaming/.emacs.d/config/languages/dict/en_US.aff")
+        ("de_DE" "c:/Users/Dominik/AppData/Roaming/.emacs.d/config/languages/dict/de_DE.aff")))
+
+(setq ispell-personal-dictionary "de_DE")
+
+(setq ispell-local-dictionary "de_DE")
+(setq ispell-local-dictionary-alist
+      '(("en_US" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil ("-d" "en_US") nil utf-8)
+        ("de_DE" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil ("-d" "de_DE" "-a" "-i" "UTF-8") nil utf-8)))
+
+(flyspell-mode 1)
+(add-hook 'text-mode-hook #'flyspell-mode)
+(add-hook 'org-mode-hook #'flyspell-mode)
+
+(global-set-key (kbd "C-.") 'ispell-word)

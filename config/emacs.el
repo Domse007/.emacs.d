@@ -6,11 +6,12 @@
 		   initial-buffer-choice (lambda () (get-buffer-create "*dashboard*"))
 		   recentf-save-file (expand-file-name "recentf" "~/.emacs.d/recent")
 		   default-directory user-system-base-path
-		   display-time-24hr-format t
-		   display-time-day-and-date t
+		   ;; display-time-24hr-format t
+		   ;; display-time-day-and-date t
 		   comint-prompt-read-only t
 		   load-prefer-newer t
-		   scroll-conservatively 100)
+		   scroll-conservatively 100
+		   display-time-24hr-format t)
 	     ;; enable additional information in modeline
 	     (display-time-mode 1)
 	     (display-battery-mode 1)
