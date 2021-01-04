@@ -48,7 +48,7 @@
 
 (use-package rainbow-delimiters
   :ensure t
-  :hook (prog-mode-hook . rainbow-delimiters-mode))
+  :hook ((prog-mode-hook . rainbow-delimiters-mode)))
 
 ;; git version control system
 (use-package magit

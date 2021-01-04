@@ -42,7 +42,7 @@
   (when (string-equal user-system-name "DESKTOP-9R2BNNM")
     (setq user-system-base-path "c:/Users/Dominik/DomiCloud/"))
   (when (string-equal user-system-name "SURFACEBOOK2")
-    (setq user-system-base-path "c:/Users/Dominik Keller/CloudStation/")))
+    (setq user-system-base-path "c:/Users/Dominik/CloudStation/")))
 
 (user-change-base-path)
 

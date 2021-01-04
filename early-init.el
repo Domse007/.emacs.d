@@ -27,7 +27,7 @@
 			      (tool-bar-lines . 0)
 			      (vertical-scroll-bars . nil))
 	initial-frame-alist '((left . 613)
-			      (top . 391)
+			      (top . 0)
 			      (width . 95)
 			      (height . 60)
 			      (menu-bar-lines . 0)
