@@ -83,9 +83,67 @@ in the =.emacs.d= directory.
   =y=
 
 ** Package Location
+List entries with a file extension are a file. The rest are the
+packages, that will be installed.
+
+- early-init.el
 - *init.el*
-  - 
-  
+  - use-package
+  - quelpa-use-package
+- config/
+  - emacs.el
+  - custom-funcs.el
+  - design.el
+    - humanoid-themes
+    - all-the-icons
+    - dashboard
+    - beacon
+    - rainbow-mode
+    - doom-modeline
+    - zoom
+  - navigation.el
+    - counsel
+    - ivy
+    - amx
+    - all-the-icons-ivy-rich
+    - ivy-rich
+    - flx
+    - ivy-posframe
+    - disable-mouse
+    - orderless
+  - org-mode.el
+    - org-mode
+    - org-superstar
+    - google-this
+    - htmlize
+    - literate-calc-mode
+    - org-fragtog
+    - ox-reveal
+    - org-reveal
+    - org-roam
+    - org-roam-server
+  - programming.el
+    - lsp-mode
+    - lsp-ui
+    - lsp-python-ms
+    - yasnippet
+    - company
+    - company-posframe
+    - company-box
+    - rainbow-delimiters
+    - magit
+  - languages/
+    - c-sharp.el
+      - omnisharp
+    - elisp
+      - highlight-defined
+    - rust.el
+      - rust-mode
+    - web-dev.el
+      - emmet-mode
+      - js2-mode
+      - company-web
+      
 * Keybindings
 ** Movememnt
 |------------+---------------------+----------------------|

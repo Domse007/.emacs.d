@@ -6,10 +6,6 @@
 (use-package all-the-icons
   :ensure t)
 
-(use-package dashboard-hackernews
-  :ensure t
-  :custom (dashboard-items '((hackernews . 10))))
-
 (use-package dashboard
   :ensure t
   :init
@@ -18,8 +14,7 @@
 	dashboard-center-content t
 	dashboard-set-file-icons t
 	dashboard-set-heading-icons t
-	dashboard-items '((recents  . 15)
-			  (hackernews . 5)))
+	dashboard-items '((recents  . 15)))
   :config
   (dashboard-setup-startup-hook))
 

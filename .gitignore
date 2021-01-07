@@ -33,3 +33,5 @@ snippets/
 config/*.elc
 config/languages/*.elc
 server/
+var/
+etc/

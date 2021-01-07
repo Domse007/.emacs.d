@@ -53,7 +53,8 @@
 		enable-recursive-minibuffers t
 		search-default-mode #'char-fold-to-regexp
 		ivy-posframe-height-alist '((swiper . 20)
-					    (t      . 15)))
+					    (t      . 15))
+		ivy-re-builders-alist '((t . orderless-ivy-re-builder))) ;; enable orderless
   :bind ("C-x C-b" . ivy-switch-buffer))
 
 (use-package amx
@@ -110,3 +111,9 @@
 (use-package disable-mouse
   :ensure t
   :hook (org-mode . disable-mouse-mode))
+
+;; enhance the completion framework
+(use-package orderless
+  :ensure t
+  :init (icomplete-mode)
+  :config (completion--styles '(orderless)))
