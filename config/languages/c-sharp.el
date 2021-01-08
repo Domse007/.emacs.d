@@ -6,6 +6,6 @@
 	 ("C-c r r" . omnisharp-run-code-action-refactoring))
   :config (eval-after-load
 	      'company
-	    '(add-to-list 'company-backends #'company-omnisharp)
-	    )
-  :hook (csharp-mode-hook . flycheck-mode))
+	    '(add-to-list 'company-backends #'company-omnisharp))
+  :hook ((csharp-mode . flycheck-mode)
+	 (csharp-mode . omnisharp-start-omnisharp-server)))

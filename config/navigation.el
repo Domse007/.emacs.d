@@ -62,7 +62,6 @@
   :after ivy
   :custom
   (amx-backend 'auto)
-
   (amx-save-file "~/.emacs.d/A_temp/amx-items")
   (amx-history-length 50)
   (amx-show-key-bindings nil)
@@ -73,6 +72,7 @@
   :init (all-the-icons-ivy-rich-mode 1))
 
 (use-package ivy-rich
+  :if window-system
   :ensure t
   :after ivy
   :custom (setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line)
@@ -83,6 +83,7 @@
 
 (use-package ivy-posframe
   :ensure t
+  :if window-system
   :after ivy
   :init (ivy-posframe-mode 1)
   (setq ivy-posframe-parameters

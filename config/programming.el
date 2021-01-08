@@ -7,7 +7,8 @@
 		lsp-enable-completion-at-point t
 		lsp-ui-doc-enable t)
   :hook ((python-mode . lsp)
-	 (rust-mode . lsp)))
+	 (rust-mode . lsp)
+	 (csharp-mode . lsp)))
    
 (use-package lsp-ui
   :ensure t
@@ -33,12 +34,11 @@
 ;; company stuff
 (use-package company
   :ensure t
-  :config
-  (progn
-    (add-hook 'after-init-hook 'global-company-mode)))
+  :config (add-hook 'after-init-hook 'global-company-mode))
 
 (use-package company-posframe
   :ensure t
+  :if window-system
   :config
   (company-posframe-mode t))
 
@@ -48,7 +48,7 @@
 
 (use-package rainbow-delimiters
   :ensure t
-  :hook ((prog-mode-hook . rainbow-delimiters-mode)))
+  :hook (prog-mode . rainbow-delimiters-mode))
 
 ;; git version control system
 (use-package magit

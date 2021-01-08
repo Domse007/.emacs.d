@@ -1,4 +1,8 @@
 (use-package org-mode
+  :init (org-babel-do-load-languages
+	 'org-babel-load-languages
+	 '((plantuml . t)
+	   (python . t)))
   :hook ((org-mode-hook . org-toggle-pretty-entities)
 	 (org-mode-hook . prettify-symbols-mode)
 	 (org-mode . (lambda () (setq fill-column 70)))
@@ -11,14 +15,11 @@
 	   (org-ctrl-k-protect-subtree t)
 	   (initial-major-mode 'org-mode)
 	   (org-hide-emphasis-markers t)
-	   (org-ellipsis " ▼ ")
 	   (org-agenda-files '(when (concat user-system-base-path "TODOs/")))
 	   (prettify-symbols-unprettify-at-point 'right-edge)
 	   (org-plantuml-jar-path (expand-file-name "~/.emacs.d/external/plantuml.jar")))
-  :init (org-babel-do-load-languages
-	 'org-babel-load-languages
-	 '((plantuml . t)
-	   (python . t))))
+  :config (when (window-system)
+	    (setq org-ellipsis " ▼ ")))
 				     
 (defun org-export-collect-headlines (info &optional n)
 "Collect headlines in order to build a table of contents. [...]

@@ -81,7 +81,7 @@
 											       (substring (buffer-name) 0 -4)
 											     (buffer-name)))
 	  "\n#+AUTHOR: Dominik Keller"
-	  "\n#+OPTIONS: toc:t date:nil \\n:t"
+	  "\n#+OPTIONS: toc:t date:nil title:t author:t num:t \\n:t"
 	  "\n#+EXPORT_FILE_NAME: " (substring (buffer-name) 0 -4)
 	  "\n#+SETUPFILE: https://fniessen.github.io/org-html-themes/org/theme-readtheorg.setup"
 	  "\n#+REVEAL_ROOT: https://cdn.jsdelivr.net/npm/reveal.js"
@@ -89,7 +89,7 @@
 
   (setq latex-class-input (read-string "Enter Class (article, modern, book, report, selftemp): " nil nil "modern"))
   (if (string-equal latex-class-input "")
-      (insert "modern")
+      (insert "article")
     (if (or (string-equal "article" latex-class-input)
 	    (string-equal "modern" latex-class-input)
 	    (string-equal "book" latex-class-input)

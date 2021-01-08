@@ -4,7 +4,8 @@
   (load-theme 'humanoid-dark t))
 
 (use-package all-the-icons
-  :ensure t)
+  :ensure t
+  :if window-system)
 
 (use-package dashboard
   :ensure t

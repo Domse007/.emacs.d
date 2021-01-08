@@ -47,12 +47,14 @@
 (user-change-base-path)
 
 ;; load the custom config:
-(load-file (concat user-emacs-directory "/config/emacs.el"))
-(load-file (concat user-emacs-directory "/config/qol.el"))
-(load-file (concat user-emacs-directory "/config/design.el"))
-(load-file (concat user-emacs-directory "/config/navigation.el"))
-(load-file (concat user-emacs-directory "/config/org-mode.el"))
+(load-file (concat user-emacs-directory "/config/emacs.el")) 
+(load-file (concat user-emacs-directory "/config/qol.el")) 
+(load-file (concat user-emacs-directory "/config/design.el")) 
+(load-file (concat user-emacs-directory "/config/navigation.el")) 
+(load-file (concat user-emacs-directory "/config/org-mode.el")) 
 (load-file (concat user-emacs-directory "/config/programming.el"))
 (load-file (concat user-emacs-directory "/config/custom-funcs.el"))
 (load-file (concat user-emacs-directory "/config/test.el"))
 (setq custom-file (concat user-emacs-directory "/config/custom.el"))
+
+(message "Config initialisation ends here.")

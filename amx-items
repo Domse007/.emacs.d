@@ -1,0 +1,16 @@
+
+;; ----- amx-history -----
+(
+ restart-emacs
+ cd
+ 5x5
+ amx
+ arp
+ dbx
+ dig
+)
+
+;; ----- amx-data -----
+(
+ (restart-emacs . 1)
+)

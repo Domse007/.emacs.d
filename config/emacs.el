@@ -11,11 +11,23 @@
 		   comint-prompt-read-only t
 		   load-prefer-newer t
 		   scroll-conservatively 100
-		   display-time-24hr-format t)
+		   display-time-24hr-format t
+		   ;; Don't assume that sentences should have two spaces after
+		   ;; periods. This ain't a typewriter.
+		   sentence-end-double-space nil
+		   require-final-newline t
+		   confirm-kill-emacs 'y-or-n-p
+		   initial-scratch-message nil
+		   delete-by-moving-to-trash t
+		   indent-tabs-mode t
+		   indent-line-function 'insert-tab)
 	     ;; enable additional information in modeline
 	     (display-time-mode 1)
 	     (display-battery-mode 1)
 	     (save-place-mode 1)
+	     ;; When something changes a file, automatically refresh the buffer
+	     ;; containing that file so they can't get out of sync.
+	     (global-auto-revert-mode t)
 	     ;; font
 	     (set-face-attribute 'default nil
 				 :family "Hack")
@@ -34,5 +46,4 @@
 	     (global-hl-line-mode)
 	     (set-face-background hl-line-face "#090405")
 	     ;; gloabl line numbers
-	     (global-linum-mode)
-	     :hook (after-make-frame-functions . my/disable-scroll-bars))
+	     (global-linum-mode))
