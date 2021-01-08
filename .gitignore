@@ -35,3 +35,4 @@ config/languages/*.elc
 server/
 var/
 etc/
+amx-items
