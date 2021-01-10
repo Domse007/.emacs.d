@@ -36,3 +36,5 @@ server/
 var/
 etc/
 amx-items
+ido.last
+recentf
