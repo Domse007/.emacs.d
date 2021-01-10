@@ -6,7 +6,14 @@
   :hook ((org-mode-hook . org-toggle-pretty-entities)
 	 (org-mode-hook . prettify-symbols-mode)
 	 (org-mode . (lambda () (setq fill-column 70)))
-	 (org-mode  . turn-on-auto-fill))
+	 (org-mode  . turn-on-auto-fill)
+	 (org-mode . (lambda ()
+		       (push '("[ ]" .  "☐") prettify-symbols-alist)
+		       (push '("[X]" . "☑" ) prettify-symbols-alist)
+		       (push '("[-]" . "❍" ) prettify-symbols-alist)
+		       (push '("\\leftrightharpoons" . "⇌") prettify-symbols-alist)
+		       (push '("\\rightarrow" . "→") prettify-symbols-alist)
+		       (prettify-symbols-mode))))
   :custom ((org-startup-folded t)
 	   (org-src-fontify-natively t)
 	   (org-adapt-indentation nil)
@@ -52,6 +59,7 @@
 
 (use-package org-superstar
   :ensure t
+  :if window-system
   :hook (org-mode . (lambda () (org-superstar-mode 1)))
   :config (setq org-superstar-prettify-item-bullets t
 		org-superstar-configure-like-org-bullets t
