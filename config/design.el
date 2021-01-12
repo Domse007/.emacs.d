@@ -45,8 +45,26 @@
   :bind
   ("C-c z" . zoom-mode))
 
+(use-package perfect-margin
+  :ensure t
+  :config
+  (perfect-margin-mode 1))
 
+;; Margins
+(defcustom perfect-margin-ignore-regexps
+  '("^minibuf" "^[*]" "Minibuf" "[*]" "magit" "mu4e")
+  "List of strings to determine if window is ignored.
+Each string is used as regular expression to match the window buffer name."
+  :group 'perfect-margin)
 
+(defcustom perfect-margin-ignore-filters
+  '(window-minibuffer-p)
+  "List of functions to determine if window is ignored.
+Each function is called with window as its sole arguemnt, returning a non-nil value indicate to ignore the window."
+  :group 'perfect-margin)
 
+(defun current-buffer ()
+  (interactive)
+  (message (buffer-name)))
 
-
+;; end of perfect margin

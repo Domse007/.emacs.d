@@ -8,7 +8,7 @@
 	 (org-mode . (lambda () (setq fill-column 70)))
 	 (org-mode  . turn-on-auto-fill)
 	 (org-mode . (lambda ()
-		       (push '("[ ]" .  "☐") prettify-symbols-alist)
+		       (push '("[ ]" . "☐") prettify-symbols-alist)
 		       (push '("[X]" . "☑" ) prettify-symbols-alist)
 		       (push '("[-]" . "❍" ) prettify-symbols-alist)
 		       (push '("\\leftrightharpoons" . "⇌") prettify-symbols-alist)
@@ -22,7 +22,7 @@
 	   (org-ctrl-k-protect-subtree t)
 	   (initial-major-mode 'org-mode)
 	   (org-hide-emphasis-markers t)
-	   (org-agenda-files '(when (concat user-system-base-path "TODOs/")))
+	   (org-agenda-files (list (concat user-system-base-path "TODOs/")))
 	   (prettify-symbols-unprettify-at-point 'right-edge)
 	   (org-plantuml-jar-path (expand-file-name "~/.emacs.d/external/plantuml.jar")))
   :config (when (window-system)
@@ -118,4 +118,5 @@
         org-roam-server-network-arrows nil
         org-roam-server-network-label-truncate t
         org-roam-server-network-label-truncate-length 60
-        org-roam-server-network-label-wrap-length 20))
+        org-roam-server-network-label-wrap-length 20)
+  :hook (early-init . org-roam-server-mode))

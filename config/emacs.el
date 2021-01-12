@@ -44,6 +44,4 @@
 		 (define-key dired-mode-map (kbd "RET") #'dired-find-alternate-file)))
 	     ;; highlight current line
 	     (global-hl-line-mode)
-	     (set-face-background hl-line-face "#090405")
-	     ;; gloabl line numbers
-	     (global-linum-mode))
+	     (set-face-background hl-line-face "#090405"))
