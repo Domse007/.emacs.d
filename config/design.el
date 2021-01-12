@@ -45,17 +45,18 @@
   :bind
   ("C-c z" . zoom-mode))
 
+
+;; Margins
+(defcustom perfect-margin-ignore-regexps
+  '("^minibuf" "^[*]" "Minibuf" "[*]" "magit" "mu4e" "*Minibuf-1*")
+  "List of strings to determine if window is ignored.
+Each string is used as regular expression to match the window buffer name."
+  :group 'perfect-margin)
+
 (use-package perfect-margin
   :ensure t
   :config
   (perfect-margin-mode 1))
-
-;; Margins
-(defcustom perfect-margin-ignore-regexps
-  '("^minibuf" "^[*]" "Minibuf" "[*]" "magit" "mu4e")
-  "List of strings to determine if window is ignored.
-Each string is used as regular expression to match the window buffer name."
-  :group 'perfect-margin)
 
 (defcustom perfect-margin-ignore-filters
   '(window-minibuffer-p)
@@ -68,3 +69,10 @@ Each function is called with window as its sole arguemnt, returning a non-nil va
   (message (buffer-name)))
 
 ;; end of perfect margin
+
+
+
+
+
+
+
