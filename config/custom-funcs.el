@@ -198,3 +198,40 @@
   (if (file-exists-p "~/.emacs.d/config/languages/web-dev.elc")
       (delete-file "~/.emacs.d/config/languages/web-dev.elc"))
   (message "Deleted all compiled config files!"))
+
+;; (defcustom template-mode-insert-function-mode "math"
+;;   "This variable is responsible to save the current subject."
+;;   :type 'string)
+
+;; (defconst template-mode-posframe-buffer-name "template-comp"
+;;   :type 'string)
+
+;; (defun math-mode ()
+;;   (interactive)
+;;   (setq insert-function-mode "math"))
+
+;; (defun chem-mode ()
+;;   (interactive)
+;;   (setq insert-function-mode "chem"))
+
+;; (defun template-mode-report-current-insert-mode ()
+;;   "Returns the current active insert mode."
+;;   (interactive)
+;;   (message (concat "The current insert mode is: " insert-function-mode)))
+
+;; (defun template-mode-insert-custom-template ()
+;;   "Provides the front end to insert a template"
+;;   (interactive)
+;;   (message "This is in a test state")
+;;   (when (posframe-workable-p)
+;;     (posframe-show template-mode-posframe-buffer-name
+;;                    :string (concat "(" template-mode-insert-function-mode "):")
+;; 		   :position (point)
+;; 		   :background-color "#FFFF00")))
+
+;; (defun template-mode-delete-posframe ()
+;;   (interactive)
+;;   (posframe-delete template-mode-posframe-buffer-name))
+      
+
+;; (provide 'custom-funcs.el)

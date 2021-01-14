@@ -5,7 +5,7 @@
 	   (python . t)))
   :hook ((org-mode-hook . org-toggle-pretty-entities)
 	 (org-mode-hook . prettify-symbols-mode)
-	 (org-mode . (lambda () (setq fill-column 70)))
+	 (org-mode-hook . (lambda () (setq fill-column 70)))
 	 (org-mode  . turn-on-auto-fill)
 	 (org-mode . (lambda ()
 		       (push '("[ ]" . "☐") prettify-symbols-alist)
@@ -25,7 +25,7 @@
 	   (org-agenda-files (list (concat user-system-base-path "TODOs/")))
 	   (prettify-symbols-unprettify-at-point 'right-edge)
 	   (org-plantuml-jar-path (expand-file-name "~/.emacs.d/external/plantuml.jar")))
-  :config (when (window-system)
+  :init (when (window-system)
 	    (setq org-ellipsis " ▼ ")))
 				     
 (defun org-export-collect-headlines (info &optional n)
@@ -96,7 +96,7 @@
       :hook
       (after-init . org-roam-mode)
       :custom
-      (org-roam-directory (concat user-system-base-path "KantiBaden3Klasse/"))
+      (org-roam-directory (concat user-system-base-path "Schule/"))
       :bind (:map org-roam-mode-map
               (("C-c n l" . org-roam)
                ("C-c C-SPC C-f" . org-roam-find-file)
