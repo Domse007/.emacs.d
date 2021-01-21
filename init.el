@@ -57,4 +57,8 @@
 (load-file (concat user-emacs-directory "/config/test.el"))
 (setq custom-file (concat user-emacs-directory "/config/custom.el"))
 
+(setq dk/custom-org-std-user "Dominik Keller")
+
 (message "Config initialisation ends here.")
+
+(provide 'init.el)

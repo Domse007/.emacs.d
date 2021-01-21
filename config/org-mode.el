@@ -11,8 +11,6 @@
 		       (push '("[ ]" . "☐") prettify-symbols-alist)
 		       (push '("[X]" . "☑" ) prettify-symbols-alist)
 		       (push '("[-]" . "❍" ) prettify-symbols-alist)
-		       (push '("\\leftrightharpoons" . "⇌") prettify-symbols-alist)
-		       (push '("\\rightarrow" . "→") prettify-symbols-alist)
 		       (prettify-symbols-mode))))
   :custom ((org-startup-folded t)
 	   (org-src-fontify-natively t)

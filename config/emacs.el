@@ -30,6 +30,7 @@
 	     (global-auto-revert-mode t)
 	     ;; font
 	     (set-face-attribute 'default nil
+				 ;;:family "Consolas")
 				 :family "Hack")
 	     (defalias 'yes-or-no-p 'y-or-n-p)
 	     ;; disable scroll bars in daemon mode

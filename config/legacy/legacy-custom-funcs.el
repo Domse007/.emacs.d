@@ -1,0 +1,200 @@
+(global-set-key (kbd "C-c m") 'my-macros) ;; main function
+(global-set-key (kbd "C-c §") 'insert-org) ;; std org template
+
+(defun my-macros ()
+  "Function to have a few personal shortcuts"
+  (interactive)
+  (setq my-input-macro (read-from-minibuffer "Macro ((org, orgtemplate), (pic, picture), frac, (eq, equation), (eqi, ieq), (vec, vector), center): ")) 
+  ;; insert std org template
+  (cond ((or (string-equal my-input-macro "stdtemplate")
+	     (string-equal my-input-macro "orgtemplate")
+	     (string-equal my-input-macro "org"))
+	 (insert-org))
+	;; insert fraction
+	((string-equal my-input-macro "frac")            
+	 (insert "\\displaystyle\\frac{}{}"))
+	;; insert template for equation
+	((or (string-equal my-input-macro "eq")
+	     (string-equal my-input-macro "equation"))
+	 (insert "\\[=\\]"))
+	;; insert template to center stuff
+	((string-equal my-input-macro "center")
+	 (if (string-equal (buffer-substring-no-properties (line-beginning-position)
+							   (line-end-position))
+			   "")
+	     (insert "\n") ;; then
+	   (insert "\n\n")) ;; else
+	 (insert "\\begin{center}\n\n"
+		 "\\end{center}\n")
+	 (dotimes (i 2) ;; for loop
+	   (previous-line)))
+	;; insert picture
+	((or (string-equal my-input-macro "picture")
+	     (string-equal my-input-macro "pic"))
+	 (insert-org-picture))
+	((or (string-equal my-input-macro "vec")
+	     (string-equal my-input-macro "vector"))
+	 (progn (insert "\\begin{pmatrix}  \\\\  \\\\  \\end{pmatrix}")
+		(message "insert Numbers in whitespaces")))
+	((or (string-equal my-input-macro "eqi") (string-equal my-input-macro "ieq"))
+	 (insert "\\(=\\)"))
+	;; else statement of cond -> if input is not a macro
+	(t (message "Not a macro!"))))
+
+(defun insert-org-picture ()
+  "insert necessary things for a picture"
+  (interactive)
+
+  (let ((new-lines-pictures 0))
+    (save-excursion
+      (previous-line)
+      (message (string (line-number-at-pos)))
+      (if (string-equal (buffer-substring-no-properties (line-beginning-position)
+							(line-end-position))
+			"")
+	  (progn 
+	    (previous-line)
+	    (when (not (string-equal (buffer-substring-no-properties (line-beginning-position)
+								     (line-end-position))
+				     ""))
+	      (setq new-lines-pictures 1)))
+	(setq new-lines-pictures 2)))
+    (when (equal new-lines-pictures 1)
+      (insert "\n"))
+    (when (equal new-lines-pictures 2)
+      (insert "\n\n")))
+  
+  (let ((actual-caption (read-string "Enter caption for picture: ")))
+    (when (not (string-equal actual-caption ""))
+      (insert "#+CAPTION: " actual-caption))
+    (insert "\n#+ATTR_LATEX: :float nil :scale " 
+	    (read-string "Custom scaling (empty: auto; arg: float>0): ")
+	    "\n[[" (read-string "Location of the Picture: ./") "]]\n\n")
+    (message "Inline Pictures can be enabled with C-c C-x C-v")))
+
+(defun insert-org ()
+  "Insert template for org mode"
+  (interactive)
+  (point-to-register ?r)
+  (beginning-of-buffer)
+  (insert "#+TITLE: " (read-string "Enter title of document (empty: buffername): " nil nil (if (string-equal (substring (buffer-name) -4) ".org")
+											       (substring (buffer-name) 0 -4)
+											     (buffer-name)))
+	  "\n#+AUTHOR: Dominik Keller"
+	  "\n#+OPTIONS: toc:t date:nil title:t author:t num:t \\n:t"
+	  "\n#+EXPORT_FILE_NAME: " (substring (buffer-name) 0 -4)
+	  "\n#+SETUPFILE: https://fniessen.github.io/org-html-themes/org/theme-readtheorg.setup"
+	  "\n#+REVEAL_ROOT: https://cdn.jsdelivr.net/npm/reveal.js"
+	  "\n#+LATEX_CLASS: " )
+
+  (setq latex-class-input (read-string "Enter Class (article, modern, book, report, selftemp): " nil nil "modern"))
+  (if (string-equal latex-class-input "")
+      (insert "article")
+    (if (or (string-equal "article" latex-class-input)
+	    (string-equal "modern" latex-class-input)
+	    (string-equal "book" latex-class-input)
+	    (string-equal "report" latex-class-input)
+	    (string-equal "selftemp" latex-class-input))
+	(insert latex-class-input)
+      (insert "article")
+      (message "Input not a defined class. Inserted stadard class.")))
+
+  (insert "\n#+LANGUAGE: de"
+	  "\n#+LATEX_HEADER: \\usepackage[AUTO]{babel}"
+	  "\n#+LATEX: \\setlength\\parindent{0pt}"
+	  "\n\n")
+  (jump-to-register ?r)
+ (message "Successfully inserted Org-Template"))
+
+(defun open-config-file ()
+  "open the config.org file"
+  (interactive)
+  (switch-to-buffer (find-file-noselect "~/.emacs.d/init.el" nil nil t))
+  (goto-line 9))
+
+(global-set-key (kbd "C-x RET RET") 'open-config-file)
+
+(defun compile-all-config-files ()
+  "Function to byte-compile-file all config files."
+  (interactive)
+  (if (file-exists-p "~/.emacs.d/early-init.elc")
+      (byte-recompile-file "~/.emacs.d/early-init.el")
+    (byte-compile-file "~/.emacs.d/early-init.el"))
+  (if (file-exists-p "~/.emacs.d/init.elc")
+      (byte-recompile-file "~/.emacs.d/init.el")
+   (byte-compile-file "~/.emacs.d/init.el"))
+  (if (file-exists-p "~/.emacs.d/config/custom-funcs.elc")
+      (byte-recompile-file "~/.emacs.d/config/custom-funcs.el")
+    (byte-compile-file "~/.emacs.d/config/custom-funcs.el"))
+  (if (file-exists-p "~/.emacs.d/config/design.elc")
+      (byte-recompile-file "~/.emacs.d/config/design.el")
+    (byte-compile-file "~/.emacs.d/config/design.el"))
+  (if (file-exists-p "~/.emacs.d/config/emacs.elc")
+      (byte-recompile-file "~/.emacs.d/config/emacs.el")
+    (byte-compile-file "~/.emacs.d/config/emacs.el"))
+  (if (file-exists-p "~/.emacs.d/config/navigation.elc")
+      (byte-recompile-file "~/.emacs.d/config/navigation.el")
+    (byte-compile-file "~/.emacs.d/config/navigation.el"))
+  (if (file-exists-p "~/.emacs.d/config/org-mode.elc")
+      (byte-recompile-file "~/.emacs.d/config/org-mode.el")
+    (byte-compile-file "~/.emacs.d/config/org-mode.el"))
+  (if (file-exists-p "~/.emacs.d/config/programming.elc")
+      (byte-recompile-file "~/.emacs.d/config/programming.el")
+    (byte-compile-file "~/.emacs.d/config/programming.el"))
+  (if (file-exists-p "~/.emacs.d/config/qol.elc")
+      (byte-recompile-file "~/.emacs.d/config/qol.el")
+    (byte-compile-file "~/.emacs.d/config/qol.el"))
+  (if (file-exists-p "~/.emacs.d/config/test.elc")
+      (byte-recompile-file "~/.emacs.d/config/test.el")
+    (byte-compile-file "~/.emacs.d/config/test.el"))
+  (if (file-exists-p "~/.emacs.d/config/vars.elc")
+      (byte-recompile-file "~/.emacs.d/config/vars.el")
+    (byte-compile-file "~/.emacs.d/config/vars.el"))
+  (if (file-exists-p "~/.emacs.d/config/languages/c-sharp.elc")
+      (byte-recompile-file "~/.emacs.d/config/languages/c-sharp.el")
+    (byte-compile-file "~/.emacs.d/config/languages/c-sharp.el"))
+  (if (file-exists-p "~/.emacs.d/config/languages/elisp.el")
+      (byte-recompile-file "~/.emacs.d/config/languages/elisp.el")
+    (byte-compile-file "~/.emacs.d/config/languages/elisp.el"))
+  (if (file-exists-p "~/.emacs.d/config/languages/rust.elc")
+      (byte-recompile-file "~/.emacs.d/config/languages/rust.el")
+    (byte-compile-file "~/.emacs.d/config/languages/rust.el"))
+  (if (file-exists-p "~/.emacs.d/config/languages/web-dev.elc")
+      (byte-recompile-file "~/.emacs.d/config/languages/web-dev.el")
+    (byte-compile-file "~/.emacs.d/config/languages/web-dev.el"))
+  (message "Compiled all config files!"))
+
+(defun delete-all-compiled-config-files ()
+  "Function to remove all byte-compiled config files."
+  (interactive)
+  (if (file-exists-p "~/.emacs.d/early-init.elc")
+      (delete-file "~/.emacs.d/early-init.elc"))
+  (if (file-exists-p "~/.emacs.d/init.elc")
+      (delete-file "~/.emacs.d/init.elc"))
+  (if (file-exists-p "~/.emacs.d/config/custom-funcs.elc")
+      (delete-file "~/.emacs.d/config/custom-funcs.elc"))
+  (if (file-exists-p "~/.emacs.d/config/design.elc")
+      (delete-file "~/.emacs.d/config/design.elc"))
+  (if (file-exists-p "~/.emacs.d/config/emacs.elc")
+      (delete-file "~/.emacs.d/config/emacs.elc"))
+  (if (file-exists-p "~/.emacs.d/config/navigation.elc")
+      (delete-file "~/.emacs.d/config/navigation.elc"))
+  (if (file-exists-p "~/.emacs.d/config/org-mode.elc")
+      (delete-file "~/.emacs.d/config/org-mode.elc"))
+  (if (file-exists-p "~/.emacs.d/config/programming.elc")
+      (delete-file "~/.emacs.d/config/programming.elc"))
+  (if (file-exists-p "~/.emacs.d/config/qol.elc")
+      (delete-file "~/.emacs.d/config/qol.elc"))
+  (if (file-exists-p "~/.emacs.d/config/test.elc")
+      (delete-file "~/.emacs.d/config/test.elc"))
+  (if (file-exists-p "~/.emacs.d/config/vars.elc")
+      (delete-file "~/.emacs.d/config/vars.elc"))
+  (if (file-exists-p "~/.emacs.d/config/languages/c-sharp.elc")
+      (delete-file "~/.emacs.d/config/languages/c-sharp.elc"))
+  (if (file-exists-p "~/.emacs.d/config/languages/elisp.elc")
+      (delete-file "~/.emacs.d/config/languages/elisp.elc"))
+  (if (file-exists-p "~/.emacs.d/config/languages/rust.elc")
+      (delete-file "~/.emacs.d/config/languages/rust.elc"))
+  (if (file-exists-p "~/.emacs.d/config/languages/web-dev.elc")
+      (delete-file "~/.emacs.d/config/languages/web-dev.elc"))
+  (message "Deleted all compiled config files!"))
