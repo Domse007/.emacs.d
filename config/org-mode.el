@@ -19,7 +19,6 @@
 	   (org-catch-invisible-edits 'smart)
 	   (org-ctrl-k-protect-subtree t)
 	   (initial-major-mode 'org-mode)
-	   (org-hide-emphasis-markers t)
 	   (org-agenda-files (list (concat user-system-base-path "TODOs/")))
 	   (prettify-symbols-unprettify-at-point 'right-edge)
 	   (org-plantuml-jar-path (expand-file-name "~/.emacs.d/external/plantuml.jar")))
@@ -90,12 +89,12 @@
 	   (org-reveal-note-key-char nil)))
 
 (use-package org-roam
-      :ensure t
-      :hook
-      (after-init . org-roam-mode)
-      :custom
-      (org-roam-directory (concat user-system-base-path "Schule/"))
-      :bind (:map org-roam-mode-map
+  :ensure t
+  :hook
+  (after-init . org-roam-mode)
+  :custom
+  (org-roam-directory (concat user-system-base-path "Schule/"))
+  :bind (:map org-roam-mode-map
               (("C-c n l" . org-roam)
                ("C-c C-SPC C-f" . org-roam-find-file)
                ("C-c n g" . org-roam-graph))
@@ -118,3 +117,20 @@
         org-roam-server-network-label-truncate-length 60
         org-roam-server-network-label-wrap-length 20)
   :hook (early-init . org-roam-server-mode))
+
+;; async execution of source blocks
+(use-package ob-async
+  :ensure t
+  :after org)
+
+;; like org fragtog, but for =, /, []
+(use-package org-appear
+  :ensure t
+  :quelpa (org-appear
+	   :fetcher github
+	   :repo "awth13/org-appear")
+  :hook (org-mode . org-appear-mode)
+  :init (setq org-hide-emphasis-markers t
+	      org-appear-autoemphasis t
+	      org-appear-autolinks t
+	      org-appear-autosubmarkers t))

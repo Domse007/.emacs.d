@@ -23,6 +23,8 @@
 
 (package-initialize)
 
+(setq package-check-signature nil)
+
 (when (not (package-installed-p 'use-package))
   (package-refresh-contents)
   (package-install 'use-package))

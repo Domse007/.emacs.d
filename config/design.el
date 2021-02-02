@@ -67,9 +67,11 @@ Each function is called with window as its sole arguemnt, returning a non-nil va
 (defun current-buffer ()
   (interactive)
   (message (buffer-name)))
-
 ;; end of perfect margin
 
+(use-package emojify
+  :ensure t
+  :hook (after-init . global-emojify-mode))
 
 
 
