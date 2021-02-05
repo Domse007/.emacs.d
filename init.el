@@ -8,11 +8,11 @@
 
 ;; native compile, when available
 ;;(when (version< emacs-version "28.0.50")
-(if (and (fboundp 'native-comp-available-p)
-	 (native-comp-available-p))
-    (message "Native compilation is available")
-  (message "Native complation is *not* available"))
-(setq comp-deferred-compilation t)
+;; (if (and (fboundp 'native-comp-available-p)
+;; 	 (native-comp-available-p))
+;;     (message "Native compilation is available")
+;;   (message "Native complation is *not* available"))
+;; (setq comp-deferred-compilation t)
 
 ;; ensure that packages are installed correctly:
 (require 'package)
