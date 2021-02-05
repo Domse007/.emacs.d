@@ -131,4 +131,13 @@
       (switch-to-buffer (find-file-noselect "~/.emacs.d/init.el"))
     (switch-to-buffer (find-file-noselect (concat "~/.emacs.d/" dk/open-config-file nil nil t)))))
 
+(defun explorer ()
+  "Open the current directory in the file explorer."
+  (interactive)
+  (when (string-equal system-type "windows-nt")
+    (shell-command "explorer .")))
+
 (provide 'custom-funcs.el)
+
+
+
