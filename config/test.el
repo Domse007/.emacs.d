@@ -60,3 +60,37 @@
 
 ;; (global-set-key (kbd "C-.") 'ispell-word)
 
+(with-eval-after-load 'ox-latex
+  (add-to-list 'org-latex-classes
+	       '("thesis"
+		 "documentclass[11pt, titlepage]{article}
+\\usepackage[margin=1in]{geometry}
+\\usepackage[strict]{changepage}
+\\usepackage{float}
+\\usepackage{fancyhdr}
+\\usepackage{mhchem}
+\\usepackage{siunitx}
+\\usepackage{wrapfig, booktabs}
+\\usepackage{enumitem}
+\\usepackage{caption}
+\\usepackage{commath}
+\\usepackage{amsmath}
+\\usepackage[hang]{footmisc}
+\\usepackage{multicol}
+\\usepackage{amsfonts}
+\\usepackage{mathrsfs}
+% \\pagestyle{fancy}
+% \\fancyhf{}
+% \\cfoot{Hello World}
+\\usepackage{color}
+\\usepackage{sectsty}
+
+\\definecolor{WordSectionBlue}{RGB}{30, 90, 147}
+
+\\allsectionsfont{\\color{WordSectionBlue}}"
+		 ("\\section{%s}" . "\\section*{%s}")
+		 ("\\subsection{%s}" . "\\subsection*{%s}")
+		 ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+		 ("\\paragraph{%s}" . "\\paragraph*{%s}")
+		 ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))))
+
