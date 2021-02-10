@@ -8,7 +8,9 @@
 		lsp-ui-doc-enable t)
   :hook ((python-mode . lsp)
 	 (rust-mode . lsp)
-	 (csharp-mode . lsp)))
+	 (csharp-mode . lsp)
+	 (c-mode . lsp)
+	 (c++-mode . lsp)))
    
 (use-package lsp-ui
   :ensure t

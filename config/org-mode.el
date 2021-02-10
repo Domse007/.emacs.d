@@ -2,7 +2,8 @@
   :init (org-babel-do-load-languages
 	  'org-babel-load-languages
 	  '((plantuml . t)
-	    (python . t)))
+	    (python . t)
+	    (shell . t)))
 	 (when (window-system)
 	   (setq org-ellipsis " ▼ "))
   :hook ((org-mode-hook . org-toggle-pretty-entities)
@@ -16,6 +17,7 @@
 		       (prettify-symbols-mode))))
   :custom ((org-startup-folded t)
 	   (org-src-fontify-natively t)
+	   (org-highlight-latex-and-related '(latex script entities))
 	   (org-adapt-indentation nil)
 	   (org-src-tab-acts-natively t)
 	   (org-catch-invisible-edits 'smart)
@@ -134,3 +136,4 @@
 	      org-appear-autoemphasis t
 	      org-appear-autolinks t
 	      org-appear-autosubmarkers t))
+
