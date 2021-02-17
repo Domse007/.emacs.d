@@ -134,3 +134,16 @@
 	      org-appear-autoemphasis t
 	      org-appear-autolinks t
 	      org-appear-autosubmarkers t))
+
+(use-package org-journal
+  :ensure t
+  :after org
+  :custom ((org-journal-file-type 'daily)
+	   (org-journal-dir (concat user-system-base-path "Personal/Journal/"))
+	   (org-journal-date-format "%A, %d.%B.%Y")
+	   (org-journal-file-header "#+TITLE: Daily Journal from %d.%m.%Y")
+	   (org-journal-enable-agenda-integration t)))
+
+(use-package org-sticky-header
+  :ensure t
+  :hook (org-mode . org-sticky-header-mode))

@@ -48,6 +48,15 @@
 
 (user-change-base-path)
 
+;; check if temp file exists
+(defun dk/check-temp-dir-exists ()
+  (if (equal (file-directory-p "~/.emacs.d/A_temp") nil)
+      (progn (make-directory "~/.emacs.d/A_temp/")
+	     (message "Created temp dir."))
+    (message "Temp dir exists.")))
+
+(dk/check-temp-dir-exists)
+
 ;; load the custom config:
 (load-file (concat user-emacs-directory "/config/emacs.el")) 
 (load-file (concat user-emacs-directory "/config/qol.el")) 
