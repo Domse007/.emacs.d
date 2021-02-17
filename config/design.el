@@ -7,8 +7,8 @@
   :custom ((doom-themes-enable-bold t)
            (doom-themes-enable-italic t))
   :config
-  (load-theme 'doom-vibrant t)
-  ;; Enable flashing mode-line on errors
+  (load-theme 'doom-molokai t)
+  ;; Enable Flashing Mode-Line On Errors
   (doom-themes-visual-bell-config)
   ;; Corrects (and improves) org-mode's native fontification.
   (doom-themes-org-config))
@@ -54,7 +54,6 @@
   (zoom-mode nil)
   :bind
   ("C-c z" . zoom-mode))
-
 
 ;; Margins
 (defcustom perfect-margin-ignore-regexps
