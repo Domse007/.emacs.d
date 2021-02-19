@@ -1,0 +1,654 @@
+#+Title: Emacs Configuration
+#+Author: Dominik Keller
+#+OPTIONS: date:nil
+#+SETUPFILE: https://fniessen.github.io/org-html-themes/setup/theme-readtheorg.setup
+
+* Get started
+If this configuration gets installed on a new computers, I'll list everything, that is
+needed to run it with all functions enabled.
+
+- Python to enable elpy
+- Fonts
+  - Hack
+  - all the icons
+- Root path for Org Calendar at "C:/org"
+
+* Configure package sources
+
+Configure package.el to include MELPA.
+
+#+BEGIN_SRC emacs-lisp
+(require 'package)
+(add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/") t)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
+(package-initialize)
+#+END_SRC 
+
+** Ensure everything is installed
+
+Ensure that use-package is installed.
+If use-package isn't already installed, it's extremely likely that this is a
+fresh installation! So we'll want to update the package repository and
+install use-package before loading the literate configuration.
+
+#+BEGIN_SRC emacs-lisp
+(when (not (package-installed-p 'use-package))
+  (package-refresh-contents)
+  (package-install 'use-package))
+#+END_SRC
+
+** package installation path
+
+Tell emacs where is your personal elisp lib dir
+
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'load-path "~/.emacs.d/elpa/")
+#+END_SRC
+
+* Commands
+** CUA Mode
+Enables standard commands like C - c, C - v
+#+BEGIN_SRC emacs-lisp
+(cua-mode t)
+#+END_SRC
+(setq neo-theme (if (display-graphic-p) 'icons 'arrow))
+
+* Display preferences
+** Theme
+Because I currently havn't found a perfect theme. But currently I am using the doom-one
+theme.
+
+Themes I like:
+- [[https://github.com/hlissner/emacs-doom-themes][doom-one]] -> called by 'doom-one variable
+- [[https://github.com/jonathanchu/atom-one-dark-theme][atom]] -> called by 'atom-one-dark variable
+- [[https://emacsthemes.com/themes/cobalt-theme.html][Cobalt]] -> called by 'cobalt variable
+- [[https://github.com/emacsmirror/grandshell-theme][Grandshell]] -> called by 'grandshell variable
+- [[https://draculatheme.com/emacs/][dracula-theme]] -> called by 'dracula variable
+- [[https://github.com/jonathanchu/atom-one-dark-theme][atom-one-dark-theme]] -> called by 'atom-one-dark variable
+All the packages are installed.
+
+To [[https://emacs.stackexchange.com/questions/13050/different-theme-for-nw-terminal][prevent]] it from destroying the =No Window= mode.
+
+#+BEGIN_SRC emacs-lisp
+;;(load-theme 'atom-one-dark t t) ;; load
+;;(if (display-graphic-p) ;; check if in graphics mode; If this
+    ;;(load-theme 'dracula t) ;; then this
+  ;;()) ;; else this
+#+END_SRC
+** Theme looper
+
+#+BEGIN_SRC emacs-lisp
+(require 'theme-looper)
+(global-set-key (kbd "C-§") 'theme-looper-enable-next-theme)
+;;(global-set-key (kbd "C-ü") 'theme-looper-enable-previous-theme)
+(theme-looper-set-favorite-themes '(cobalt *default* atom-one-dark))
+#+END_SRC
+
+** Dashboard
+To have a nice bootup [[https://github.com/emacs-dashboard/emacs-dashboard][screen]]:
+
+#+BEGIN_SRC emacs-lisp
+(use-package dashboard
+  :ensure t
+  :init
+  (progn
+    (setq dashboard-startup-banner 'logo)
+    ;; Value can be
+    ;; 'official which displays the official emacs logo
+    ;; 'logo which displays an alternative emacs logo
+    ;; 1, 2 or 3 which displays one of the text banners
+    ;; "path/to/your/image.png" which displays whatever image you would prefer
+
+    ;; To disable shortcut "jump" indicators for each section, set
+    (setq dashboard-show-shortcuts t)
+
+    (setq dashboard-center-content t)
+    (setq dashboard-set-file-icons t)
+    (setq dashboard-set-heading-icons t)
+
+    (setq dashboard-items '((recents  . 15)))
+    )
+  :config
+  (dashboard-setup-startup-hook))
+#+END_SRC
+** GUI Elements
+Disables the GUI elements:
+
+#+BEGIN_SRC emacs-lisp
+(tool-bar-mode -1) ;; This disables the tool bar with the picture elements
+(toggle-scroll-bar -1) ;; This is to disable the scroll bar
+(menu-bar-mode -1) ;; This disables the menu bar
+#+END_SRC
+
+** Line numbers
+Line numbers are alwas shown. The progamming mode doesn't work automatically in python.
+
+#+BEGIN_SRC emacs-lisp
+;;(global-display-line-numbers-mode)
+(global-linum-mode)
+#+END_SRC
+
+Except in Neotree:
+
+#+BEGIN_SRC emacs-lisp
+(defun my/neotree-hook (_unused)
+  (linum-mode -1))
+(add-hook 'neo-after-create-hook 'my/neotree-hook)
+#+END_SRC
+
+** Buffer Tabs
+I like a list of all Buffers, that are currently open. A very easy way to do it is the
+[[https://github.com/ema2159/centaur-tabs][centaur-tabs]]. 
+
+#+BEGIN_SRC emacs-lisp
+(require 'centaur-tabs)
+(centaur-tabs-mode t)
+(global-set-key (kbd "C-ä")  'centaur-tabs-backward)
+(global-set-key (kbd "C-$") 'centaur-tabs-forward)
+
+(setq centaur-tabs-style "bar")
+(setq centaur-tabs-set-icons t)
+(setq centaur-tabs-height 32)
+(setq centaur-tabs-set-bar 'left)
+#+END_SRC
+
+To prevent that the tab bar is filled with unneccessary tabs, I disable them wit this: 
+
+#+BEGIN_SRC emacs-lisp
+ (defun centaur-tabs-hide-tab (x)
+     (let ((name (format "%s" x)))
+	 (or
+	  (string-prefix-p "*dashboard*" name)
+	  (string-prefix-p "*scratch*" name)
+	  (string-prefix-p "*Messages*" name)
+	  (string-prefix-p "*Completions*" name)
+	  (string-prefix-p "*Org PDF LaTeX Output*" name)
+	  (and (string-prefix-p "magit" name)
+	       (not (file-name-extension name)))
+	  )))
+#+END_SRC
+
+** Font
+*** Hack
+Currently I am using the Hack font. To use the original font, jsut remove the code.
+I was recommended [[https://www.reddit.com/r/emacs/comments/5twcka/which_font_do_you_use/][here]]. Here is the [[https://github.com/source-foundry/Hack][GitHub Repo]].
+
+#+BEGIN_SRC emacs-lisp
+(set-face-attribute 'default nil
+                    :family "Hack"
+                    :height 110
+                    :weight 'normal
+                    :width 'normal)
+#+END_SRC
+
+*** All the icons
+Because a lot of packages allow using these nice pictures.
+
+On Windows the fonts have to be installed in the directory "c:/Windows/Fonts".
+You can install with the command =M-x all-the-icons-install-fonts= -> admin required.
+
+#+BEGIN_SRC emacs-lisp
+(require 'all-the-icons)
+#+END_SRC
+** Powerline
+[[https://github.com/milkypostman/powerline][This]] package is to make the =Mode Line= look nicer. It is called =powerline=. But I don't
+think, that it is a defintive Solution, because the design doesn't match the rest.
+
+#+BEGIN_SRC emacs-lisp
+(require 'powerline)
+(powerline-default-theme)
+#+END_SRC
+
+** Neotree
+[[https://github.com/jaypei/emacs-neotree][This]] package provides the directory list on the side of the buffer.
+
+#+BEGIN_SRC emacs-lisp
+(require 'neotree) ;; load package
+(global-set-key [f8] 'neotree-toggle) ;; set a key to toggle neotree
+(defun neotree-startup () ;; with the if statement it ensures, that it opens on startup and
+  (interactive)           ;; does not open a scratch buffer.
+  (neotree-show)
+  (call-interactively 'other-window))
+
+(if (daemonp)
+    (add-hook 'server-switch-hook #'neotree-startup)
+  (add-hook 'after-init-hook #'neotree-startup)
+)
+
+(setq neo-smart-open t) ;; Every time when the neotree window is opened, let it find current 
+                        ;; file and jump to node 
+
+(setq-default neo-show-hidden-files t) ;; show hidden files without requiring to press S-h.
+
+(setq neo-theme (if (display-graphic-p) 'icons 'arrow)) ;; set all the icons for neotree
+#+END_SRC
+
+** Transparent Emacs (disabled)
+To make everything a bit nicer I added a transparent background. 
+The Sources are from [[https://www.emacswiki.org/emacs/TransparentEmacs][here]] and explained easily [[https://emacs.stackexchange.com/questions/5944/is-there-a-transparent-theme][here]].
+
+#+BEGIN_SRC emacs-lisp
+;;(set-frame-parameter (selected-frame) 'alpha '(95 95))
+;;(add-to-list 'default-frame-alist '(alpha 90 90))
+#+END_SRC
+
+** Zoom
+Because I use Emacs most of the time on a laptop, I have to use the limited space as good
+as possible. Thats why I use [[https://github.com/cyrus-and/zoom][Zoom]].
+
+#+BEGIN_SRC emacs-lisp
+(custom-set-variables
+ '(zoom-mode t))
+(custom-set-variables
+ '(zoom-size '(0.618 . 0.618)))
+#+END_SRC
+
+* Programming
+** Python
+I use [[https://github.com/jorgenschaefer/elpy][elpy]] for syntax checking and code completion.
+
+It needs an installation of python.
+
+#+BEGIN_SRC emacs-lisp
+(use-package elpy
+  :ensure t
+  :init
+  (elpy-enable))
+#+END_SRC
+
+*** Brackets
+I want, that emacs automatically inserts closing brackets. For that I use the included
+package [[https://www.emacswiki.org/emacs/ElectricPair][Electric Pair]].
+
+#+BEGIN_SRC emacs-lisp
+(defun electric-pair ()
+  "If at end of line, insert character pair without surrounding spaces.
+  Otherwise, just insert the typed character."
+  (interactive)
+  (if (eolp) (let (parens-require-spaces) (insert-pair)) (self-insert-command 1)))
+#+END_SRC
+
+Now I need it no enable with all the major modes and then add every character.
+
+#+BEGIN_SRC emacs-lisp
+(add-hook 'python-mode-hook
+          (lambda ()
+            (define-key python-mode-map "\"" 'electric-pair)
+            (define-key python-mode-map "(" 'electric-pair)
+            (define-key python-mode-map "[" 'electric-pair)
+            (define-key python-mode-map "{" 'electric-pair)))
+#+END_SRC
+
+** CPP
+
+
+*** brackets
+#+BEGIN_SRC emacs-lisp
+(require 'autopair)
+(add-hook 'c++-mode-hook
+          #'(lambda () (autopair-mode)))
+#+END_SRC
+
+** Web development
+For completion I use [[https://github.com/smihica/emmet-mode][Emmet]],
+
+To use it you type the name and then =C-j= and it comnpletes it. The basic structure can
+be generated by typing "!" and then =C-j=.
+
+#+BEGIN_SRC emacs-lisp
+(require 'emmet-mode)
+(add-hook 'css-mode-hook  'emmet-mode) ;; enable Emmet's css abbreviation.
+(add-hook 'html-mode-hook 'emmet-mode)
+#+END_SRC
+
+Improved JavaScript editing mode for GNU Emacs
+For improved JavaScript editing I use [[https://github.com/mooz/js2-mode][js2-mode]].
+
+This needs a lot of work. I don't think it is working yet.
+
+#+BEGIN_SRC emacs-lisp
+(require 'js2-mode)
+#+END_SRC
+
+There are also some changes to company.
+
+#+BEGIN_SRC emacs-lisp
+(require 'company-web)
+(require 'company-web-html)
+(defun my-web-mode-hook ()
+  (set (make-local-variable 'company-backends) '(company-css company-web))
+)
+;; Enable JavaScript completion between <script>...</script> etc.
+(advice-add 'company-tern :before
+            #'(lambda (&rest _)
+                (if (equal major-mode 'web-mode)
+                    (let ((web-mode-cur-language
+                          (web-mode-language-at-pos)))
+                      (if (or (string= web-mode-cur-language "javascript")
+                              (string= web-mode-cur-language "jsx"))
+                          (unless tern-mode (tern-mode))
+                        (if tern-mode (tern-mode -1)))))))
+#+END_SRC
+
+* behavior
+** ido
+standard way of autocompletion in minibuffer
+
+#+BEGIN_SRC emacs-lisp
+(require 'ido)
+(ido-mode t)
+#+END_SRC
+
+** Shell fix
+M-x shell prompt fix
+This fixes the prompt being removable from M-x shell by backspacing.
+
+#+BEGIN_SRC emacs-lisp
+(setq comint-prompt-read-only t)
+#+END_SRC
+
+** Scrolling
+Line-by-line scrolling
+
+#+BEGIN_SRC emacs-lisp
+(setq scroll-conservatively 100)
+#+END_SRC
+
+** UTF-8 fix
+Because Emacs is not encoding files in UTF-8, I added this
+
+#+BEGIN_SRC emacs-lisp
+(set-language-environment "UTF-8")
+#+END_SRC
+
+* Org
+** Org Template
+All the Code is from [[https://emacs.stackexchange.com/questions/34651/how-can-i-create-custom-org-mode-templates][here]] (old) and [[https://www.emacswiki.org/emacs/AutoInsertMode][here]].
+
+#+BEGIN_SRC emacs-lispMode
+
+#+END_SRC
+
+** Org Babel
+enabling tab in babel
+[[https://orgmode.org/worg/org-contrib/babel/][Org Babel]]
+
+#+BEGIN_SRC emacs-lisp
+(setq org-src-fontify-natively t
+    org-src-preserve-indentation t
+    org-src-tab-acts-natively t)
+#+END_SRC
+
+Enabling C for literate programming
+
+#+BEGIN_SRC emacs-lisp
+(org-babel-do-load-languages
+ 'org-babel-load-languages '((C . t)))
+#+END_SRC
+
+Enabling python support for babel
+
+#+BEGIN_SRC emacs-lisp
+(org-babel-do-load-languages
+ 'org-babel-load-languages '((python . t)))
+#+END_SRC
+
+** Org Bullets
+Enables [[https://github.com/sabof/org-bullets][Org Bullets]] Orgmode
+standard org-bullets-mode: 1
+
+#+BEGIN_SRC emacs-lisp
+(require 'org-bullets)
+(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+#+END_SRC
+
+init [[https://www.emacswiki.org/emacs/CompanyMode][company mode]] to work instantly:
+
+#+BEGIN_SRC emacs-lisp
+(add-hook 'after-init-hook 'global-company-mode)
+;;(global-set-key (kbd "C-y C-y") 'company-complete);; This is to access company if it doesen't show up on it's own
+#+END_SRC
+
+** auto newline
+This enables auto new-line in org mode.
+The number after fill-collumn tells emacs the amount of characters there are before there's a new-line happening.
+
+#+BEGIN_SRC emacs-lisp
+(add-hook 'org-mode-hook '(lambda () (setq fill-column 90)))
+(add-hook 'org-mode-hook 'turn-on-auto-fill)
+#+END_SRC
+** fancy ToDo's
+Enable fancy TODOs
+This isn't a package; It's just adding Chars
+If there should be any problems, you can fix them with =M-x RET c utf-8 RET C-x C-s=. 
+
+#+BEGIN_SRC emacs-lisp
+(setq org-todo-keywords '((sequence "☛ TODO(t)" "|" "✔ DONE(d)")
+(sequence "⚑ WAITING(w)" "|")
+(sequence "|" "✘ CANCELED(c)")))
+#+END_SRC
+
+** Org Calendar
+*** Files
+All the files that are comnbined to have the plan in the calendar, are in this directory:
+
+#+BEGIN_SRC emacs-lisp
+(setq org-agenda-files '("C:/org"))
+#+END_SRC
+
+*** Sunday fix
+Because org-calendar starts the week on sunday, I change it to Monday:
+
+#+BEGIN_SRC emacs-lisp
+(setq org-agenda-start-on-weekday 1)
+#+END_SRC
+
+*** daily view
+Because the daily view isn't available if there arent any todos, I force it to show
+always. 
+
+#+BEGIN_SRC emacs-lisp
+(setq org-agenda-time-grid
+      (quote
+       ((daily today remove-match)
+        (900 1100 1300 1500 1700)
+        "......" "----------------")))
+#+END_SRC
+
+*** Sources:
++ The main source is [[https://errickson.net/org_agenda_calendar.html][this]] website.
++ For all the information, you should visit the official [[https://orgmode.org/manual/][org-mode]] website.
+  + like [[https://orgmode.org/manual/Agenda-Commands.html][agenda-commands]]
+  + or [[https://orgmode.org/manual/Deadlines-and-Scheduling.html][deadlines/scheduler]]
+    + [[https://orgmode.org/manual/Inserting-deadline_002fschedule.html#Inserting-deadline_002fschedule][key-bindings]]
+
+*** Colors (not fixed)
+To organize the =org-agenda= better, the categories get their own color.
+
+#+BEGIN_SRC emacs-lisp
+(add-hook 'org-finalize-agenda-hook
+      (lambda ()
+      (save-excursion
+      (color-org-header "Unterrichtsstunden:"  "green")
+      (color-org-header "Hausaufgaben:" "gold")
+      (color-org-header "Freizeit:"      "orange"))))
+#+END_SRC
+
+** Org Tables
+Because the adressing of a cell can be weird, I show the adress always.
+The code is from [[https://orgmode.org/manual/Editing-and-debugging-formulas.html][here]].
+
+#+BEGIN_SRC emacs-lisp
+;; (setq org-table-coordinate-overlays nil)
+#+END_SRC
+
+** Table of Contents
+Because sometimes there is a header that I don't want in the [[https://emacs.stackexchange.com/questions/3479/org-mode-exclude-specific-headlines-from-toc-when-exporting][TOC]].
+
+#+BEGIN_SRC emacs-lisp
+(defun org-export-collect-headlines (info &optional n)
+    "Collect headlines in order to build a table of contents. [...]
+
+  Return a list of all exportable headlines as parsed elements.
+  Footnote sections, if any, will be ignored."
+  (let ((limit (plist-get info :headline-levels)))
+    (setq n (if (wholenump n) (min n limit) limit))
+    (org-element-map (plist-get info :parse-tree) 'headline
+      #'(lambda (headline)
+          (unless (or (org-element-property :NOTOC headline)               ; new condition
+                      (org-element-property :footnote-section-p headline)) ; old condition
+            (let ((level (org-export-get-relative-level headline info)))
+              (and (<= level n) headline))))
+      info)))
+#+END_SRC
+
+** Autoinsert
+This Function enables that I can press =C-c §= and it asks for the name and inserts all
+the necessary parts to export it nicely.
+
+The information for the minibuffer-read is from [[http://ergoemacs.org/emacs/elisp_idioms_prompting_input.html][here]]. The Information for function is from
+the official [[https://www.gnu.org/software/emacs/manual/html_node/eintr/Interactive-multiply_002dby_002dseven.html#Interactive-multiply_002dby_002dseven][GNU]] website.
+
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "C-c §") 'insertorg)
+(defun insertorg ()
+  "atomate insertion in org mode. ©Dominik Keller"
+  (interactive)
+  (insert "#+Title: " (read-string "Enter title of document: ") "\n#+Author: Dominik Keller\n#+OPTIONS: toc:t date:nil\n#+SETUPFILE: https://fniessen.github.io/org-html-themes/setup/theme-readtheorg.setup\n\n* "))
+#+END_SRC
+* LOL
+** Nyan Cat mode
+Enable [[https://github.com/TeMPOraL/nyan-mode][Nyan Cat Mode]]
+
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'load-path "~/.emacs.d/elpa/nyan-mode-1.1.1/")
+(require 'nyan-mode)
+(nyan-mode)
+(customize-set-variable 'nyan-animate-nyancat t)
+(setq nyan-wavy-trail t)
+#+END_SRC
+
+** Nyan zone
+Because its funny. [[https://github.com/wasamasa/zone-nyan][zone-nyan]] is called with =M-x zone-nyan-preview=. 
+
+#+BEGIN_SRC emacs-lisp
+(require 'zone-nyan)
+#+END_SRC
+
+** Fireplace
+Installed [[https://github.com/johanvts/emacs-fireplace][Fireplace]]
+can be reached with (M-x fireplace RET)
+
+#+BEGIN_SRC emacs-lisp
+(require 'fireplace)
+#+END_SRC
+
+** Pacmacs
+This is an awesome package to play [[https://github.com/codingteam/pacmacs.el/][pacman]].
+
+#+BEGIN_SRC emacs-lisp
+(require 'pacmacs)
+#+END_SRC
+
+* Plans
+- [ ] hunspell for german checking
+- [ ] zoom package
+  - not woking, have to work on it
+  - didn't read documentation
+- [ ] minimap mode
+- [ ] make beacon work
+  - does light the cursor up on changes
+* test
+#+BEGIN_SRC emacs-lisp
+(require 'widget)
+
+(eval-when-compile
+  (require 'wid-edit))
+
+(defvar widget-example-repeat)
+
+(defun widget-example ()
+  "Create the widgets from the Widget manual."
+  (interactive)
+  (switch-to-buffer "*Widget Example*")
+  (kill-all-local-variables)
+  (make-local-variable 'widget-example-repeat)
+  (let ((inhibit-read-only t))
+    (erase-buffer))
+  (remove-overlays)
+  (widget-insert "Here is some documentation.\n\n")
+  (widget-create 'editable-field
+                 :size 13
+                 :format "Name: %v " ; Text after the field!
+                 "My Name")
+  (widget-create 'menu-choice
+                 :tag "Choose"
+                 :value "This"
+                 :help-echo "Choose me, please!"
+                 :notify (lambda (widget &rest ignore)
+                           (message "%s is a good choice!"
+                                    (widget-value widget)))
+                 '(item :tag "This option" :value "This")
+                 '(choice-item "That option")
+                 '(editable-field :menu-tag "No option" "Thus option"))
+  (widget-create 'editable-field
+                 :format "Address: %v"
+                 "Some Place\nIn some City\nSome country.")
+  (widget-insert "\nSee also ")
+  (widget-create 'link
+                 :notify (lambda (&rest ignore)
+                           (widget-value-set widget-example-repeat
+                                             '("En" "To" "Tre"))
+                           (widget-setup))
+                 "other work")
+  (widget-insert
+   " for more information.\n\nNumbers: count to three below\n")
+  (setq widget-example-repeat
+        (widget-create 'editable-list
+                       :entry-format "%i %d %v"
+                       :notify
+                       (lambda (widget &rest ignore)
+                         (let ((old (widget-get widget
+                                                ':example-length))
+                               (new (length (widget-value widget))))
+                           (unless (eq old new)
+                             (widget-put widget ':example-length new)
+                             (message "You can count to %d." new))))
+                       :value '("One" "Eh, two?" "Five!")
+                       '(editable-field :value "three")))
+  (widget-insert "\n\nSelect multiple:\n\n")
+  (widget-create 'checkbox t)
+  (widget-insert " This\n")
+  (widget-create 'checkbox nil)
+  (widget-insert " That\n")
+  (widget-create 'checkbox
+                 :notify (lambda (&rest ignore) (message "Tickle"))
+                 t)
+  (widget-insert " Thus\n\nSelect one:\n\n")
+  (widget-create 'radio-button-choice
+                 :value "One"
+                 :notify (lambda (widget &rest ignore)
+                           (message "You selected %s"
+                                    (widget-value widget)))
+                 '(item "One") '(item "Another One.")
+                 '(item "A Final One."))
+  (widget-insert "\n")
+  (widget-create 'push-button
+                 :notify (lambda (&rest ignore)
+                           (if (= (length
+                                   (widget-value widget-example-repeat))
+                                  3)
+                               (message "Congratulation!")
+                             (error "Three was the count!")))
+                 "Apply Form")
+  (widget-insert " ")
+  (widget-create 'push-button
+                 :notify (lambda (&rest ignore)
+                           (widget-example))
+                 "Reset Form")
+  (widget-insert "\n")
+  (use-local-map widget-keymap)
+  (widget-setup))
+
+#+END_SRC

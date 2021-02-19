@@ -1,0 +1,18 @@
+#+Title: Emacs configuration
+#+Author: Dominik Keller
+
+* Easy to use
+Pretty much all shortcuts are the standard ones defined by Emacs. Altho because i am a
+long time Windows user, I changed Copy, Paste, Cut to the standard CUA keys.
+
+* Optimized for Org-Mode
+The most time I am using Emacs in Org-Mode, so there are the most tweaks. The most
+important one for myself ist the auto return after 80 characters.
+
+* Everything is Org
+Because I really like the way Org-Mode works, I configured my init file, that it just
+reads an Org file, that contains my configuration.
+
+* keep it intersting
+To have some fun, while having a hard time, there's always your little friend Nyon Cat and
+a little fireplace =M-x fireplace RET=.  
