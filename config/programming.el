@@ -41,9 +41,18 @@
   :ensure t
   :hook (company-mode . company-box-mode))
 
+;; visual packages
 (use-package rainbow-delimiters
   :ensure t
   :hook (prog-mode . rainbow-delimiters-mode))
+
+(use-package tree-sitter
+  :ensure t
+  :custom (global-tree-sitter-mode t)
+  :hook (tree-sitter-mode . tree-sitter-hl-mode))
+
+(use-package tree-sitter-langs
+  :after tree-sitter)
 
 ;; git version control system
 (use-package magit
