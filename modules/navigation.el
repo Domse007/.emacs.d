@@ -62,7 +62,7 @@
   :after ivy
   :custom
   (amx-backend 'auto)
-  (amx-save-file "~/.emacs.d/A_temp/amx-items")
+  (amx-save-file "~/.emacs.d/var/amx-items")
   (amx-history-length 50)
   (amx-show-key-bindings nil)
   :config (amx-mode 1))

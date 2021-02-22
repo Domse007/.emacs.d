@@ -128,6 +128,7 @@
 ;; like org fragtog, but for =, /, []
 (use-package org-appear
   :ensure t
+  :defer t
   :quelpa (org-appear
 	   :fetcher github
 	   :repo "awth13/org-appear")
@@ -139,7 +140,6 @@
 
 (use-package org-journal
   :ensure t
-  :after org
   :custom ((org-journal-file-type 'daily)
 	   (org-journal-dir (concat user-system-base-path "Personal/Journal/"))
 	   (org-journal-date-format "%A, %d.%B.%Y")

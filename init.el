@@ -4,7 +4,9 @@
 (set-language-environment "UTF-8")
 
 ;; load custom variables
-(load-file (concat user-emacs-directory "/config/vars.el"))
+(setq dk/user-emacs-subdir "/modules")
+
+(load-file (concat user-emacs-directory dk/user-emacs-subdir "/vars.el"))
 
 ;; native compile, when available
 ;;(when (version< emacs-version "28.0.50")
@@ -52,22 +54,34 @@
 
 ;; check if temp file exists
 (defun dk/check-temp-dir-exists ()
-  (if (equal (file-directory-p "~/.emacs.d/A_temp") nil)
-      (progn (make-directory "~/.emacs.d/A_temp/")
-	     (message "Created temp dir."))
-    (message "Temp dir exists.")))
+  (if (equal (file-directory-p "~/.emacs.d/var/") nil)
+      (progn (make-directory "~/.emacs.d/var/")
+	     (message "Created var dir."))
+    (message "Directory /var/lsp/ exists."))
+  (if (equal (file-directory-p "~/.emacs.d/var/lsp/") nil)
+      (progn (make-directory "~/.emacs.d/var/lsp/")
+	     (message "Created /var/lsp/ dir."))
+    (message "Directory /var/lsp/ exists.")))
 
 (dk/check-temp-dir-exists)
 
+;; check which theme should be loaded
+(defvar dk/theme-light-choice nil)
+
+(add-to-list 'command-switch-alist '("--light" . (lambda (args))))
+
+(if (member "--light" command-line-args)
+    (setq dk/theme-light-choice t))
+
 ;; load the custom config:
-(load-file (concat user-emacs-directory "/config/emacs.el")) 
-(load-file (concat user-emacs-directory "/config/qol.el")) 
-(load-file (concat user-emacs-directory "/config/design.el")) 
-(load-file (concat user-emacs-directory "/config/navigation.el")) 
-(load-file (concat user-emacs-directory "/config/org-mode.el")) 
-(load-file (concat user-emacs-directory "/config/programming.el"))
-(load-file (concat user-emacs-directory "/config/custom-funcs.el"))
-(load-file (concat user-emacs-directory "/config/test.el"))
+(load-file (concat user-emacs-directory dk/user-emacs-subdir "/emacs.el")) 
+(load-file (concat user-emacs-directory dk/user-emacs-subdir "/qol.el")) 
+(load-file (concat user-emacs-directory dk/user-emacs-subdir "/design.el")) 
+(load-file (concat user-emacs-directory dk/user-emacs-subdir "/navigation.el")) 
+(load-file (concat user-emacs-directory dk/user-emacs-subdir "/org-mode.el")) 
+(load-file (concat user-emacs-directory dk/user-emacs-subdir "/programming.el"))
+(load-file (concat user-emacs-directory dk/user-emacs-subdir "/custom-funcs.el"))
+(load-file (concat user-emacs-directory dk/user-emacs-subdir "/test.el"))
 (setq custom-file (concat user-emacs-directory "/config/custom.el"))
 
 (setq dk/custom-org-std-user "Dominik Keller")

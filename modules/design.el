@@ -4,6 +4,7 @@
 ;;   (load-theme 'humanoid-dark t))
 (use-package doom-themes
   :ensure t
+  :if (not dk/theme-light-choice)
   :custom ((doom-themes-enable-bold t)
            (doom-themes-enable-italic t))
   :config

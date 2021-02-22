@@ -4,7 +4,7 @@
 	     (setq ring-bell-function 'ignore
 		   frame-title-format '("EMACS - " emacs-version ": %b - %m" "-mode")
 		   initial-buffer-choice (lambda () (get-buffer-create "*dashboard*"))
-		   recentf-save-file (expand-file-name "recentf" "~/.emacs.d/recent")
+		   recentf-save-file (expand-file-name "recentf" "~/.emacs.d/var/recent")
 		   default-directory user-system-base-path
 		   ;; display-time-24hr-format t
 		   ;; display-time-day-and-date t
@@ -20,7 +20,10 @@
 		   initial-scratch-message nil
 		   delete-by-moving-to-trash t
 		   indent-tabs-mode t
-		   indent-line-function 'insert-tab)
+		   indent-line-function 'insert-tab
+		   eshell-aliases-file "~/.emacs.d/var/eshell/aliases")
+	     (setq auto-save-file-name-transforms
+		   `((".*" "~/.emacs.d/var/auto-save" t)))
 	     ;; enable additional information in modeline
 	     (display-time-mode 1)
 	     (display-battery-mode 1)
@@ -45,4 +48,6 @@
 		 (define-key dired-mode-map (kbd "RET") #'dired-find-alternate-file)))
 	     ;; highlight current line
 	     (global-hl-line-mode)
-	     (set-face-background hl-line-face "#090405"))
+	     
+	     (when (equal dk/theme-light-choice nil)
+		 (set-face-background hl-line-face "#090405")))

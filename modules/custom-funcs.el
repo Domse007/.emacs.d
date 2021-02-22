@@ -3,7 +3,10 @@
   (interactive)
   (if (string-equal dk/open-config-file "")
       (switch-to-buffer (find-file-noselect "~/.emacs.d/init.el"))
-    (switch-to-buffer (find-file-noselect (concat "~/.emacs.d/config/" dk/open-config-file) nil nil t))))
+    (switch-to-buffer (find-file-noselect (concat "~/.emacs.d/"
+						  dk/user-emacs-subdir
+						  "/"
+						  dk/open-config-file) nil nil t))))
 
 (global-set-key (kbd "C-x RET RET") (lambda () (interactive)(dk/open-config "")))
 (global-set-key (kbd "C-x RET o") (lambda () (interactive)(dk/open-config "org-mode.el")))

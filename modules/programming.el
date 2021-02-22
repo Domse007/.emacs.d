@@ -5,16 +5,27 @@
 (use-package lsp-mode
   :ensure t
   :custom ((lsp-rust-server 'rust-analyzer)
-	   (lsp-enable-completion-at-point t))
+	   (lsp-enable-completion-at-point t)
+	   (lsp-session-file "~/.emacs.d/var/lsp/lsp")
+	   (lsp-server-install-dir "~/.emacs.d/var/lsp-server/")
+	   (lsp-keep-workspace-alive nil)
+	   (lsp-lens-enable t)
+	   (lsp-diagnostics-provider :auto)
+	   (lsp-modeline-diagnostics-enable t)
+	   (lsp-auto-configure t)
+	   (lsp-enable-snippet t))
   :hook ((lsp-after-open . lsp-enable-imenu)
 	 (python-mode . lsp-deferred)
 	 (rust-mode . lsp-deferred)
-	 (csharp-mode . lsp-deferred)))
+	 (csharp-mode . lsp-deferred))
+  :config
+  (lsp-headerline-breadcrumb-mode t))
 
 (use-package lsp-ui
   :ensure t
   :after lsp-mode
   :custom ((lsp-ui-sideline-ignore-duplicate t)
+	   (lsp-ui-sideline-enable nil)
 	   (lsp-ui-doc-max-height 30)
 	   (lsp-ui-doc-max-width 30)
 	   (lsp-ui-doc-position 'point)
@@ -56,11 +67,13 @@
 
 ;; git version control system
 (use-package magit
-  :ensure t)
+  :ensure t
+  :defer t
+  :commands magit)
 
 
-(load-file (concat user-emacs-directory "/config/languages/web-dev.el"))
-(load-file (concat user-emacs-directory "/config/languages/elisp.el"))
-(load-file (concat user-emacs-directory "/config/languages/rust.el"))
-(load-file (concat user-emacs-directory "/config/languages/c-sharp.el"))
+(load-file (concat user-emacs-directory dk/user-emacs-subdir "/languages/web-dev.el"))
+(load-file (concat user-emacs-directory dk/user-emacs-subdir "/languages/elisp.el"))
+(load-file (concat user-emacs-directory dk/user-emacs-subdir "/languages/rust.el"))
+(load-file (concat user-emacs-directory dk/user-emacs-subdir "/languages/c-sharp.el"))
 
