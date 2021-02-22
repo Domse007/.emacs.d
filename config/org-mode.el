@@ -149,3 +149,5 @@
 (use-package org-sticky-header
   :ensure t
   :hook (org-mode . org-sticky-header-mode))
+
+(use-package org-tempo)

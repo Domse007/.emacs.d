@@ -25,11 +25,13 @@
 
 (setq package-check-signature nil)
 
-(when (not (package-installed-p 'use-package))
-  (package-refresh-contents)
-  (package-install 'use-package))
+;;(when (not (package-installed-p 'use-package))
+;;  (package-refresh-contents)
+;;  (package-install 'use-package))
 
 (require 'use-package)
+(use-package use-package
+  :custom (use-package-compute-statistics t))
 
 (use-package quelpa-use-package
   :ensure t)
