@@ -50,4 +50,6 @@
 	     (global-hl-line-mode)
 	     
 	     (when (equal dk/theme-light-choice nil)
-		 (set-face-background hl-line-face "#090405")))
+	       (set-face-background hl-line-face "#090405"))
+
+	     (server-start))

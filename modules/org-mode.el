@@ -24,8 +24,8 @@
 	   (org-ctrl-k-protect-subtree t)
 	   (initial-major-mode 'org-mode)
 	   (prettify-symbols-unprettify-at-point 'right-edge)
-	   (org-plantuml-jar-path (expand-file-name "~/.emacs.d/external/plantuml.jar"))
 	   (org-agenda-files (concat user-system-base-path "TODOs/TODOs.org"))))
+				   
 				     
 (defun org-export-collect-headlines (info &optional n)
 "Collect headlines in order to build a table of contents. [...]
@@ -128,7 +128,6 @@
 ;; like org fragtog, but for =, /, []
 (use-package org-appear
   :ensure t
-  :defer t
   :quelpa (org-appear
 	   :fetcher github
 	   :repo "awth13/org-appear")
@@ -142,7 +141,7 @@
   :ensure t
   :custom ((org-journal-file-type 'daily)
 	   (org-journal-dir (concat user-system-base-path "Personal/Journal/"))
-	   (org-journal-date-format "%A, %d.%B.%Y")
+	   (org-journal-date-format "%A, %d. %B %Y")
 	   (org-journal-file-header "#+TITLE: Daily Journal from %d.%m.%Y")
 	   (org-journal-enable-agenda-integration t)))
 

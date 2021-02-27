@@ -14,6 +14,11 @@
   ;; Corrects (and improves) org-mode's native fontification.
   (doom-themes-org-config))
 
+(use-package plan9-theme
+  :ensure t
+  :if dk/theme-light-choice
+  :config (load-theme 'plan9 t))
+
 (use-package all-the-icons
   :ensure t
   :if window-system)

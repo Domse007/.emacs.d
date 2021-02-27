@@ -3,8 +3,8 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   '(org-tempo zoom unkillable-scratch snipsearch rust-mode restart-emacs rainbow-mode rainbow-delimiters quelpa-use-package perfect-margin pair-tree ox-reveal org-superstar org-sticky-header org-roam-server org-journal org-fragtog org-appear orderless omnisharp ob-async no-littering memory-usage magit lsp-ui lsp-python-ms literate-calc-mode js2-mode ivy-posframe htmlize highlight-defined google-this flx emojify emmet-mode doom-themes doom-modeline disable-mouse dashboard counsel company-web company-posframe company-box beacon auto-package-update amx all-the-icons-ivy-rich)))
+ '(custom-safe-themes
+   '("18cd5a0173772cdaee5522b79c444acbc85f9a06055ec54bb91491173bc90aaa" default)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

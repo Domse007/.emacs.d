@@ -82,7 +82,7 @@
 (load-file (concat user-emacs-directory dk/user-emacs-subdir "/programming.el"))
 (load-file (concat user-emacs-directory dk/user-emacs-subdir "/custom-funcs.el"))
 (load-file (concat user-emacs-directory dk/user-emacs-subdir "/test.el"))
-(setq custom-file (concat user-emacs-directory "/config/custom.el"))
+(setq custom-file (concat user-emacs-directory dk/user-emacs-subdir "/custom.el"))
 
 (setq dk/custom-org-std-user "Dominik Keller")
 
