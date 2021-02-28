@@ -2,63 +2,44 @@
 #+Author: Dominik Keller
 #+OPTIONS: toc:t date:nil
 #+EXPORT_FILE_NAME: README
-#+SETUPFILE: ~/.emacs.d/org-html-themes/setup/theme-readtheorg.setup
 #+LATEX_CLASS: modern
-#+LANGUAGE: de
+#+LANGUAGE: en
 
 * Overview
-This is my personal emacs config. I use emacs for the most time on
-Windows 10. Currently I am using =GNU emacs 27.1= and there are no
-major bugs, although on startup =cl= returns an error. If you are using
-LSP, then you should use 27.X.XX. 
+This is my personal =GNU Emacs= config. I use =GNU Emacs= for the most
+time on =Microsoft Windows 10=. I am using =GNU Emacs 27.1= and it works
+without any problems. I want to upgrade to =GCCEmacs=, but I can't
+compile my config correctly.
 
 This config is maintained and will get updated in the future. There
 could be some major changes with one commit, because of a really
 boring lesson.
 
-I use this config mostly for =org mode= but there are plans, that it is
-going to be my IDE for everyhing, but that is delayed, because I have
-some trouble with LSP.
+I use this config mostly for =org-mode= and programming. For
+programming, I use =LSP=, but hardly anything else.
 
 * Installation (Windows)
-An installation of =GNU emacs= preferably with version =28.0.50=. After
-first start emacs will create a folder in the home directory (Windows:\\
-=C:/users/USER/appdata/roaming/.emacs.d=). Then close emacs.
+Install =GNU Emacs= from the official [[https://www.gnu.org/software/emacs/download.html][mirror]]. Preferably install the
+latest Release: version =27.1=. Before starting =GNU Emacs=, install
+[[https://www.msys2.org/][MSYS2]] to easily manage external dependencies. Install it to =C:\msys64=.
+Then add =C:\msys64\mingw64\bin\= to the =PATH=. 
 
-Next, install [[https://git-scm.com/download/win][git]] and open the file explorer in the emacs
-directory. Then click the right mousbutton and select ="git bash
-here"=. Then copy these commands:
-1. =git init=
-2. =git remote add origin https://www.github.com/domse007/.emacs.d=
-3. =git pull origin master=
+First install =Git=, =aspell=:
 
-Now everytime there is a new commit, it can be installed with: 
-=git pull origin master=
+#+begin_src shell
+  $ pacman -S git
+  $ pacman -S mingw-w64-x86_64-sqlite3
+  $ pacman -S mingw-w64-x86_64-aspell
+  $ pacman -S mingw-w64-x86_64-aspell-de
+  $ pacman -S mingw-w64-x86_64-python
+  $ pip install python-language-server[all]
+  $ pip install pyls-black pyls-isort pyls-mypy
+#+end_src
 
-If this is just the startpoint, you could just make:
-
-
-=git clone https://www.github.com/domse007/.emacs.d .=
-
-
-in the =.emacs.d= directory. 
-
-* dependencies
-- autocomplete c headers wants to know where the header files are.
-- installation of miktex
-  - Windows: added to PATH Variables
-- Windows: MinGW
-  - For C++ development
-- [[https://github.com/mlt/hunspell/releases/download/appveyor_v1.7.0/hunspell-msvc-Release-x64.zip][Hunspell installation]]
-  - Windows:
-    - add to =PATH=
-    - new Variable =DICPATH=: =C:\...\.emacs.d\dict\=
-- install Python and pip
-  - download python language server
-    - =pip install python-language-server[all]=
-  - install additional functionality
-    - =pip install pyls-black pyls-isort pyls-mypy=
-- install Hack Font
+Unfortunately, you have to install some dependencies from the
+internet:
+- install the [[https://sourcefoundry.org/hack/][Hack]] font.
+- Install [[MiKTeX]] to export =org-mode= to =LaTeX= -> =PDF=
 - install [[https://rustup.rs/][Rust]]
   - install Rust linter [[https://github.com/rust-lang/rust-clippy][Clippy]]
     - environment variables are set automatically
@@ -69,172 +50,40 @@ in the =.emacs.d= directory.
       =C:\Users\USERNAME\.cargo\bin= or set additional environment
       variable.
     - rename file to =rust-analyzer.exe=
-- install GNUplot
-  - add it to =PATH=
-    - checkbox available in installer
-- install sqlite (for =org-roam=)
-  - =choco install sqlite=
-    
-* Packages
-- Download fonts with =M-x all-the-icons-install-fonts RET=
-  - Install the fonts
-- install C#-LSP-Server with =M-x omnisharp-install-server RET=
-- install Python LSP-Server by opening a python file and answer with
-  =y=
-
-** Package Location
-List entries with a file extension are a file. The rest are the
-packages, that will be installed.
-
-- early-init.el
-- *init.el*
-  - use-package
-  - quelpa-use-package
-- config/
-  - emacs.el
-  - custom-funcs.el
-  - design.el
-    - humanoid-themes
-    - all-the-icons
-    - dashboard
-    - beacon
-    - rainbow-mode
-    - doom-modeline
-    - zoom
-  - navigation.el
-    - counsel
-    - ivy
-    - amx
-    - all-the-icons-ivy-rich
-    - ivy-rich
-    - flx
-    - ivy-posframe
-    - disable-mouse
-    - orderless
-  - org-mode.el
-    - org-mode
-    - org-superstar
-    - google-this
-    - htmlize
-    - literate-calc-mode
-    - org-fragtog
-    - ox-reveal
-    - org-reveal
-    - org-roam
-    - org-roam-server
-  - programming.el
-    - lsp-mode
-    - lsp-ui
-    - lsp-python-ms
-    - yasnippet
-    - company
-    - company-posframe
-    - company-box
-    - rainbow-delimiters
-    - magit
-  - languages/
-    - c-sharp.el
-      - omnisharp
-    - elisp
-      - highlight-defined
-    - rust.el
-      - rust-mode
-    - web-dev.el
-      - emmet-mode
-      - js2-mode
-      - company-web
+- autocomplete c headers wants to know where the header files are.
       
-* Keybindings
-** Movememnt
-|------------+---------------------+----------------------|
-| Keybinding | Function            | Description          |
-|------------+---------------------+----------------------|
-| =C-p=      | previous-line       | go one line up       |
-| =C-n=      | next-line           | go one line down     |
-| =C-f=      | forward-char        | go one char forward  |
-| =C-b=      | backward-char       | go one char back     |
-| =M-f=      | forward-word        | go one word forward  |
-| =M-b=      | backward-word       | go one word back     |
-| =M-<=      | beginning-of-buffer | goto start of buffer |
-| =M-S-<=    | end-of-buffer       | goto end of buffer   |
-|------------+---------------------+----------------------|
+Then get my config with =Git=. On Windows, the config resides in the
+directory =C:\Users\USER\AppData\Roaming\=.
 
-** Manipulate Buffer
-|-------------+--------------+-----------------------------------|
-| Keybinging  | Function     | Description                       |
-|-------------+--------------+-----------------------------------|
-| =<backspace>= |              | delete backward                   |
-| =DEL=         |              | delete forward                    |
-| =C-k=         |              | delete active line (point -> end) |
-| =C-SPC=       | cua-set-mark | set-mark / clear-mark             |
-| =C-c=         |              | copy                              |
-| =C-v=         | yank         | paste                             |
-| =C-x=         |              | cut                               |
-|-------------+--------------+-----------------------------------|
+#+begin_src emacs-lisp
+  $ cd C:\Users\USER\AppData\Roaming\
+  $ mkdir .emacs.d
+  $ cd .emacs.d
+  $ git init
+  $ git remote add origin https://www.github.com/domse007/.emacs.d/
+  $ git pull origin master
+#+end_src
 
-** General
-|------------+------------------------+-----------------------------------|
-| Keybinding | Function               | Description                       |
-|------------+------------------------+-----------------------------------|
-| =C-g=        | quit                   | quit active function              |
-| =C-x C-f=    | find-file              | find file with path               |
-| =C-x C-s=    | save-buffer            | save state of buffer              |
-| =C-x 1=      | delete-other-windows   | collapse all buffer except active |
-| =C-x 2=      | split-window-below     | split window below                |
-| =C-x 3=      | split-window-right     | split windows horizontal          |
-| =C-x 4 0=    | kill-buffer-and-window | kill active window                |
-| =C-x b=      | ivy-switch-buffer      | get list of buffers to switch     |
-| =C-x k=      | kill-buffer            | get list of buffers to kill       |
-| =C-l=        | recenter-top-bottom    | recenter at point                 |
-|------------+------------------------+-----------------------------------|
+After that you can open =GNU Emacs=. It will automatically install all
+packages and byte-compile them.
 
-*** Good to know
-- when =C-x b= the buffer at point can be killed with =C-k=.
+But you still have to modify some variables. Open the file =init.el=.
+Look for the function =user-change-base-path=. Then modify the the
+function, that it looks like this:
 
-** help
-|------------+-------------------+---------------------|
-| Keybinding | Function          | Description         |
-|------------+-------------------+---------------------|
-| =C-h f=      | describe-function | describe function   |
-| =C-h k=      | describe-key      | describe keybinding |
-| =C-h v=      | describe-variable | describe varible    |
-|------------+-------------------+---------------------|
+#+begin_src emacs-lisp
+  (defun user-change-base-path ()
+    (when (string-equal user-system-name "SYSTEM_NAME")
+      (setq user-system-base-path "DESIRED_LOCATION")))
+#+end_src
 
-** Org-moode
-|------------+-----------------------+----------------------------------------|
-| Keybinding | Function              | Description                            |
-|------------+-----------------------+----------------------------------------|
-| =C-i= / =TAB=  | org-cycle             | collapse headings                      |
-| =M-RET=      | org-meta-return       | insert new heading according to region |
-| =C-c C-e=    | org-export-dispatch   | export org file                        |
-| =C-a=        | org-beginning-of-line | goto start active line                 |
-| =C-e=        | org-end-of-line       | goto end active line                   |
-| =C-c C-c=    | org-ctrl-c-ctrl-c     | multipurpose function                  |
-| =C-c C-s=    | org-schdule           | make scheduled agenda entry            |
-| =C-c C-d=    | org-deadline          | made agenda entry with deadline        |
-| =C-c '=      | org-edit-special      | Call environment for element at point  |
-|------------+-----------------------+----------------------------------------|
+Replace =SYSTEM_NAME= with the name of your system. Then choose a
+folder, where you want to store all your files.
 
-** Custom Keybindings
-|------------+-----------------------------+-------------------|
-| Keybinding | Function                    | Package           |
-|------------+-----------------------------+-------------------|
-| =C-c m=      | my-macros                   | *CUSTOM*            |
-| =C-c §=      | insertorg                   | *CUSTOM*            |
-| =C-c z=      | zoom-mode                   | zoom              |
-| =C-$=        | centaur-tabs-forward        | centaur-tabs      |
-| =C-ä=        | centaur-tabs-backward       | centaur-tabs      |
-| =C-x ,=      | iedit-mode                  | iedit             |
-| =M-RET=      | srefactor-refactor-at-point | semantic-refactor |
-| =C-j=        | emmet-mode-complete         | emmet             |
-| =C-x g=      | google-this-mode-submap     | google-thisp      |
-| =C-.=        | ispell-word                 | ispell            |
-| =C-c z=      | zoom-mode                   | zoom              |
-|------------+-----------------------------+-------------------|
+** Update
+If you want to get the newest commit, open the terminal and change to
+the =.emacs.d= directory.
 
-insertorg is part of my-macros. After calling the function with =C-c
-m=. It can be exited with =C-g=. The function expect an input through the
-minibuffer. Possible options are printed in the minibuffer. After that
-press =RET= and then follow the instruction of the subfunctions.
-Examples: =C-c m org RET RET RET= or =C-c m org RET test RET article
-RET=. The functions are really basic and easy to modify.  
+#+begin_src shell
+  $ git pull origin master
+#+end_src
