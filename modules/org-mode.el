@@ -169,12 +169,17 @@
 (use-package ispell
   :config
   (setq-default ispell-program-name "aspell")
-  (ispell-change-dictionary "de" t)  
+  (ispell-change-dictionary "de" t)
   :bind ("C-ö" . ispell-word)
   :hook ((text-mode . flyspell-mode)
 	 (org-mode . flyspell-mode)
 	 (org-mode . (lambda ()
 		       (interactive)
-		       (save-excursion
-			 (goto-char (word-search-forward "#+LANGUAGE: "))
-			 (ispell-change-dictionary (thing-at-point 'word)))))))
+		       (let ((dk/position 0))
+			 (save-excursion
+			   (goto-char 0)
+			   (setq dk/position (word-search-forward "#+LANGUAGE: " nil t))
+			   (if (not (equal (point) 0))
+			       (progn (goto-char dk/position)
+				      (ispell-change-dictionary (thing-at-point 'word))
+			     (message "No language recognized!")))))))))
