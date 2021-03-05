@@ -1,3 +1,9 @@
+;;; vars.el - This holds a few variables.
+
+;; commentary:
+;; - The code doesen't depend on any additional binaries.
+
+
 (defvar user-system-name (system-name)
 ;; This variable contains the name of the host computer
   :string)
@@ -17,3 +23,6 @@
 ;; (defconst user-ivy-posframe-cursor-color "#50C517"
 ;; ;; This avariable describes the posframe cursor color.
 ;;   :string)
+
+(provide 'vars.el)
+;;; vars.el ends here

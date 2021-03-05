@@ -1,3 +1,10 @@
+;;; emacs.el - This is a configuration to make adjustments to emacs that aren't packages.
+
+;; commentary:
+;; - The code doesen't depend on any additional binaries.
+;; - This is mostly copied from https://www.github.com/jakobklemm/emacs
+
+;; An Ivy-enhanced alternative to isearch.
 (use-package counsel
   :ensure t
   :diminish ivy-mode counsel-mode
@@ -43,9 +50,11 @@
     (swiper-action-recenter t)
     (counsel-grep-base-command "ag -S --noheading --nocolor --nofilename --numbers '%s' %s"))
 
+;; A generic completion mechanism for Emacs.
 (use-package swiper
   :ensure t)
 
+;; A generic completion mechanism for Emacs.
 (use-package ivy
   :ensure t
   :init (ivy-mode 1)
@@ -57,6 +66,7 @@
 		ivy-re-builders-alist '((t . orderless-ivy-re-builder))) ;; enable orderless
   :bind ("C-x C-b" . ivy-switch-buffer))
 
+;; An alternative interface for M-x in Emacs.
 (use-package amx
   :ensure t
   :after ivy
@@ -67,10 +77,12 @@
   (amx-show-key-bindings nil)
   :config (amx-mode 1))
 
+;; Display icons for all buffers in ivy.
 (use-package all-the-icons-ivy-rich
   :ensure t
   :init (all-the-icons-ivy-rich-mode 1))
 
+;; A more friendly interface for ivy
 (use-package ivy-rich
   :if window-system
   :ensure t
@@ -78,9 +90,11 @@
   :custom (setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line)
   :config (ivy-rich-mode 1))
 
+;; Fuzzy matching for Emacs
 (use-package flx
   :ensure t)
 
+;; Let ivy use posframe to show its candidate menu.
 (use-package ivy-posframe
   :ensure t
   :if window-system
@@ -115,6 +129,7 @@
 ;; user-ivy-posframe-border-color "#FD971F"     ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;; Disable any mouse input in org-mode.
 (use-package disable-mouse
   :ensure t
   :hook (org-mode . disable-mouse-mode))
@@ -124,3 +139,6 @@
   :ensure t
   :init (icomplete-mode)
   :config (completion--styles '(orderless)))
+
+(provide 'navigation.el)
+;; navigation.el

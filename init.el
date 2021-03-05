@@ -27,11 +27,11 @@
 
 (setq package-check-signature nil)
 
-;;(when (not (package-installed-p 'use-package))
-;;  (package-refresh-contents)
-;;  (package-install 'use-package))
+;; (unless (package-installed-p "use-package")
+;;   (package-install "use-package"))
 
 (require 'use-package)
+
 (use-package use-package
   :custom (use-package-compute-statistics t))
 
@@ -68,6 +68,7 @@
 ;; check which theme should be loaded
 (defvar dk/theme-light-choice nil)
 
+;; add custom command line argument to start emacs with a light theme.
 (add-to-list 'command-switch-alist '("--light" . (lambda (args))))
 
 (if (member "--light" command-line-args)
@@ -78,14 +79,14 @@
 (load-file (concat user-emacs-directory dk/user-emacs-subdir "/qol.el")) 
 (load-file (concat user-emacs-directory dk/user-emacs-subdir "/design.el")) 
 (load-file (concat user-emacs-directory dk/user-emacs-subdir "/navigation.el")) 
-(load-file (concat user-emacs-directory dk/user-emacs-subdir "/org-mode.el")) 
+(load-file (concat user-emacs-directory dk/user-emacs-subdir "/org-mode.el"))
+(load-file (concat user-emacs-directory dk/user-emacs-subdir "/spell.el"))
 (load-file (concat user-emacs-directory dk/user-emacs-subdir "/programming.el"))
 (load-file (concat user-emacs-directory dk/user-emacs-subdir "/custom-funcs.el"))
 (load-file (concat user-emacs-directory dk/user-emacs-subdir "/test.el"))
 (setq custom-file (concat user-emacs-directory "/var/custom.el"))
 
-(setq dk/custom-org-std-user "Dominik Keller")
-
+;; message that the config has been loaded successfully
 (message "Config initialisation ends here.")
 
 (provide 'init.el)

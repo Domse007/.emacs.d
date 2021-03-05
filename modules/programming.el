@@ -1,7 +1,14 @@
-;; LSP configuration:
+;;; programming.el - This is a configuration to enable a better programming experience.
+
+;; commentary:
+;; - The code depends on language specific language servers.
+;; - There are sometimes weird buffers popping up..... sometimes.
+
+;; Package to provide a modern list library.
 (use-package dash
   :ensure t)
 
+;; Package that enables Emacs to behave as an LSP client.
 (use-package lsp-mode
   :ensure t
   :custom ((lsp-rust-server 'rust-analyzer)
@@ -21,6 +28,7 @@
   :config
   (lsp-headerline-breadcrumb-mode t))
 
+;; Package that provides an ui to lsp-mode.
 (use-package lsp-ui
   :ensure t
   :after lsp-mode
@@ -34,46 +42,54 @@
   :hook (lsp-mode . lsp-ui)
   :config (lsp-ui-doc-enable t))
 
+;; Package that provides the protocol to talk to the Microsoft Python LSP.
 (use-package lsp-python-ms
   :ensure t
   :after lsp)
 
+;; Package that provides a completion framework.
 (use-package company
   :ensure t
   :config (add-hook 'after-init-hook 'global-company-mode))
 
+;; Package that provides posframe to company.
 (use-package company-posframe
   :ensure t
   :if window-system
   :config
   (company-posframe-mode t))
 
+;; Package that provides a better looking interface to comapany. 
 (use-package company-box
   :ensure t
   :hook (company-mode . company-box-mode))
 
-;; visual packages
+;; Package that provides coloured delimiters.
 (use-package rainbow-delimiters
   :ensure t
   :hook (prog-mode . rainbow-delimiters-mode))
 
+;; This is an Emacs Lisp binding for tree-sitter.
 (use-package tree-sitter
   :ensure t
   :custom (global-tree-sitter-mode t)
   :hook (tree-sitter-mode . tree-sitter-hl-mode))
 
+;; Package that provides other languages to tree-sitter.
 (use-package tree-sitter-langs
   :after tree-sitter)
 
-;; git version control system
+;; Git version control system
 (use-package magit
   :ensure t
   :defer t
   :commands magit)
 
-
+;; Load other files.
 (load-file (concat user-emacs-directory dk/user-emacs-subdir "/languages/web-dev.el"))
 (load-file (concat user-emacs-directory dk/user-emacs-subdir "/languages/elisp.el"))
 (load-file (concat user-emacs-directory dk/user-emacs-subdir "/languages/rust.el"))
 (load-file (concat user-emacs-directory dk/user-emacs-subdir "/languages/c-sharp.el"))
 
+(provide 'programming.el)
+;;; programming.el ends here

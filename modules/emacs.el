@@ -1,3 +1,9 @@
+;;; emacs.el - This is a configuration to make adjustments to emacs that aren't packages.
+
+;; commentary:
+;; - The code doesen't depend on any additional binaries.
+
+;; configure base emacs
 (use-package emacs 
 	     :config
 	     ;; all sorts of variables
@@ -53,3 +59,6 @@
 	       (set-face-background hl-line-face "#090405"))
 
 	     (server-start))
+
+(provide 'emacs.el)
+;; emacs.el ends here

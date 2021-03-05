@@ -1,3 +1,11 @@
+;;; org-mode.el - This is a configuration for emacs' org-mode.
+
+;; commentary:
+;; - The code in this file needs the following binaries:
+;;   - dvipng (org-fragtog): delivered with MikTex/pdflatex
+;;   - sqlite3 (org-roam): can be installed with pacman
+
+;; Basic configuration of org-mode.
 (use-package org-mode
   :init (org-babel-do-load-languages
 	  'org-babel-load-languages
@@ -24,9 +32,10 @@
 	   (org-ctrl-k-protect-subtree t)
 	   (initial-major-mode 'org-mode)
 	   (prettify-symbols-unprettify-at-point 'right-edge)
-	   (org-agenda-files (concat user-system-base-path "TODOs/TODOs.org"))))
+	   (org-agenda-files (concat user-system-base-path "TODOs/TODOs.org"))
+	   (org-latex-preview-ltxpng-directory "~/.ltxpng/")))
 				   
-				     
+;; Function to collect headings to generate a TOC on pdf export.
 (defun org-export-collect-headlines (info &optional n)
 "Collect headlines in order to build a table of contents. [...]
   Return a list of all exportable headlines as parsed elements.
@@ -56,6 +65,7 @@
 		 ("\\paragraph{%s}" . "\\paragraph*{%s}")
 		 ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))))
 
+;; Package to have bullet points.
 (use-package org-superstar
   :ensure t
   :if window-system
@@ -66,23 +76,28 @@
 		org-superstar-leading-bullet ?\s
 		org-superstar-special-todo-items t))
 
+;; Package to google content in current buffer.
 (use-package google-this
   :ensure t
   :config
   (google-this-mode 1)
   :bind ("C-x g" . google-this-mode-submap))
 
+;; Package to have better syntax highlighting if exported to HTML.
 (use-package htmlize
   :ensure t)
 
+;; Package to calculate values within the org buffer.
 (use-package literate-calc-mode
   :ensure t
   :hook (org-mode . literate-calc-minor-mode))   
 
+;; Package to autotoggle LaTeX equations.
 (use-package org-fragtog
   :ensure t
   :hook (org-mode . org-fragtog-mode))
 
+;; Package to generate RevealJS presentations.
 (use-package ox-reveal
   :ensure t
   :custom ((org-reveal-root "https://cdn.jsdelivr.net/npm/reveal.js")
@@ -90,6 +105,7 @@
 	   (org-reveal-ignore-speaker-notes nil)
 	   (org-reveal-note-key-char nil)))
 
+;; Package to put org files in a database.
 (use-package org-roam
   :ensure t
   :hook
@@ -104,6 +120,7 @@
               (("C-c n i" . org-roam-insert))
               (("C-c n I" . org-roam-insert-immediate))))
 
+;; Package that provides a webinterface for org-roam.
 (use-package org-roam-server
   :ensure t
   :config
@@ -120,12 +137,12 @@
         org-roam-server-network-label-wrap-length 20)
   :hook (early-init . org-roam-server-mode))
 
-;; async execution of source blocks
+;; Package for async execution of source blocks.
 (use-package ob-async
   :ensure t
   :after org)
 
-;; like org fragtog, but for =, /, []
+;; Package to toggle =, /, _, etc.
 (use-package org-appear
   :ensure t
   :quelpa (org-appear
@@ -137,6 +154,7 @@
 	      org-appear-autolinks t
 	      org-appear-autosubmarkers t))
 
+;; Package to journal in org-mode.
 (use-package org-journal
   :ensure t
   :custom ((org-journal-file-type 'daily)
@@ -145,12 +163,15 @@
 	   (org-journal-file-header "#+TITLE: Daily Journal from %d.%m.%Y")
 	   (org-journal-enable-agenda-integration t)))
 
+;; Package to highlight the current heading in the header-line
 (use-package org-sticky-header
   :ensure t
   :hook (org-mode . org-sticky-header-mode))
 
+;; Default package to enable "<s TAB"
 (use-package org-tempo)
 
+;; Package to manage my templates.
 (use-package snipsearch
   :ensure t
   :quelpa (snipsearch
@@ -166,20 +187,5 @@
 	   (snipsearch-author "Dominik Keller"))
   :bind ("C-c m" . snipsearch))
 
-(use-package ispell
-  :config
-  (setq-default ispell-program-name "aspell")
-  (ispell-change-dictionary "de" t)
-  :bind ("C-ö" . ispell-word)
-  :hook ((text-mode . flyspell-mode)
-	 (org-mode . flyspell-mode)
-	 (org-mode . (lambda ()
-		       (interactive)
-		       (let ((dk/position 0))
-			 (save-excursion
-			   (goto-char 0)
-			   (setq dk/position (word-search-forward "#+LANGUAGE: " nil t))
-			   (if (not (equal (point) 0))
-			       (progn (goto-char dk/position)
-				      (ispell-change-dictionary (thing-at-point 'word))
-			     (message "No language recognized!")))))))))
+(provide 'org-mode.el)
+;;; org-mode.el ends here
