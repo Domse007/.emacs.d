@@ -11,17 +11,25 @@
   :bind ("C-ö" . ispell-word)
   :hook ((text-mode . flyspell-mode)
 	 (org-mode . flyspell-mode)
+	 ;; (org-mode . (lambda ()
+	 ;; 	       (interactive)
+	 ;; 	       (let ((dk/position 0))
+	 ;; 		 (save-excursion
+	 ;; 		   (goto-char 0)
+	 ;; 		   (setq dk/position (word-search-forward "#+LANGUAGE: " nil t))
+	 ;; 		   (if (not (equal (point) 0))
+	 ;; 		       (progn (goto-char dk/position)
+	 ;; 			      (ispell-change-dictionary (thing-at-point 'word))
+	 ;; 		     (message "No language recognized!")))))))))
 	 (org-mode . (lambda ()
 		       (interactive)
-		       (let ((dk/position 0))
-			 (save-excursion
-			   (goto-char 0)
-			   (setq dk/position (word-search-forward "#+LANGUAGE: " nil t))
-			   (if (not (equal (point) 0))
-			       (progn (goto-char dk/position)
-				      (ispell-change-dictionary (thing-at-point 'word))
-				      (message "No language recognized!")))))))))
-
+		       (save-excursion
+			 (goto-char 0)
+			 (let (language-position (word-search-forward "#+LANGUAGE: "))
+			   (if (equal language-position nil)
+			       (message "No language recognized.")
+			     (ispell-change-dictionary (thing-at-point 'word)))))))))
+			    
 ;; Package that enables autocorrecting spellmistakes.
 (use-package flyspell-correct
   :ensure t
