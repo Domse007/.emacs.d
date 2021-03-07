@@ -33,5 +33,9 @@
 (use-package memory-usage
   :ensure t)
 
+;; Package to provide a modern list library.
+(use-package dash
+  :ensure t)
+
 (provide 'qol.el)
 ;;; qol.el ends here

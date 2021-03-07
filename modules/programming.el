@@ -4,10 +4,6 @@
 ;; - The code depends on language specific language servers.
 ;; - There are sometimes weird buffers popping up..... sometimes.
 
-;; Package to provide a modern list library.
-(use-package dash
-  :ensure t)
-
 ;; Package that enables Emacs to behave as an LSP client.
 (use-package lsp-mode
   :ensure t

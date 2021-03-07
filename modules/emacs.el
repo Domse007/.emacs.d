@@ -27,7 +27,8 @@
 		   delete-by-moving-to-trash t
 		   indent-tabs-mode t
 		   indent-line-function 'insert-tab
-		   eshell-aliases-file "~/.emacs.d/var/eshell/aliases")
+		   eshell-aliases-file "~/.emacs.d/var/eshell/aliases"
+		   byte-compile-warnings '(cl-functions))
 	     (setq auto-save-file-name-transforms
 		   `((".*" "~/.emacs.d/var/auto-save" t)))
 	     ;; enable additional information in modeline
