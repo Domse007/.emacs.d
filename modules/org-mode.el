@@ -33,7 +33,14 @@
 	   (initial-major-mode 'org-mode)
 	   (prettify-symbols-unprettify-at-point 'right-edge)
 	   (org-agenda-files (concat user-system-base-path "TODOs/TODOs.org"))
-	   (org-latex-preview-ltxpng-directory "~/.ltxpng/")))
+	   (org-latex-preview-ltxpng-directory "~/.ltxpng/")
+	   (org-latex-packages-alist '(("AUTO" "babel" nil nil)
+				       ("" "mhchem" t nil)))
+	   (org-return-follows-link t)
+	   (org-confirm-babel-evaluate nil)
+	   (org-edit-src-content-indentation 0)
+	   (org-src-preserve-indentation t)
+	   (org-export-babel-evaluate t)))
 				   
 ;; Function to collect headings to generate a TOC on pdf export.
 (defun org-export-collect-headlines (info &optional n)

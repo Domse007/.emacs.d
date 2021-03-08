@@ -43,6 +43,10 @@
   :ensure t
   :after lsp)
 
+;; Package that provides ivy integration for lsp
+(use-package lsp-ivy
+  :ensure t)
+
 ;; Package that provides a completion framework.
 (use-package company
   :ensure t
