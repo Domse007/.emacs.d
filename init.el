@@ -68,9 +68,12 @@
 ;; check which theme should be loaded
 (defvar dk/theme-light-choice nil)
 
-;; add custom command line argument to start emacs with a light theme.
+;; add custom command line arguments
 (add-to-list 'command-switch-alist '("--light" . (lambda (args))))
+(add-to-list 'command-switch-alist '("--writing" . (lambda (args))))
+(add-to-list 'command-switch-alist '("--coding" . (lambda (args))))
 
+;; check if light theme is requested
 (if (member "--light" command-line-args)
     (setq dk/theme-light-choice t))
 
@@ -78,15 +81,28 @@
 (load-file (concat user-emacs-directory dk/user-emacs-subdir "/emacs.el")) 
 (load-file (concat user-emacs-directory dk/user-emacs-subdir "/qol.el")) 
 (load-file (concat user-emacs-directory dk/user-emacs-subdir "/design.el")) 
-(load-file (concat user-emacs-directory dk/user-emacs-subdir "/navigation.el")) 
-(load-file (concat user-emacs-directory dk/user-emacs-subdir "/org-mode.el"))
-(load-file (concat user-emacs-directory dk/user-emacs-subdir "/spell.el"))
-(load-file (concat user-emacs-directory dk/user-emacs-subdir "/programming.el"))
+(load-file (concat user-emacs-directory dk/user-emacs-subdir "/navigation.el"))
+
+(when (or (and (member "--writing" command-line-args)
+	       (not (member "--coding" command-line-args)))
+	  (and (not (member "--coding" command-line-args))
+	       (not (member "--writing" command-line-args))))
+  (progn (load-file (concat user-emacs-directory dk/user-emacs-subdir "/org-mode.el"))
+	 (load-file (concat user-emacs-directory dk/user-emacs-subdir "/spell.el"))))
+
+(when (or (and (member "--coding" command-line-args)
+	       (not (member "--writing" command-line-args)))
+	  (and (not (member "--coding" command-line-args))
+	       (not (member "--writing" command-line-args))))
+  (load-file (concat user-emacs-directory dk/user-emacs-subdir "/programming.el")))
+
 (load-file (concat user-emacs-directory dk/user-emacs-subdir "/custom-funcs.el"))
 (load-file (concat user-emacs-directory dk/user-emacs-subdir "/test.el"))
+
 (setq custom-file (concat user-emacs-directory "/var/custom.el"))
 
 ;; message that the config has been loaded successfully
 (message "Config initialisation ends here.")
 
 (provide 'init.el)
+
