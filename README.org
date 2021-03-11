@@ -1,4 +1,4 @@
-#+Title: eMax - Personal Emacs Config
+#+Title: EMAX - Personal Emacs Config
 #+Author: Dominik Keller
 #+OPTIONS: toc:t date:nil
 #+EXPORT_FILE_NAME: README
@@ -40,8 +40,22 @@ Unfortunately, you have to install some dependencies from the
 internet:
 - install the [[https://sourcefoundry.org/hack/][Hack]] font.
 - Install [[MiKTeX]] to export =org-mode= to =LaTeX= -> =PDF=
-- install [[https://rustup.rs/][Rust]]
-  - install Rust linter [[https://github.com/rust-lang/rust-clippy][Clippy]]
+
+** Rust  
+First, install the following Rust components:
+
+- Rust itself
+- the linter [[https://github.com/rust-lang/rust-clippy][Clippy]]
+- the language server
+
+#+begin_src shell
+  $ pacman -S mingw-w65-x86_64-rust
+  $ rustup update
+  $ set PATH=%PATH%;C:\users\dominik\.cargo\bin\
+  $ rustup component add clippy
+  $ rustup component add rls rust-analysis rust-src
+#+end_src
+
     - environment variables are set automatically
   - change compiler with: =rustup set default-host
     x86_64-pc-windows-gnu=
@@ -51,6 +65,8 @@ internet:
       variable.
     - rename file to =rust-analyzer.exe=
 - autocomplete c headers wants to know where the header files are.
+
+** The config itself  
       
 Then get my config with =Git=. On Windows, the config resides in the
 directory =C:\Users\USER\AppData\Roaming\=.
