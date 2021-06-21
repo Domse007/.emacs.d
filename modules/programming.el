@@ -34,4 +34,10 @@
 
 (use-package flycheck)
 
+(use-package rainbow-delimiters
+  :hook
+  (prog-mode . rainbow-delimiters-mode))
+
+(use-package magit)
+
 (provide 'programming.el)

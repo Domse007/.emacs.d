@@ -26,7 +26,8 @@
     "org-journal.el"
     "programming.el"
     "programming-rust.el"
-    "programming-elisp.el")
+    "programming-elisp.el"
+    "programming-python.el")
   "List of all files for config.")
 
 (defun load-config ()
