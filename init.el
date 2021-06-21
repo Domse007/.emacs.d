@@ -17,6 +17,7 @@
   '("use-package.el"
     "config.el"
     "emacs.el"
+    "custom-search.el"
     "design.el"
     "helm.el"
     "org-mode.el"
