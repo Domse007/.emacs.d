@@ -1,6 +1,12 @@
 (defcustom dk/user-system-base-path "~/CloudStation/"
   "Selected path at startup")
 
+(defcustom dk/org-journal-dir "~/CloudStation/Personal/Journal/"
+  "Default location of journal files.")
+
+(defcustom dk/org-roam-dir "~/CloudStation/Schule/"
+  "Default directory of org files that should be indexed by roam.")
+
 (defcustom dk/user-emacs-subdir "modules/"
   "Default location of config files.")
 

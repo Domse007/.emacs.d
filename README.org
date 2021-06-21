@@ -1,0 +1,56 @@
+#+HTML: <div align="center">
+* =Emacs Configuration=
+#+HTML: </div>
+
+* Overview
+This is my personal =GNU/Emacs= config. I use emacs for the most time on
+=Linux=, but it works on =Windows 10= as well. I am using =GNU/Emacs 27.2=
+and it works without any problems. I want to upgrade to =GNU/Emacs
+28.0.50=, but I can’t compile my config correctly.
+
+This config is maintained and will get updated in the future. There
+could be some major changes with one commit, because of a really
+boring lessons.
+
+I use this config mostly for org-mode and programming. For
+programming, I use LSP and nothing else.
+
+* Installation
+First clone this repository and install all the system dependencies
+(installation steps below). And after that, you have to change the
+variables =dk/user-system-base-path=, =dk/org-roam-dir= and
+=dk/org-journal-dir= in the =init.el= file to a path that emacs should
+pick as it's default directory.
+
+If you install this configuration for the first time, it could throw
+some errors. If this happens, just restart emacs a few times and after
+2-3 restarts, everything should be fine.
+
+** Manjaro
+The installation on Linux is very simple. Just execute the following
+command:
+
+#+begin_src sh
+$ sudo pacman -Syyu && sudo pacman -S sqlite3 aspell asple-de rustup texlive
+#+end_src
+
+** Windows 10
+Install GNU Emacs from the official mirror. Preferably install the
+latest Release: version 27.1. Before starting GNU Emacs, install MSYS2
+to easily manage external dependencies. Install it to C:\msys64. Then
+add C:\msys64\mingw64\bin\ to the PATH.
+
+Then execute the following commands:
+
+#+begin_src sh
+$ pacman -S git
+$ pacman -S mingw-w64-x86_64-sqlite3
+$ pacman -S mingw-w64-x86_64-aspell
+$ pacman -S mingw-w64-x86_64-aspell-de
+$ pacman -S mingw-w64-x86_64-python
+$ pacman -S mingw-w64-x86_64-rustup
+$ pacman -S mingw-w64-x86_64-miktex
+$ pip install python-language-server[all]
+$ pip install pyls-black pyls-isort pyls-mypy
+#+end_src
+

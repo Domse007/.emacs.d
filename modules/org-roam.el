@@ -2,8 +2,7 @@
   :hook
   ((after-init . org-roam-mode))
   :custom
-  ((org-roam-directory
-    (concat dk/user-system-base-path "Schule/"))
+  ((org-roam-directory dk/org-roam-dir)
    (org-roam-update-db-idle-seconds 60)
    (org-roam-db-update-idle-seconds 60))
   :bind
