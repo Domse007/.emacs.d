@@ -14,4 +14,4 @@
   :hook
   ((rust-mode-hook . lsp)))
 
-(provide 'rust.el)
+(provide 'programming-rust.el)

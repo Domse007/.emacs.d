@@ -18,3 +18,13 @@
 			result))))))
 
 (global-set-key (kbd "C-x RET") 'search-config-file)
+
+(defun explorer ()
+  "Open the current directory in the file explorer."
+  (interactive)
+  (when (string-equal system-type "windows-nt")
+    (shell-command "explorer ."))
+  (when (string-equal system-type "gnu/linux")
+    (shell-command "xdg-open .")))
+
+(provide 'custom-search.el)

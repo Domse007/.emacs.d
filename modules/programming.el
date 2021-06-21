@@ -6,11 +6,11 @@
    (lsp-rust-analyzer-server-display-inlay-hints t)
    (lsp-session-file
     (concat user-emacs-directory
-	    dk/user-emacs-subdir
+	    dk/user-emacs-etcdir
 	    "lsp/lsp"))
    (lsp-server-install-dir
     (concat user-emacs-directory
-	    dk/user-emacs-subdir
+	    dk/user-emacs-etcdir
 	    "lsp-server/")))
   :hook
   ((lsp-mode-hook . lsp-ui-mode)))
