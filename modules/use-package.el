@@ -23,16 +23,4 @@
 (use-package quelpa-use-package
 	     :ensure t)
 
-(use-package auto-package-update
-  :custom
-  ((auto-package-update-interval 3)
-   (auto-package-update-prompt-before-update t)
-   (auto-package-update-delete-old-versions t)
-   (auto-package-update-hide-results t)
-   (auto-package-update-last-update-day-filename
-    (concat dk/user-emacs-etcdir ".last-update-day")))
-  :hook
-  (auto-package-update-before-hook .
-          (lambda () (message "I will update packages now"))))
-
 (provide 'use-package.el)

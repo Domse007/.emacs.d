@@ -34,6 +34,9 @@
 
 (use-package flycheck)
 
+(use-package flycheck-posframe
+  :after flycheck)
+
 (use-package rainbow-delimiters
   :hook
   (prog-mode . rainbow-delimiters-mode))

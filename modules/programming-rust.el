@@ -14,4 +14,11 @@
   :hook
   ((rust-mode-hook . lsp)))
 
+(use-package rust-auto-use
+  :hook
+  ((rust-mode-hook . rust-auto-use)))
+
+(use-package flycheck-rust
+  :after flycheck)
+
 (provide 'programming-rust.el)

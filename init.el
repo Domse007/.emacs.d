@@ -22,6 +22,7 @@
     "design.el"
     "helm.el"
     "org-mode.el"
+    "org-spell.el"
     "org-roam.el"
     "org-journal.el"
     "programming.el"

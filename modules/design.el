@@ -46,10 +46,12 @@
 (use-package all-the-icons
   :if (window-system))
 
+(use-package beacon
+  :custom
+  ((beacon-color "#FFFFFF"))
+  :hook
+  ((after-init . beacon-mode)))
 
-
-;; Package to center the content of a buffer. I couldn't get it work if I put
-;; everything in the use-package command.
 (use-package perfect-margin
   :ensure t
   :custom
