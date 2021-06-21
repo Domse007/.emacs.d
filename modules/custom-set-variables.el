@@ -28,7 +28,6 @@
   "Check if the file exists. If it does,
    read it and get the values. If not 
    call dk/set-config-variables"
-  (interactive)
   (let ((var-file (concat dk/variable-file-dir
 			  dk/variable-file-name)))
     (if (file-exists-p var-file)
