@@ -4,7 +4,7 @@
    (org-journal-dir dk/org-journal-dir)
    (org-journal-date-format "%A, %d. %B %Y")
    (org-journal-file-header "#+TITLE: Daily Journal from %d.%m.%Y")
-   (org-journal-file-format "%Y%m%d")
+   (org-journal-file-format "%Y%m%d.org")
    (org-journal-enable-agenda-integration t))
   :bind
   (("C-c C-SPC C-s" . org-journal-new-scheduled-entry))

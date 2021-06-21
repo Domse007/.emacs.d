@@ -1,22 +1,23 @@
-(defcustom dk/user-system-base-path "~/CloudStation/"
+(defcustom dk/user-system-base-path ""
   "Selected path at startup")
 
-(defcustom dk/org-journal-dir "~/CloudStation/Personal/Journal/"
+(defcustom dk/org-journal-dir ""
   "Default location of journal files.")
 
-(defcustom dk/org-roam-dir "~/CloudStation/Schule/"
+(defcustom dk/org-roam-dir ""
   "Default directory of org files that should be indexed by roam.")
 
-(defcustom dk/user-emacs-subdir "modules/"
+(defconst dk/user-emacs-subdir "modules/"
   "Default location of config files.")
 
-(defcustom dk/user-emacs-etcdir "var/"
+(defconst dk/user-emacs-etcdir "var/"
   "Default location for device specific files")
 
 (defconst dk/config-file-list
   '("use-package.el"
     "config.el"
     "emacs.el"
+    "custom-set-variables.el"
     "custom-search.el"
     "design.el"
     "helm.el"
@@ -37,3 +38,5 @@
 	     item))))
 
 (load-config)
+
+(provide 'init.el)
