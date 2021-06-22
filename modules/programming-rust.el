@@ -18,6 +18,12 @@
   :hook
   ((rust-mode-hook . rust-auto-use)))
 
+(use-package toml-mode)
+
+(use-package cargo
+  :hook
+  (rust-mode . cargo-minor-mode))
+
 (use-package flycheck-rust
   :after flycheck)
 

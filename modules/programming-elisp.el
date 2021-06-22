@@ -2,7 +2,6 @@
   :hook
   (emacs-lisp-mode . highlight-defined-mode))
 
-;; Package that is a learning a tool for visualizing Emacs Lisp lists.
 (use-package pair-tree
   :if (window-system)
   :quelpa
@@ -10,10 +9,16 @@
    :fetcher github
    :repo "zainab-ali/pair-tree.el"))
 
-;; Package to make the buffers more colorful.
 (use-package rainbow-mode
   :diminish
   :hook
   (emacs-lisp-mode . rainbow-mode))
+
+(use-package aggressive-indent
+  :bind
+  (:map emacs-lisp-mode-map
+	("C-c C-f" . aggressive-indent-indent-defun))
+  :hook
+  ((emacs-lisp-mode . aggressive-indent-mode)))
 
 (provide 'programming-elisp.el)
