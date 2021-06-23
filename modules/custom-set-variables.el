@@ -27,14 +27,16 @@
 (defun dk/check-config-variables ()
   "Check if the file exists. If it does,
    read it and get the values. If not 
-   call dk/set-config-variables"
+   call `dk/set-config-variables'. In the 
+   end it calls `dk/install-packages'."
   (let ((var-file (concat dk/variable-file-dir
 			  dk/variable-file-name)))
     (if (file-exists-p var-file)
 	(load-file var-file)
       (progn
 	(dk/set-config-variables)
-	(dk/check-config-variables)))))
+	(dk/check-config-variables)
+	(dk/install-packages)))))
 
 (defun dk/reset-config-variables ()
   "Reset the variables. This is persistant."
