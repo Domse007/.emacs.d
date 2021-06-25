@@ -5,6 +5,8 @@
    (helm-scroll-amount 8)
    (helm-ff-file-name-history-use-recentf t)
    (helm-echo-input-in-header-line t))
+  :config
+  (helm-mode t)
   :bind
   (("M-x" . helm-M-x)
    ("C-x C-f" . helm-find-files)
@@ -17,14 +19,14 @@
    ("<tab>" . helm-ff-RET)))
 
 (use-package helm-posframe
-  :ensure t
   :after helm
+  :if (window-system)
   :config
   (helm-posframe-enable))
 
 (use-package helm-icons
-  :ensure t
   :after helm
+  :if (window-system)
   :custom
   (helm-icons-provider 'all-the-icons)
   :config
