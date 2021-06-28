@@ -1,5 +1,3 @@
-(require 'helm)
-
 (defun search-config-file ()
   "Get a helm buffer to open a specific config file."
   (interactive)
