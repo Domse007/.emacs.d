@@ -13,16 +13,6 @@
 (defconst dk/user-emacs-etcdir "var/"
   "Default location for device specific files")
 
-(defconst dk/system-packages
-  '("git"
-    "sqlite3"
-    "aspell"
-    "aspell-de"
-    "aspell-fr"
-    "rustup"
-    "texlive")
-  "List of required system packages.")
-
 (defconst dk/config-file-list
   '("use-package.el"
     "config.el"
