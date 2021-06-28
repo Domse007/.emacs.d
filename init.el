@@ -17,7 +17,6 @@
   '("use-package.el"
     "config.el"
     "emacs.el"
-    "custom-install.el"
     "custom-set-variables.el"
     "custom-search.el"
     "design.el"
