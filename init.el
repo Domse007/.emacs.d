@@ -1,3 +1,6 @@
+(defconst dk/config-version 0.1
+  "Version of the config. It increases on bigger changes.")
+
 (defcustom dk/user-system-base-path ""
   "Selected path at startup")
 
@@ -15,10 +18,11 @@
 
 (defconst dk/config-file-list
   '("use-package.el"
+    "custom-set-variables.el"
     "config.el"
     "emacs.el"
-    "custom-set-variables.el"
     "custom-search.el"
+    "custom-funcs.el"
     "design.el"
     "helm.el"
     "org-mode.el"
@@ -28,7 +32,8 @@
     "programming.el"
     "programming-rust.el"
     "programming-elisp.el"
-    "programming-python.el")
+    "programming-python.el"
+    "custom-after-init.el")
   "List of all files for config.")
 
 (defun load-config ()

@@ -7,7 +7,7 @@
    (recentf-save-file (concat user-emacs-directory
 			      dk/user-emacs-etcdir
 			      "recentf"))
-   (default-directory user-system-base-path)
+   (default-directory dk/user-system-base-path)
    (eshell-aliases-file (concat user-emacs-directory
 				dk/user-emacs-etcdir
 				"aliases"))
@@ -22,7 +22,7 @@
    (ring-bell-function 'ignore)
    (frame-title-format '("EMACS - " emacs-version))
    (display-time-24hr-format t)
-   (display-time-day-and-date t)
+   (display-time-day-and-date nil)
    ;; File specific variables
    (comint-prompt-read-only t)
    (load-prefer-newer t)
@@ -40,7 +40,7 @@
   ;; Functions to enable certain emacs behaviours
   (cua-mode t)
   (global-auto-revert-mode t)
-  (display-time-mode t)
+  (display-time-mode nil)
   (save-place-mode t)
   (global-hl-line-mode t)
   ;; Change the annoying yes or no to y or n
