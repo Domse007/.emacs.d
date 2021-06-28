@@ -14,7 +14,9 @@
    ("C-x b" . helm-mini)
    ("M-y" . helm-show-kill-ring)
    :map helm-map
-   ("<tab>" . helm-ff-RET)))
+   ("<tab>" . helm-ff-RET))
+  :config
+  (helm-mode t))
 
 (use-package helm-posframe
   :ensure t

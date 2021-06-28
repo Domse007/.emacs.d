@@ -30,6 +30,7 @@
     "custom-install.el"
     "custom-set-variables.el"
     "custom-search.el"
+    "custom-delete.el"
     "design.el"
     "helm.el"
     "org-mode.el"

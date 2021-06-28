@@ -71,4 +71,11 @@ returning a non-nil value indicate to ignore the window."
 Each string is used as regular expression to match the window buffer name."
     :group 'perfect-margin))
 
+(use-package neotree
+  :if (window-system)
+  :bind
+  (("C-c C-x n" . neotree-toggle))
+  :custom
+  ((neo-theme 'icons 'arrow)))
+
 (provide 'design.el)
