@@ -1,4 +1,5 @@
 ;;; init.el --- -*- lexical-binding: t -*-
+
 ;; DeferGC
 (setq gc-cons-threshold 100000000)
 ;; -DeferGC

@@ -1,3 +1,6 @@
+(defconst dk/config-version 0.1
+  "Version of the config. It increases on bigger changes.")
+
 (defcustom dk/user-system-base-path ""
   "Selected path at startup")
 
@@ -13,24 +16,13 @@
 (defconst dk/user-emacs-etcdir "var/"
   "Default location for device specific files")
 
-(defconst dk/system-packages
-  '("git"
-    "sqlite3"
-    "aspell"
-    "aspell-de"
-    "aspell-fr"
-    "rustup"
-    "texlive")
-  "List of required system packages.")
-
 (defconst dk/config-file-list
   '("use-package.el"
+    "custom-set-variables.el"
     "config.el"
     "emacs.el"
-    "custom-install.el"
-    "custom-set-variables.el"
     "custom-search.el"
-    "custom-delete.el"
+    "custom-funcs.el"
     "design.el"
     "helm.el"
     "org-mode.el"
@@ -40,7 +32,8 @@
     "programming.el"
     "programming-rust.el"
     "programming-elisp.el"
-    "programming-python.el")
+    "programming-python.el"
+    "custom-after-init.el")
   "List of all files for config.")
 
 (defun load-config ()

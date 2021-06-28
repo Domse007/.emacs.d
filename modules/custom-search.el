@@ -1,3 +1,5 @@
+(require 'helm)
+
 (defun search-config-file ()
   "Get a helm buffer to open a specific config file."
   (interactive)
@@ -6,8 +8,8 @@
     (setq result
 	  (helm
 	   :sources
-	   (helm-build-sync-source "Config file:"
-	     :candidates dk/config-file-list
+	   (helm-build-sync-source "Config files:"
+	     :candidates files
 	     :fuzzy-match t)
 	   :buffer "*config-search*"))
     (if (not (equal (length result) 0))

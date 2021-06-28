@@ -11,8 +11,8 @@
 	(journal-dir "")
 	(roam-dir ""))
     (setq base-path (read-directory-name "Directory at startup: " "~/"))
-    (setq journal-dir (read-directory-name "Org-journal directory: " base-path))
     (setq roam-dir (read-directory-name "Org-roam directory: " base-path))
+    (setq journal-dir (read-directory-name "Org-journal directory: " base-path))
     (write-region
      (concat "(setq dk/user-system-base-path \""
 	     base-path
