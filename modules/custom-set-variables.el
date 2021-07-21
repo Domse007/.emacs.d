@@ -35,8 +35,7 @@
 	(load-file var-file)
       (progn
 	(dk/set-config-variables)
-	(dk/check-config-variables)
-	(dk/install-packages)))))
+	(dk/check-config-variables)))))
 
 (defun dk/reset-config-variables ()
   "Reset the variables. This is persistant."

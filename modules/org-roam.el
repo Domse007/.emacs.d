@@ -14,7 +14,7 @@
    :map org-roam-mode-map
    ("C-c n g" . org-roam-graph)
    :map org-mode-map
-   ("C-c n i" . org-roam-node-insert))
+   ("C-c n i" . org-roam-node-insert)))
 
 ;; (use-package org-roam-server
 ;;   :custom
