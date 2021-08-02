@@ -1,6 +1,8 @@
 (use-package rustic
+  :straight t
   :custom
-  ((rustic-format-on-save t))
+  ((rustic-format-on-save t)
+   (rustic-lsp-server 'rust-analyzer))
   :bind
   (:map rustic-mode-map
         ("M-j" . lsp-ui-imenu)
@@ -13,18 +15,25 @@
         ("C-c C-c s" . lsp-rust-analyzer-status))
   :hook
   ((rust-mode-hook . lsp)))
+;; (use-package rust-mode
+;;   :config
+;;   ((rust-format-on-save t)))
 
 (use-package rust-auto-use
+  :straight t
   :hook
   ((rust-mode-hook . rust-auto-use)))
 
-(use-package toml-mode)
+(use-package toml-mode
+  :straight t)
 
 (use-package cargo
+  :straight t
   :hook
   (rust-mode . cargo-minor-mode))
 
 (use-package flycheck-rust
+  :straight t
   :after flycheck)
 
 (provide 'programming-rust.el)

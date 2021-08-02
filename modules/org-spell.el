@@ -1,4 +1,5 @@
 (use-package ispell
+  :straight t
   :config
   (setq-default ispell-program-name "aspell")
   :bind
@@ -9,10 +10,10 @@
    (org-mode . flyspell-mode)))
 			    
 (use-package flyspell-correct
-  :ensure t
+  :straight t
   :after flyspell
   :bind
   (:map flyspell-mode-map
-   ("C-$" . flyspell-correct-wrapper)))
+	("C-$" . flyspell-correct-wrapper)))
 
 (provide 'org-spell.el)

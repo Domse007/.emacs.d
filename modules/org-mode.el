@@ -1,12 +1,11 @@
 (use-package org-mode
-  :ensure nil
+  :straight t
   :init
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((plantuml . t)
      (python . t)
-     (shell . t)
-     (rust . t)))
+     (shell . t)))
   (when (window-system)
     (setq org-ellipsis " ▼ "))
   :hook
@@ -40,6 +39,7 @@
    (org-export-babel-evaluate t)))
 
 (use-package org-superstar
+  :straight t
   :if (window-system)
   :hook
   ((org-mode . (lambda () (org-superstar-mode t))))
@@ -50,18 +50,17 @@
    (org-superstar-leading-bullet ?\s)
    (org-superstar-special-todo-items t)))
 
-(use-package htmlize)
+(use-package htmlize
+  :straight t)
 
 (use-package org-fragtog
+  :straight t
   :if (window-system)
   :hook
   ((org-mode . org-fragtog-mode)))
 
 (use-package org-appear
-  :quelpa
-  (org-appear
-   :fetcher github
-   :repo "awth13/org-appear")
+  :straight t
   :if (window-system)
   :hook
   (org-mode . org-appear-mode)
@@ -75,14 +74,12 @@
   :ensure nil)
 
 (use-package ox-reveal
+  :straight t
   :custom
   ((org-reveal-root "https://cdn.jsdelivr.net/npm/reveal.js")
    (org-reveal-mathjax t)
    (org-reveal-ignore-speaker-notes nil)
    (org-reveal-note-key-char nil)))
-
-(use-package ob-rust
-  :after org-mode)
 
 ;; (use-package snipsearch
 ;;   :after helm
