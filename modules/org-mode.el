@@ -81,46 +81,41 @@
    (org-reveal-ignore-speaker-notes nil)
    (org-reveal-note-key-char nil)))
 
-;; (use-package snipsearch
-;;   :after helm
-;;   :quelpa
-;;   (snipsearch
-;;    :fetcher github
-;;    :repo "domse007/snipsearch")
-;;   :custom
-;;   ((snipsearch-list
-;;     '(("org"
-;;        "#+TITLE: %1$s\n#+AUTHOR: %2$s\n#+OPTIONS: toc:t date:nil title:t author:t num:t \\n:t\n#+EXPORT_FILE_NAME:\n#+LATEX_CLASS: article\n#+LANGUAGE: de\n#+LATEX_HEADER: \\usepackage[AUTO]{babel}\n#+LATEX: \\setlength\\parindent{0pt}\n\n"
-;;        0)
-;;       ("eq" "\\[\\]" -2)
-;;       ("eqi" "\\(\\)" -2)
-;;       ("frac" "\\displaystyle\\frac{}{}" -3)
-;;       ("vec" "\\begin{pmatrix}  \\\\  \\\\  \\end{pmatrix}" -20)
-;;       ("sys" "\\begin{Bmatrix}  \\\\  \\\\  \\end{Bmatrix}" -20)
-;;       ("ce" "\\ce{}" -1)
-;;       ("ceq" "\\[\\ce{}\\]" -3)
-;;       ("ceqi" "\\(\\ce{}\\)" -3)
-;;       ("arr" "\\(\\rightarrow\\) " 0)))
-;;    (snipsearch-author "Dominik Keller")
-;;    (snipsearch-comp-interface 'helm))
-;;   :bind
-;;   (("C-c m" . snipsearch)))
+(use-package snipsearch
+  :after helm
+  :straight
+  (snipsearch :type git :host github :repo "domse007/snipsearch")
+  :custom
+  ((snipsearch-list
+    '(("org"
+       "#+TITLE: %1$s\n#+AUTHOR: %2$s\n#+OPTIONS: toc:t date:nil title:t author:t num:t \\n:t\n#+EXPORT_FILE_NAME:\n#+LATEX_CLASS: article\n#+LANGUAGE: de\n#+LATEX_HEADER: \\usepackage[AUTO]{babel}\n#+LATEX: \\setlength\\parindent{0pt}\n\n"
+       0)
+      ("eq" "\\[\\]" -2)
+      ("eqi" "\\(\\)" -2)
+      ("frac" "\\displaystyle\\frac{}{}" -3)
+      ("vec" "\\begin{pmatrix}  \\\\  \\\\  \\end{pmatrix}" -20)
+      ("sys" "\\begin{Bmatrix}  \\\\  \\\\  \\end{Bmatrix}" -20)
+      ("ce" "\\ce{}" -1)
+      ("ceq" "\\[\\ce{}\\]" -3)
+      ("ceqi" "\\(\\ce{}\\)" -3)
+      ("arr" "\\(\\rightarrow\\) " 0)))
+   (snipsearch-author "Dominik Keller"))
+  :bind
+  (("C-c m" . snipsearch)))
 
-;; (use-package org-lang
-;;   :quelpa
-;;   (org-lang
-;;    :repo domse007/org-lang
-;;    :fetcher github)
-;;   :init
-;;   (use-package fuzzy)
-;;   :custom
-;;   ((org-lang-fallback-lang "de_CH")
-;;    (org-lang-installed-langs
-;;     '("de_CH" "de_DE" "fr_CH" "en_US"))
-;;    (org-lang-prefered-completion 'helm)
-;;    (org-lang-check-after-enable t))
-;;   :hook
-;;   ((org-mode . org-lang-mode)
-;;    (org-mode . org-lang-get-buffer-lang)))
+(use-package org-lang
+  :straight
+  (org-lang :type git :host github :repo "domse007/org-lang")
+  :init
+  (use-package fuzzy
+    :straight t)
+  :custom
+  ((org-lang-fallback-lang "de_CH")
+   (org-lang-installed-langs
+    '("de_CH" "de_DE" "fr_CH" "en_US"))
+   (org-lang-check-after-enable t))
+  :hook
+  ((org-mode . org-lang-mode)
+   (org-mode . org-lang-get-buffer-lang)))
 
 (provide 'org-mode.el)

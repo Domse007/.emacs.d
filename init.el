@@ -1,4 +1,4 @@
-(defconst dk/config-version 0.2
+(defconst dk/config-version "0.2.1"
   "Version of the config. It increases on bigger changes.")
 
 (defcustom dk/user-system-base-path ""

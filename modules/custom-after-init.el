@@ -8,7 +8,7 @@
   (concat "Welcome back! Running GNU/Emacs "
 	  emacs-version
 	  ". The config is on version "
-	  (number-to-string dk/config-version)
+	  dk/config-version
 	  "."))
 
 (setq dashboard-banner-logo-title (dk/greet))
