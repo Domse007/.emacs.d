@@ -18,7 +18,7 @@
 	     base-path
 	     "\")\n(setq dk/org-journal-dir \""
 	     journal-dir
-	     "\")\n(setq dk/org-roam-dir \""
+	     "/\")\n(setq dk/org-roam-dir \""
 	     roam-dir
 	     "\")")
      nil
@@ -46,6 +46,9 @@
     (dk/set-config-variables)
     (load-file var-file)))
 
+;; Disable the visual directory selector.
+(setq use-file-dialog nil)
+(setq use-dialog-box nil)
 ;; Call the function to check if the variables exist.
 ;; This is called when emacs is started.
 (dk/check-config-variables)
