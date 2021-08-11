@@ -7,22 +7,33 @@
 (defun dk/set-config-variables ()
   "Get the directories and save it to the file to
    save it persistant."
-  (let ((base-path "")
-	(journal-dir "")
-	(roam-dir ""))
-    (setq base-path (read-directory-name "Directory at startup: " "~/"))
-    (setq roam-dir (read-directory-name "Org-roam directory: " base-path))
-    (setq journal-dir (read-directory-name "Org-journal directory: " base-path))
+  (let* ((base-path (read-directory-name "Directory at startup: " "~/"))
+	 (base-path-ending (dk/check-ends-as-dir base-path))
+	 (journal-dir (read-directory-name "Org-roam directory: " base-path))
+	 (journal-dir-ending (dk/check-ends-as-dir journal-dir))
+	 (roam-dir (read-directory-name "Org-journal directory: " base-path))
+	 (roam-dir-ending (dk/check-ends-as-dir roam-dir)))
     (write-region
      (concat "(setq dk/user-system-base-path \""
 	     base-path
+	     base-path-ending
 	     "\")\n(setq dk/org-journal-dir \""
 	     journal-dir
-	     "/\")\n(setq dk/org-roam-dir \""
+	     journal-dir-ending
+	     "\")\n(setq dk/org-roam-dir \""
 	     roam-dir
+	     roam-dir-ending
 	     "\")")
      nil
      (concat dk/variable-file-dir dk/variable-file-name))))
+
+(defun dk/check-ends-as-dir (path)
+  "Checks that a string ends with a forward slash, that 
+it always is recognized as a directory."
+  (let ((last-char (substring path -1)))
+    (if (string-equal last-char "/")
+	""
+      "/")))
 
 (defun dk/check-config-variables ()
   "Check if the file exists. If it does,
