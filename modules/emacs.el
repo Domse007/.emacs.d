@@ -44,6 +44,8 @@
   (save-place-mode t)
   (global-hl-line-mode t)
   ;; Change the annoying yes or no to y or n
-  (defalias 'yes-or-no-p 'y-or-n-p))
+  (defalias 'yes-or-no-p 'y-or-n-p)
+  ;; Set default encoding system
+  (set-language-environment "UTF-8"))
 
 (provide 'emacs.el)

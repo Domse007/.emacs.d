@@ -15,9 +15,6 @@
         ("C-c C-c s" . lsp-rust-analyzer-status))
   :hook
   ((rust-mode-hook . lsp)))
-;; (use-package rust-mode
-;;   :config
-;;   ((rust-format-on-save t)))
 
 (use-package rust-auto-use
   :straight t

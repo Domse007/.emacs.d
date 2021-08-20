@@ -1,14 +1,28 @@
+(defgroup dk/config nil
+  "Group for all custom config variables.")
+
 (defconst dk/config-version "0.2.1"
   "Version of the config. It increases on bigger changes.")
 
+(defcustom dk/windows-flag nil
+  "Flag that is set, if the host is a windows-nt kernel."
+  :type 'bool
+  :group 'dk/config)
+
 (defcustom dk/user-system-base-path ""
-  "Selected path at startup")
+  "Selected path at startup"
+  :type 'string
+  :group 'dk/config)
 
 (defcustom dk/org-journal-dir ""
-  "Default location of journal files.")
+  "Default location of journal files."
+  :type 'string
+  :group 'dk/config)
 
 (defcustom dk/org-roam-dir ""
-  "Default directory of org files that should be indexed by roam.")
+  "Default directory of org files that should be indexed by roam."
+  :type 'string
+  :group 'dk/config)
 
 (defconst dk/user-emacs-subdir "modules/"
   "Default location of config files.")
@@ -36,7 +50,14 @@
     "custom-after-init.el")
   "List of all files for config.")
 
-(defun load-config ()
+(defun dk/check-system ()
+  "Check if the system-type is `windows-nw'. If true, set 
+the flag."
+  (when (equal system-type "windows-nt")
+    (setq dk/windows-flag t)))
+
+(defun dk/load-config ()
+  "Load the files specified in the `dk/config-file-list' list."
   (interactive)
   (dolist (item dk/config-file-list)
     (load-file
@@ -44,6 +65,8 @@
 	     dk/user-emacs-subdir
 	     item))))
 
-(load-config)
+;; Call the entry points of the config.
+(dk/check-system)
+(dk/load-config)
 
 (provide 'init.el)

@@ -42,7 +42,8 @@
   :straight t
   :if (window-system)
   :hook
-  ((org-mode . (lambda () (org-superstar-mode t))))
+  ((org-mode-hook . (lambda () (org-superstar-mode t)))
+   (org-mode . org-superstar-mode))
   :custom
   ((org-superstar-prettify-item-bullets t)
    (org-superstar-configure-like-org-bullets t)
@@ -102,20 +103,5 @@
    (snipsearch-author "Dominik Keller"))
   :bind
   (("C-c m" . snipsearch)))
-
-(use-package org-lang
-  :straight
-  (org-lang :type git :host github :repo "domse007/org-lang")
-  :init
-  (use-package fuzzy
-    :straight t)
-  :custom
-  ((org-lang-fallback-lang "de_CH")
-   (org-lang-installed-langs
-    '("de_CH" "de_DE" "fr_CH" "en_US"))
-   (org-lang-check-after-enable t))
-  :hook
-  ((org-mode . org-lang-mode)
-   (org-mode . org-lang-get-buffer-lang)))
 
 (provide 'org-mode.el)
