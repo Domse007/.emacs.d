@@ -38,6 +38,11 @@
    (org-src-preserve-indentation t)
    (org-export-babel-evaluate t)))
 
+(use-package olivetti
+  :straight t
+  :hook
+  ((org-mode . olivetti-mode)))
+
 (use-package org-superstar
   :straight t
   :if (window-system)

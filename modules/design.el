@@ -56,25 +56,6 @@
   :hook
   ((after-init . beacon-mode)))
 
-(use-package perfect-margin
-  :straight t
-  :custom
-  ((perfect-margin-visible-width 90))
-  :config
-  (perfect-margin-mode t)
-  :init
-  (defcustom perfect-margin-ignore-filters
-    '(window-minibuffer-p)
-    "List of functions to determine if window is ignored.
-Each function is called with window as its sole arguemnt, 
-returning a non-nil value indicate to ignore the window."
-    :group 'perfect-margin)
-  (defcustom perfect-margin-ignore-regexps
-    '("^minibuf" "^[*]" "Minibuf" "[*]" "magit" "mu4e" "*Minibuf-1*" ".rs")
-    "List of strings to determine if window is ignored.
-Each string is used as regular expression to match the window buffer name."
-    :group 'perfect-margin))
-
 (use-package neotree
   :straight t
   :if (window-system)
