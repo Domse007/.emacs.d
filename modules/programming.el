@@ -1,5 +1,4 @@
 (use-package lsp-mode
-  :straight t
   :custom
   ((lsp-rust-analyzer-cargo-watch-command "clippy")
    (lsp-eldoc-render-all t)
@@ -17,7 +16,6 @@
   ((lsp-mode-hook . lsp-ui-mode)))
 
 (use-package lsp-ui
-  :straight t
   :custom
   ((lsp-ui-peek-always-show t)
    (lsp-ui-sideline-show-hover t)
@@ -32,23 +30,18 @@
 	("M->". company-select-last)))
 
 (use-package company-box
-  :straight t
   :hook
   (company-mode . company-box-mode))
 
-(use-package flycheck
-  :straight t)
+(use-package flycheck)
 
 (use-package flycheck-posframe
-  :straight t
   :after flycheck)
 
 (use-package rainbow-delimiters
-  :straight t
   :hook
   (prog-mode . rainbow-delimiters-mode))
 
-(use-package magit
-  :straight t)
+(use-package magit)
 
 (provide 'programming.el)

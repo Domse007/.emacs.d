@@ -1,5 +1,4 @@
 (use-package rustic
-  :straight t
   :custom
   ((rustic-format-on-save t)
    (rustic-lsp-server 'rust-analyzer))
@@ -17,20 +16,16 @@
   ((rust-mode-hook . lsp)))
 
 (use-package rust-auto-use
-  :straight t
   :hook
   ((rust-mode-hook . rust-auto-use)))
 
-(use-package toml-mode
-  :straight t)
+(use-package toml-mode)
 
 (use-package cargo
-  :straight t
   :hook
   (rust-mode . cargo-minor-mode))
 
 (use-package flycheck-rust
-  :straight t
   :after flycheck)
 
 (provide 'programming-rust.el)

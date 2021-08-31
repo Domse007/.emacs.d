@@ -1,5 +1,4 @@
 (use-package highlight-defined
-  :straight t
   :hook
   (emacs-lisp-mode . highlight-defined-mode))
 
@@ -11,13 +10,11 @@
    :repo "zainab-ali/pair-tree.el"))
 
 (use-package rainbow-mode
-  :straight t
   :diminish t
   :hook
   (emacs-lisp-mode . rainbow-mode))
 
 (use-package aggressive-indent
-  :straight t
   :bind
   (:map emacs-lisp-mode-map
 	("C-c C-f" . aggressive-indent-indent-defun))

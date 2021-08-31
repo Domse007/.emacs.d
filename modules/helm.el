@@ -1,5 +1,4 @@
 (use-package helm
-  :straight t
   :custom
   ((helm-move-to-line-cycle-in-source t)
    (helm-ff-search-library-in-sexp t)
@@ -22,14 +21,12 @@
   (helm-mode t))
 
 (use-package helm-posframe
-  :straight t
   :after helm
   :if (window-system)
   :config
   (helm-posframe-enable))
 
 (use-package helm-icons
-  :straight t
   :after helm
   :if (window-system)
   :custom

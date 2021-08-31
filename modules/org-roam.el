@@ -17,7 +17,6 @@
 ;;    ("C-c n i" . org-roam-node-insert)))
 
 (use-package org-roam
-  :straight t
   :init
   (setq org-roam-v2-ack t)
   :custom

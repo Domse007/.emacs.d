@@ -48,6 +48,7 @@
   ;; Set default encoding system
   (set-language-environment "UTF-8")
   :bind
-  (("C-k" . kill-whole-line)))
+  (("C-k" . kill-whole-line)
+   ("C-0" . hippie-expand)))
 
 (provide 'emacs.el)

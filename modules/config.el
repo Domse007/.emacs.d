@@ -1,5 +1,4 @@
 (use-package no-littering
-  :straight t
   :custom
   ((no-littering-etc-directory
     (concat user-emacs-directory
@@ -11,7 +10,6 @@
 	    "var/"))))
 
 (use-package auto-package-update
-  :straight t
   :custom
   ((auto-package-update-interval 3)
    (auto-package-update-prompt-before-update t)
@@ -25,7 +23,6 @@
    (lambda () (message "I will update packages now"))))
 
 (use-package good-scroll
-  :straight t
   :hook
   ((good-scroll-mode
     .
@@ -40,7 +37,6 @@
     (good-scroll-mode t)))
 
 (use-package unkillable-scratch
-  :straight t
   :config
   (unkillable-scratch t))
 

@@ -1,5 +1,4 @@
 (use-package doom-themes
-  :straight t
   :custom
   ((doom-themes-enable-bold t)
    (doom-themes-enable-italic t))
@@ -11,7 +10,6 @@
   (doom-themes-org-config))
 
 (use-package doom-modeline
-  :straight t
   :hook (after-init . doom-modeline-mode)
   :custom    
   ((doom-modeline-height 25)
@@ -34,7 +32,6 @@
    (doom-modeline-gnus-timer nil)))
 
 (use-package dashboard
-  :straight t
   :custom
   ((dashboard-startup-banner 'logo)
    (dashboard-show-shortcuts t)
@@ -46,18 +43,15 @@
   (dashboard-setup-startup-hook))
 
 (use-package all-the-icons
-  :straight t
   :if (window-system))
 
 (use-package beacon
-  :straight t
   :custom
   ((beacon-color "#FFFFFF"))
   :hook
   ((after-init . beacon-mode)))
 
 (use-package neotree
-  :straight t
   :if (window-system)
   :bind
   (("C-c C-x n" . neotree-toggle))

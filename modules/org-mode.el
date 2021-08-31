@@ -1,5 +1,4 @@
 (use-package org-mode
-  :straight t
   :init
   (org-babel-do-load-languages
    'org-babel-load-languages
@@ -39,12 +38,10 @@
    (org-export-babel-evaluate t)))
 
 (use-package olivetti
-  :straight t
   :hook
   ((org-mode . olivetti-mode)))
 
 (use-package org-superstar
-  :straight t
   :if (window-system)
   :hook
   ((org-mode-hook . (lambda () (org-superstar-mode t)))
@@ -56,17 +53,14 @@
    (org-superstar-leading-bullet ?\s)
    (org-superstar-special-todo-items t)))
 
-(use-package htmlize
-  :straight t)
+(use-package htmlize)
 
 (use-package org-fragtog
-  :straight t
   :if (window-system)
   :hook
   ((org-mode . org-fragtog-mode)))
 
 (use-package org-appear
-  :straight t
   :if (window-system)
   :hook
   (org-mode . org-appear-mode)
@@ -77,10 +71,10 @@
    (org-appear-autosubmarkers t)))
 
 (use-package org-tempo
+  :straight nil
   :ensure nil)
 
 (use-package ox-reveal
-  :straight t
   :custom
   ((org-reveal-root "https://cdn.jsdelivr.net/npm/reveal.js")
    (org-reveal-mathjax t)

@@ -1,6 +1,5 @@
 (use-package ispell
   :if dk/windows-flag
-  :straight t
   :config
   (setq-default ispell-program-name "hunspell")
   :custom
@@ -17,7 +16,6 @@
 
 (use-package flyspell-correct
   :if dk/windows-flag
-  :straight t
   :after flyspell
   :bind
   (:map flyspell-mode-map
