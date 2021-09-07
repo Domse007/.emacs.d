@@ -21,13 +21,12 @@
   (:map flyspell-mode-map
 	("C-$" . flyspell-correct-wrapper)))
 
+(use-package fuzzy)
+
 (use-package org-lang
   :if dk/windows-flag
   :straight
   (org-lang :type git :host github :repo "domse007/org-lang")
-  :init
-  (use-package fuzzy
-    :straight t)
   :custom
   ((org-lang-fallback-lang "de_CH")
    (org-lang-installed-langs

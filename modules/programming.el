@@ -27,7 +27,10 @@
 	("C-n". company-select-next)
 	("C-p". company-select-previous)
 	("M-<". company-select-first)
-	("M->". company-select-last)))
+	("M->". company-select-last))
+  :hook
+  ((emacs-lisp-mode . company-mode)
+   (prog-mode . company-mode)))
 
 (use-package company-box
   :hook
