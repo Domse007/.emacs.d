@@ -3,7 +3,7 @@
   ((no-littering-etc-directory
     (concat user-emacs-directory
 	    dk/user-emacs-etcdir
-	    "etc/"))
+	    "var/"))
    (no-littering-var-directory
     (concat user-emacs-directory
 	    dk/user-emacs-etcdir

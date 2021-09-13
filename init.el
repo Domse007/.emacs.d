@@ -59,11 +59,9 @@ the flag."
 (defun dk/load-config ()
   "Load the files specified in the `dk/config-file-list' list."
   (interactive)
-  (dolist (item dk/config-file-list)
-    (load-file
-     (concat user-emacs-directory
-	     dk/user-emacs-subdir
-	     item))))
+  (let ((path (concat user-emacs-directory dk/user-emacs-subdir)))
+    (dolist (item dk/config-file-list)
+      (load-file (concat path item)))))
 
 ;; Call the entry points of the config.
 (dk/check-system)

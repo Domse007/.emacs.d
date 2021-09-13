@@ -21,9 +21,11 @@
   (:map flyspell-mode-map
 	("C-$" . flyspell-correct-wrapper)))
 
+(use-package fuzzy)
+
 (use-package org-lang
   :disabled t
-					;:if dk/windows-flag
+	:if dk/windows-flag
   :quelpa (org-lang :fetcher github :repo "domse007/org-lang")
   :init
   (use-package fuzzy)

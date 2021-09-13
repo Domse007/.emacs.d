@@ -35,7 +35,8 @@
    (company-idle-delay 0)
    (company-tooltip-idle-delay 0))
   :hook
-  (emacs-lisp-mode . company-mode))
+  ((emacs-lisp-mode . company-mode)
+   (prog-mode . company-mode)))
 
 (use-package company-box
   :hook
