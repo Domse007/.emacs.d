@@ -32,8 +32,8 @@
   (org-roam-setup))
 
 (use-package org-roam-ui
-  :straight
-  (:host github :repo "org-roam/org-roam-ui" :branch "main" :files ("*.el" "out"))
+  :quelpa
+  (org-roam-ui :fetcher github :repo "org-roam/org-roam-ui")
   :after org-roam
   :hook
   (after-init . org-roam-ui-mode)
@@ -42,19 +42,5 @@
    (org-roam-ui-follow t)
    (org-roam-ui-update-on-save t)
    (org-roam-ui-open-on-start t)))
-
-;; (use-package org-roam-server
-;;   :custom
-;;   ((org-roam-server-host "127.0.0.1")
-;;    (org-roam-server-port 8080)
-;;    (org-roam-server-authenticate nil)
-;;    (org-roam-server-export-inline-images t)
-;;    (org-roam-server-serve-files nil)
-;;    (org-roam-server-served-file-extensions '("pdf" "mp4" "ogv"))
-;;    (org-roam-server-network-poll t)
-;;    (org-roam-server-network-arrows nil)
-;;    (org-roam-server-network-label-truncate t)
-;;    (org-roam-server-network-label-truncate-length 60)
-;;    (org-roam-server-network-label-wrap-length 20)))
 
 (provide 'org-roam.el)

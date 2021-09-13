@@ -24,9 +24,11 @@
 (use-package fuzzy)
 
 (use-package org-lang
-  :if dk/windows-flag
-  :straight
-  (org-lang :type git :host github :repo "domse007/org-lang")
+  :disabled t
+	:if dk/windows-flag
+  :quelpa (org-lang :fetcher github :repo "domse007/org-lang")
+  :init
+  (use-package fuzzy)
   :custom
   ((org-lang-fallback-lang "de_CH")
    (org-lang-installed-langs

@@ -1,4 +1,4 @@
-(use-package org-mode
+(use-package org
   :init
   (org-babel-do-load-languages
    'org-babel-load-languages
@@ -35,7 +35,9 @@
    (org-confirm-babel-evaluate nil)
    (org-edit-src-content-indentation 0)
    (org-src-preserve-indentation t)
-   (org-export-babel-evaluate t)))
+   (org-export-babel-evaluate t))
+  :hook
+  ((org-mode-hook . (lambda () (linum-mode nil)))))
 
 (use-package olivetti
   :hook
@@ -71,7 +73,6 @@
    (org-appear-autosubmarkers t)))
 
 (use-package org-tempo
-  :straight nil
   :ensure nil)
 
 (use-package ox-reveal
@@ -83,8 +84,8 @@
 
 (use-package snipsearch
   :after helm
-  :straight
-  (snipsearch :type git :host github :repo "domse007/snipsearch")
+  :quelpa
+  (snipsearch :fetcher github :repo "domse007/snipsearch")
   :custom
   ((snipsearch-list
     '(("org"

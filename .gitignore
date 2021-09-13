@@ -3,4 +3,5 @@ etc/
 elpa/
 quelpa/
 straight/
+eln-cache/
 modules/*.elc

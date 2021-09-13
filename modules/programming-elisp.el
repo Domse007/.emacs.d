@@ -1,10 +1,15 @@
+(use-package emacs-lisp-mode
+  :ensure nil
+  :hook
+  ((emacs-lisp-mode . programming-mode)))
+
 (use-package highlight-defined
   :hook
   (emacs-lisp-mode . highlight-defined-mode))
 
 (use-package pair-tree
   :if (window-system)
-  :straight
+  :quelpa
   (pair-tree
    :fetcher github
    :repo "zainab-ali/pair-tree.el"))

@@ -41,14 +41,18 @@
   (cua-mode t)
   (global-auto-revert-mode t)
   (display-time-mode nil)
+  (display-battery-mode t)
   (save-place-mode t)
   (global-hl-line-mode t)
   ;; Change the annoying yes or no to y or n
   (defalias 'yes-or-no-p 'y-or-n-p)
   ;; Set default encoding system
   (set-language-environment "UTF-8")
+
+  ;; better window splitting behaviour
+  (advice-add 'split-window-right :after #'balance-windows)
   :bind
   (("C-k" . kill-whole-line)
    ("C-0" . hippie-expand)))
 
-(provide 'emacs.el)
+  (provide 'emacs.el)

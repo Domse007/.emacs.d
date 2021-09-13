@@ -9,6 +9,11 @@
   ;; Corrects (and improves) org-mode's native fontification.
   (doom-themes-org-config))
 
+(use-package melancholy-theme
+  :disabled t
+  :config
+  (load-theme 'melancholy t))
+
 (use-package doom-modeline
   :hook (after-init . doom-modeline-mode)
   :custom    
@@ -51,11 +56,42 @@
   :hook
   ((after-init . beacon-mode)))
 
-(use-package neotree
-  :if (window-system)
-  :bind
-  (("C-c C-x n" . neotree-toggle))
+;; (use-package neotree
+;;   :if (window-system)
+;;   :bind
+;;   (("C-c C-x n" . neotree-toggle))
+;;   :custom
+;;   ((neo-theme 'icons 'arrow)))
+
+(use-package treemacs-all-the-icons)
+
+(use-package treemacs
+  :after treemacs-all-the-icons
+  :config
+  (treemacs-load-theme "all-the-icons")
+  (treemacs-follow-mode t)
+  (treemacs-filewatch-mode t)
+  (treemacs-project-follow-mode t)
   :custom
-  ((neo-theme 'icons 'arrow)))
+  ((treemacs-collapse-dirs 0)
+   (treemacs-display-in-side-window t)
+   (treemacs-eldoc-display t)
+   (treemacs-follow-after-init t)
+   (treemacs-expand-after-init t)
+   (treemacs-show-hidden-files t)
+   (treemacs-width 25)
+   (treemacs-is-never-other-window t)))
+
+(use-package dimmer
+  :config
+  (dimmer-configure-helm)
+  (dimmer-configure-company-box)
+  (dimmer-configure-magit)
+  (dimmer-configure-org)
+  (dimmer-configure-posframe)
+  (dimmer-mode t)
+  :custom
+  ((dimmer-fraction 0.5)
+   (dimmer-buffer-exclusion-regexps '("Treemacs" "\*[.]\*"))))
 
 (provide 'design.el)
