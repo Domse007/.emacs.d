@@ -3,8 +3,8 @@
 (when (equal system-type 'windows-nt)
   (setq package-check-signature nil))
 
-(setq package-archives '(;("org" . "https://orgmode.org/elpa/")
-			 ;("gnu" . "https://elpa.gnu.org/packages/")
+(setq package-archives '(("org" . "https://orgmode.org/elpa/")
+			 ("gnu" . "https://elpa.gnu.org/packages/")
 			 ("melpa" . "https://melpa.org/packages/")))
 
 (package-initialize)
