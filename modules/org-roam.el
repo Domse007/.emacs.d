@@ -33,7 +33,9 @@
 
 (use-package org-roam-ui
   :quelpa
-  (org-roam-ui :fetcher github :repo "org-roam/org-roam-ui")
+  (org-roam-ui :fetcher github
+	       :repo "org-roam/org-roam-ui"
+	       :files ("*"))
   :after org-roam
   :hook
   (after-init . org-roam-ui-mode)

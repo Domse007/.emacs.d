@@ -24,7 +24,8 @@
    (use-package-compute-statistics t)))
 
 (use-package quelpa-use-package
-  :ensure t)
+  :custom
+  ((quelpa-upgrade-interval 7)))
 
 ;; (defvar bootstrap-version)
 ;; (let ((bootstrap-file

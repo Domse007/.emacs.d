@@ -13,4 +13,6 @@
 
 (setq dashboard-banner-logo-title (dk/greet))
 
+(helm-posframe-enable)
+
 (provide 'custom-after-init.el)

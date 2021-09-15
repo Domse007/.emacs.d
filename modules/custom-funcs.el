@@ -14,7 +14,6 @@ In a perfect world `treemacs' would take an arg."
     (when (not (equal (treemacs-current-visibility) 'visible))
       (treemacs))
     (switch-to-buffer buffer-name)
-    (delete-other-windows)
     (display-line-numbers-mode t)))
 
 (defun disable-programming-mode ()
