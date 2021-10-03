@@ -1,7 +1,8 @@
 (use-package rustic
   :custom
-  ((rustic-format-on-save t)
-   (rustic-format-trigger 'on-save))
+  (;; (rustic-format-on-save t)
+   ;; (rustic-format-trigger 'on-save)
+   )
   :bind
   (:map rustic-mode-map
         ("M-j" . lsp-ui-imenu)
@@ -13,8 +14,7 @@
         ("C-c C-c Q" . lsp-workspace-shutdown)
         ("C-c C-c s" . lsp-rust-analyzer-status))
   :hook
-  ((rustic-mode-hook . lsp)
-   (rustic-mode-hook . programming-mode)))
+  ((rustic-mode-hook . lsp)))
 
 (use-package rust-auto-use
   :hook

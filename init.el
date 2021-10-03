@@ -47,6 +47,7 @@
     "programming-rust.el"
     "programming-elisp.el"
     "programming-python.el"
+    "rss.el"
     "custom-after-init.el")
   "List of all files for config.")
 

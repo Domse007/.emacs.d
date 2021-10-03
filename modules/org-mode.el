@@ -27,7 +27,7 @@
    (org-ctrl-k-protect-subtree t)
    (initial-major-mode 'org-mode)
    (prettify-symbols-unprettify-at-point 'right-edge)
-   (org-agenda-files (concat dk/user-system-base-path "/TODOs/TODOs.org"))
+   (org-agenda-files `(,(concat dk/user-system-base-path "TODOs.org")))
    (org-latex-preview-ltxpng-directory "~/.ltxpng/")
    (org-latex-packages-alist '(("AUTO" "babel" nil nil)
 			       ("" "mhchem" t nil)))

@@ -27,4 +27,21 @@ In a perfect world `treemacs' would take an arg."
 
 (add-hook 'org-mode-hook 'disable-programming-mode)
 
+(defconst games '(gomoku tetris hanoi 5x5 blackbox bubbles dunnet life)
+  "List of included games.")
+
+(defun play-a-game ()
+  "randomly play a game."
+  (interactive)
+  (let* ((game-list-len (length games))
+	 (game-index (random game-list-len))
+	 (game-to-be-played (nth game-index games)))
+    (call-interactively game-to-be-played)))
+
+(defun disable-centering ()
+  "Disable the centering. This is more or less an alias for 
+olivetti mode."
+  (interactive)
+  (olivetti-mode nil))
+
 (provide 'custom-funcs.el)

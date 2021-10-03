@@ -35,7 +35,12 @@
    (version-control t)
    ;; Movement preferences
    (scroll-margin 8)
-   (indent-tabs-mode t))
+   (scroll-step 1)
+   (scroll-conservatively 101)
+   (indent-tabs-mode t)
+   (confirm-kill-emacs 'y-or-n-p)
+   ;;
+   (mouse-yank-at-point t))
   :init
   ;; Functions to enable certain emacs behaviours
   (cua-mode t)
@@ -53,6 +58,8 @@
   (advice-add 'split-window-right :after #'balance-windows)
   :bind
   (("C-k" . kill-whole-line)
-   ("C-0" . hippie-expand)))
+   ("C-0" . hippie-expand))
+  :hook
+  ((prog-mode . electric-pair-mode)))
 
   (provide 'emacs.el)

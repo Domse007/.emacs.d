@@ -53,4 +53,20 @@
 
 (use-package magit)
 
+(use-package tree-sitter
+  :config
+  (tree-sitter-require 'rust)
+  (tree-sitter-require 'python)
+  (global-tree-sitter-mode)
+  :hook
+  ((tree-sitter-after-on-hook . tree-sitter-hl-mode)
+   (tree-sitter-mode-hook . tree-sitter-hl-mode)))
+
+(use-package tree-sitter-langs)
+
+(use-package fic-mode
+  :ensure t
+  :hook
+  ((prog-mode-hook . fic-mode)))
+
 (provide 'programming.el)

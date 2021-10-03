@@ -34,7 +34,7 @@ The installation on Linux is very simple. Just execute the following
 command:
 
 #+begin_src sh
-$ sudo pacman -Syyu && sudo pacman -S sqlite3 aspell asple-de rustup texlive
+$ sudo pacman -Syyu && sudo pacman -S aspell aspell-de rustup texlive
 #+end_src
 
 ** Windows 10
