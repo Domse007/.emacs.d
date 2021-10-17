@@ -11,16 +11,23 @@
    (lsp-server-install-dir
     (concat user-emacs-directory
 	    dk/user-emacs-etcdir
-	    "lsp-server/")))
+	    "lsp-server/"))
+   (lsp-signature-auto-activate nil))
   :hook
   ((lsp-mode-hook . lsp-ui-mode)
    (lsp-mode-hook . linum-mode)))
 
 (use-package lsp-ui
+  :config
+  (lsp-ui-doc-enable t)
+  (lsp-ui-mode t)
   :custom
   ((lsp-ui-peek-always-show t)
    (lsp-ui-sideline-show-hover t)
-   (lsp-ui-doc-enable nil)))
+   (lsp-ui-doc-position 'top)
+   (lsp-ui-doc-max-width 32)
+   (lsp-ui-doc-max-height 128)
+   (lsp-eldoc-hook nil)))
 
 (use-package company
   :bind
@@ -64,9 +71,4 @@
 
 (use-package tree-sitter-langs)
 
-(use-package fic-mode
-  :ensure t
-  :hook
-  ((prog-mode-hook . fic-mode)))
-
-(provide 'programming.el)
+(provide 'dk/programming)

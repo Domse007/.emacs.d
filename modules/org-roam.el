@@ -27,4 +27,4 @@
    (org-roam-ui-update-on-save t)
    (org-roam-ui-open-on-start t)))
 
-(provide 'org-roam.el)
+(provide 'dk/org-roam)

@@ -14,4 +14,4 @@
                              org-journal-file-pattern)
                      'org-journal-mode)))
 
-(provide 'org-journal.el)
+(provide 'dk/org-journal)

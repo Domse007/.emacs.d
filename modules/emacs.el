@@ -40,7 +40,9 @@
    (indent-tabs-mode t)
    (confirm-kill-emacs 'y-or-n-p)
    ;;
-   (mouse-yank-at-point t))
+   (mouse-yank-at-point t)
+   ;; disable cl-warnings at startup
+   (byte-compile-warnings '(cl-functions)))
   :init
   ;; Functions to enable certain emacs behaviours
   (cua-mode t)
@@ -57,9 +59,9 @@
   ;; better window splitting behaviour
   (advice-add 'split-window-right :after #'balance-windows)
   :bind
-  (("C-k" . kill-whole-line)
-   ("C-0" . hippie-expand))
+  (("C-k" . kill-whole-line))
   :hook
-  ((prog-mode . electric-pair-mode)))
+  ((prog-mode . electric-pair-mode)
+   (prog-mode . display-line-numbers-mode)))
 
-  (provide 'emacs.el)
+(provide 'dk/emacs)

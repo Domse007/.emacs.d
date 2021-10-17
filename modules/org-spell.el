@@ -38,4 +38,4 @@
   ((org-mode . org-lang-mode)
    (org-mode . org-lang-get-buffer-lang)))
 
-(provide 'org-spell.el)
+(provide 'dk/org-spell)

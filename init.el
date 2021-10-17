@@ -1,8 +1,11 @@
 (defgroup dk/config nil
   "Group for all custom config variables.")
 
-(defconst dk/config-version "0.2.1"
-  "Version of the config. It increases on bigger changes.")
+(defconst dk/config-major-version 0.2
+  "Major version of the config. It increases on major changes.")
+
+(defconst dk/config-minor-version 2
+  "Minor version of the config. It increases on smaller changes.")
 
 (defcustom dk/windows-flag nil
   "Flag that is set, if the host is a windows-nt kernel."

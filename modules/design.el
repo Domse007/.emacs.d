@@ -3,7 +3,7 @@
   ((doom-themes-enable-bold t)
    (doom-themes-enable-italic t))
   :config
-  (load-theme 'doom-molokai t)
+  (load-theme 'doom-city-lights t)
   ;; Enable Flashing Mode-Line On Errors
   (doom-themes-visual-bell-config)
   ;; Corrects (and improves) org-mode's native fontification.
@@ -43,7 +43,7 @@
    (dashboard-center-content t)
    (dashboard-set-file-icons t)
    (dashboard-set-heading-icons t)
-   (dashboard-items '((recents  . 15))))
+   (dashboard-items '((recents  . 20))))
   :config
   (dashboard-setup-startup-hook))
 
@@ -56,32 +56,6 @@
   :hook
   ((after-init . beacon-mode)))
 
-;; (use-package neotree
-;;   :if (window-system)
-;;   :bind
-;;   (("C-c C-x n" . neotree-toggle))
-;;   :custom
-;;   ((neo-theme 'icons 'arrow)))
-
-(use-package treemacs-all-the-icons)
-
-(use-package treemacs
-  :after treemacs-all-the-icons
-  :config
-  (treemacs-load-theme "all-the-icons")
-  (treemacs-follow-mode t)
-  (treemacs-filewatch-mode t)
-  (treemacs-project-follow-mode t)
-  :custom
-  ((treemacs-collapse-dirs 0)
-   (treemacs-display-in-side-window t)
-   (treemacs-eldoc-display t)
-   (treemacs-follow-after-init t)
-   (treemacs-expand-after-init t)
-   (treemacs-show-hidden-files t)
-   (treemacs-width 25)
-   (treemacs-is-never-other-window t)))
-
 (use-package dimmer
   :config
   (dimmer-configure-helm)
@@ -92,6 +66,12 @@
   (dimmer-mode t)
   :custom
   ((dimmer-fraction 0.5)
-   (dimmer-buffer-exclusion-regexps '("Treemacs" "\*[.]\*"))))
+   (dimmer-buffer-exclusion-regexps '("Treemacs" "\*[.]\*")))
+  :hook
+  ((prog-mode (lambda () (dimmer-mode nil)))))
 
-(provide 'design.el)
+;; (use-package popper
+;;   :config
+;;   (popper-mode t))
+
+(provide 'dk/design)

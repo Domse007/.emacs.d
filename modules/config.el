@@ -40,4 +40,4 @@
   :config
   (unkillable-scratch t))
 
-(provide 'config.el)
+(provide 'dk/config)

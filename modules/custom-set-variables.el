@@ -64,4 +64,4 @@ it always is recognized as a directory."
 ;; This is called when emacs is started.
 (dk/check-config-variables)
 
-(provide 'custom-set-variables.el)
+(provide 'dk/custom-set-variables)

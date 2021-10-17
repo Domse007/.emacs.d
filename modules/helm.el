@@ -34,4 +34,4 @@
   :config
   (helm-icons-enable))
 
-(provide 'helm.el)
+(provide 'dk/helm)

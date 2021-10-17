@@ -27,4 +27,4 @@
   (when (string-equal system-type "gnu/linux")
     (shell-command "xdg-open .")))
 
-(provide 'custom-search.el)
+(provide 'dk/custom-search)

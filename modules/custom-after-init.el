@@ -8,7 +8,7 @@
   (concat "Welcome back! Running GNU/Emacs "
 	  emacs-version
 	  ". The config is on version "
-	  dk/config-version
+	  (dk/config-version t)
 	  "."))
 
 (setq dashboard-banner-logo-title (dk/greet))
@@ -17,4 +17,4 @@
 
 (global-unset-key (kbd "<menu>"))
 
-(provide 'custom-after-init.el)
+(provide 'dk/custom-after-init)

@@ -104,4 +104,4 @@
   :bind
   (("C-c m" . snipsearch)))
 
-(provide 'org-mode.el)
+(provide 'dk/org-mode)

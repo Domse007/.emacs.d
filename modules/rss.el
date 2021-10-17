@@ -7,3 +7,5 @@
 (use-package elfeed-goodies
   :config
   (elfeed-goodies/setup))
+
+(provide 'dk/rss)

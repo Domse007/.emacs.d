@@ -29,4 +29,4 @@
 (use-package flycheck-rust
   :after flycheck)
 
-(provide 'programming-rust.el)
+(provide 'dk/programming-rust)
