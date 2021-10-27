@@ -104,4 +104,10 @@
   :bind
   (("C-c m" . snipsearch)))
 
+(use-package org-pretty-table
+  :quelpa
+  (org-pretty-table :fetcher github :repo "Fuco1/org-pretty-table")
+  :hook
+  ((org-mode . org-pretty-table-mode)))
+
 (provide 'dk/org-mode)

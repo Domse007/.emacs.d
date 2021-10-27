@@ -58,6 +58,10 @@
 
   ;; better window splitting behaviour
   (advice-add 'split-window-right :after #'balance-windows)
+
+  (global-unset-key (kbd "<menu>"))
+  (global-unset-key (kbd "<mouse-1>"))
+  (global-unset-key (kbd "<down-mouse-1>"))
   :bind
   (("C-k" . kill-whole-line))
   :hook

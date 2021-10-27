@@ -1,7 +1,8 @@
-(defun search-config-file ()
-  "Get a helm buffer to open a specific config file."
+(defun dk/search-config-file ()
+  "Get the user input and call the function to open
+the file."
   (interactive)
-  (let ((files dk/config-file-list)
+  (let ((files (dk/search-extract-files))
 	(result ""))
     (setq result
 	  (helm
@@ -10,21 +11,35 @@
 	     :candidates files
 	     :fuzzy-match t)
 	   :buffer "*config-search*"))
-    (if (not (equal (length result) 0))
-	(progn (message "Opening: " result)
-	       (find-file
-		(concat user-emacs-directory
-			dk/user-emacs-subdir
-			result))))))
+    (when (not (equal (length result) 0))
+      (dk/search-open-file result (dk/search-check-prefix-p result)))))
 
-(global-set-key (kbd "C-x RET") 'search-config-file)
+(defun dk/search-open-file (file arg)
+  "Open the config file. The arg specifies if
+`dk/user-emacs-subdir' should be used."
+  (message (concat "Opening: " file))
+  (let ((prefix (if arg
+		    dk/user-emacs-subdir
+		  "")))
+    (find-file (concat user-emacs-directory prefix file))))
 
-(defun explorer ()
-  "Open the current directory in the file explorer."
-  (interactive)
-  (when (string-equal system-type "windows-nt")
-    (shell-command "explorer ."))
-  (when (string-equal system-type "gnu/linux")
-    (shell-command "xdg-open .")))
+(defun dk/search-extract-files ()
+  "Extract the files from `dk/config-file-list'."
+  (let ((res '()))
+    (dolist (item dk/config-file-list)
+      (push (car item) res))
+    res))
+
+(defun dk/search-check-prefix-p (name)
+  "Check if the prefix must be applied."
+  (let ((res nil))
+    (dolist (item dk/config-file-list)
+      (let ((file (car item))
+	    (arg (cdr item)))
+	(when (string-equal file name)
+	  (setq res arg))))
+    res))
+
+(global-set-key (kbd "C-x RET") 'dk/search-config-file)
 
 (provide 'dk/custom-search)

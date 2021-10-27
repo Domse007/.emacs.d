@@ -25,8 +25,9 @@
   ((lsp-ui-peek-always-show t)
    (lsp-ui-sideline-show-hover t)
    (lsp-ui-doc-position 'top)
-   (lsp-ui-doc-max-width 32)
-   (lsp-ui-doc-max-height 128)
+   (lsp-ui-doc-position nil)
+   (lsp-ui-doc-max-width 42)
+   (lsp-ui-doc-max-height 30)
    (lsp-eldoc-hook nil)))
 
 (use-package company

@@ -1,8 +1,7 @@
 (use-package rustic
   :custom
-  (;; (rustic-format-on-save t)
-   ;; (rustic-format-trigger 'on-save)
-   )
+  ((rustic-format-on-save t)
+   (rustic-format-trigger 'on-save))
   :bind
   (:map rustic-mode-map
         ("M-j" . lsp-ui-imenu)

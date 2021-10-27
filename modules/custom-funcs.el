@@ -43,4 +43,12 @@ olivetti mode."
       (message (concat "Emacs config version: " version-string)))
     version-string))
 
+(defun explorer ()
+  "Open the current directory in the file explorer."
+  (interactive)
+  (when dk/windows-flag
+    (shell-command "explorer ."))
+  (when dk/linux-flag
+    (shell-command "xdg-open .")))
+
 (provide 'dk/custom-funcs)

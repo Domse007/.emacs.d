@@ -1,19 +1,3 @@
-(use-package doom-themes
-  :custom
-  ((doom-themes-enable-bold t)
-   (doom-themes-enable-italic t))
-  :config
-  (load-theme 'doom-city-lights t)
-  ;; Enable Flashing Mode-Line On Errors
-  (doom-themes-visual-bell-config)
-  ;; Corrects (and improves) org-mode's native fontification.
-  (doom-themes-org-config))
-
-(use-package melancholy-theme
-  :disabled t
-  :config
-  (load-theme 'melancholy t))
-
 (use-package doom-modeline
   :hook (after-init . doom-modeline-mode)
   :custom    
@@ -57,6 +41,7 @@
   ((after-init . beacon-mode)))
 
 (use-package dimmer
+  :disabled t
   :config
   (dimmer-configure-helm)
   (dimmer-configure-company-box)
@@ -66,9 +51,9 @@
   (dimmer-mode t)
   :custom
   ((dimmer-fraction 0.5)
-   (dimmer-buffer-exclusion-regexps '("Treemacs" "\*[.]\*")))
+   (dimmer-buffer-exclusion-regexps '("Treemacs" "\*[.]\*" "*.rs")))
   :hook
-  ((prog-mode (lambda () (dimmer-mode nil)))))
+  ((prog-mode . (lambda () (dimmer-mode nil)))))
 
 ;; (use-package popper
 ;;   :config

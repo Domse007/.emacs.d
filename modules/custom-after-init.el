@@ -15,6 +15,4 @@
 
 (helm-posframe-enable)
 
-(global-unset-key (kbd "<menu>"))
-
 (provide 'dk/custom-after-init)
