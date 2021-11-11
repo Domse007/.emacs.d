@@ -23,6 +23,9 @@
 (use-package helm-posframe
   :after helm
   :if (window-system)
+  :custom
+  ((helm-posframe-width 100)
+   (helm-posframe-border-width 5))
   :config
   (helm-posframe-enable))
 

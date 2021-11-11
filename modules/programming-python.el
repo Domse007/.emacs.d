@@ -13,7 +13,11 @@
   :config
   (pyvenv-mode 1))
 
-;; (use-package lsp-python-ms
-;;   :after lsp)
+(use-package lsp-python-ms
+  :after lsp)
+
+;; (use-package lsp-pyright
+;;   :hook 
+;;   ((python-mode . lsp)))
 
 (provide 'dk/programming-python)

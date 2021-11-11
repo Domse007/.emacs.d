@@ -35,7 +35,11 @@
    (org-confirm-babel-evaluate nil)
    (org-edit-src-content-indentation 0)
    (org-src-preserve-indentation t)
-   (org-export-babel-evaluate t))
+   (org-export-babel-evaluate t)
+   (org-id-locations-file
+    (concat user-emacs-directory
+	    dk/user-emacs-etcdir
+	    "org/.org-id-locations")))
   :hook
   ((org-mode-hook . (lambda () (linum-mode nil)))))
 
@@ -109,5 +113,13 @@
   (org-pretty-table :fetcher github :repo "Fuco1/org-pretty-table")
   :hook
   ((org-mode . org-pretty-table-mode)))
+
+(use-package el-easydraw
+  :quelpa
+  (el-easydraw :fetcher github :repo "/misohena/el-easydraw"))
+
+(with-eval-after-load 'org
+  (require 'edraw-org)
+  (edraw-org-setup-default))
 
 (provide 'dk/org-mode)

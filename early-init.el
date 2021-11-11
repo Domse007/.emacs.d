@@ -1,7 +1,7 @@
-;;; init.el --- -*- lexical-binding: t -*-
+;;; early-init.el --- -*- lexical-binding: t -*-
 
 ;; DeferGC
-(setq gc-cons-threshold 100000000)
+(setq gc-cons-threshold (* 1024 1024 1024))
 ;; -DeferGC
 
 ;; UnsetPES
@@ -29,5 +29,10 @@
 			      (tool-bar-lines . 0)
 			      (vertical-scroll-bars . nil))))
 ;; -DisableUnnecessaryInterface
+
+(set-face-attribute 'default nil
+                    :height 90)
+(set-face-attribute 'fixed-pitch nil
+                    :height 90)
 
 (provide 'early-init)

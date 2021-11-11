@@ -2,8 +2,12 @@
   :init
   (setq org-roam-v2-ack t)
   :custom
-  (org-roam-directory dk/org-roam-dir)
-  (org-roam-completion-everywhere t)
+  ((org-roam-directory dk/org-roam-dir)
+   (org-roam-completion-everywhere t)
+   (org-roam-db-location
+    (concat user-emacs-directory
+	    dk/user-emacs-etcdir
+	    "org/org-roam.db")))
   :bind
   (("C-c n l" . org-roam-buffer-toggle)
    ("C-c n f" . org-roam-node-find)

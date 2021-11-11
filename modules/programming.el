@@ -15,7 +15,9 @@
    (lsp-signature-auto-activate nil))
   :hook
   ((lsp-mode-hook . lsp-ui-mode)
-   (lsp-mode-hook . linum-mode)))
+   (lsp-mode-hook . linum-mode))
+  :bind
+  (("C-c C-f" . lsp-find-definition)))
 
 (use-package lsp-ui
   :config
@@ -28,7 +30,8 @@
    (lsp-ui-doc-position nil)
    (lsp-ui-doc-max-width 42)
    (lsp-ui-doc-max-height 30)
-   (lsp-eldoc-hook nil)))
+   (lsp-eldoc-hook nil)
+   (lsp-ui-sideline-enable nil)))
 
 (use-package company
   :bind
@@ -59,17 +62,46 @@
   :hook
   (prog-mode . rainbow-delimiters-mode))
 
-(use-package magit)
+(use-package magit
+  :custom
+  ((transient-history-file
+    (concat user-emacs-directory
+	    dk/user-emacs-etcdir
+	    "transient/history.el"))))
 
 (use-package tree-sitter
   :config
   (tree-sitter-require 'rust)
   (tree-sitter-require 'python)
   (global-tree-sitter-mode)
+  ;;(add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
   :hook
-  ((tree-sitter-after-on-hook . tree-sitter-hl-mode)
-   (tree-sitter-mode-hook . tree-sitter-hl-mode)))
+  ((rustic-mode . tree-sitter-hl-mode)
+   (python-mode . tree-sitter-hl-mode)))
 
-(use-package tree-sitter-langs)
+(use-package tree-sitter-langs
+  :after tree-sitter)
+
+(use-package yasnippet
+  :after yasnippet-snippets
+  :custom
+  ((yas-indent-line 'auto)
+   (yas/snippet-dirs `(;; ,(concat user-emacs-directory
+		       ;; 		dk/user-emacs-etcdir
+		       ;; 		"snippets")
+		       ,yasnippet-snippets-dir)))
+  :config
+  (yasnippet-snippets-initialize)
+  (yas-global-mode 1))
+
+(use-package yasnippet-snippets)
+
+(use-package eshell
+  :ensure nil
+  :custom
+  ((eshell-directory-name
+    (concat user-emacs-directory
+	    dk/user-emacs-etcdir
+	    "eshell"))))
 
 (provide 'dk/programming)

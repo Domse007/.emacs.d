@@ -10,7 +10,12 @@
 
 (use-package melancholy-theme)
 
-(defconst dk/dark-theme 'doom-city-lights
+(use-package humanoid-themes
+  :custom
+  ((humanoid-comment-italic t)
+   (humanoid-org-highlight t)))
+
+(defconst dk/dark-theme 'humanoid-dark
   "Main theme that is loaded by default.")
 
 (defconst dk/light-theme 'modus-operandi

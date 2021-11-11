@@ -66,6 +66,8 @@
   (("C-k" . kill-whole-line))
   :hook
   ((prog-mode . electric-pair-mode)
-   (prog-mode . display-line-numbers-mode)))
+   (prog-mode . display-line-numbers-mode)
+   (prog-mode . subword-mode)
+   (after-init-hook . auto-revert-mode)))
 
 (provide 'dk/emacs)
