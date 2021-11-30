@@ -8,7 +8,7 @@
 	warning-minimum-level :emergency))
 
 (setq package-archives
-      '(("org" . "https://orgmode.org/elpa/")
+      '(("nongnu" . "http://elpa.nongnu.org/nongnu/")
 	("gnu" . "https://elpa.gnu.org/packages/")
 	("melpa" . "https://melpa.org/packages/")))
 

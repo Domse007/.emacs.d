@@ -42,7 +42,8 @@
    ;;
    (mouse-yank-at-point t)
    ;; disable cl-warnings at startup
-   (byte-compile-warnings '(cl-functions)))
+   (byte-compile-warnings '(cl-functions))
+   (linum-format "%5d"))
   :init
   ;; Functions to enable certain emacs behaviours
   (cua-mode t)
@@ -63,7 +64,9 @@
   (global-unset-key (kbd "<mouse-1>"))
   (global-unset-key (kbd "<down-mouse-1>"))
   :bind
-  (("C-k" . kill-whole-line))
+  (("C-k" . kill-whole-line)
+   ("M-p" . backward-paragraph)
+   ("M-n" . forward-paragraph))
   :hook
   ((prog-mode . electric-pair-mode)
    (prog-mode . display-line-numbers-mode)

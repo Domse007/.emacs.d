@@ -20,7 +20,8 @@ message and just return it."
 
 (setq dashboard-banner-logo-title (dk/greet t))
 
-(helm-posframe-enable)
+(when window-system
+  (helm-posframe-enable))
 
 (let ((dir (concat user-emacs-directory "auto-save-list")))
   (when (file-directory-p dir)

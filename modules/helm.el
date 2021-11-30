@@ -22,16 +22,13 @@
 
 (use-package helm-posframe
   :after helm
-  :if (window-system)
   :custom
-  ((helm-posframe-width 100)
-   (helm-posframe-border-width 5))
-  :config
-  (helm-posframe-enable))
+  ((helm-posframe-width 120)
+   (helm-posframe-border-width 5)))
 
 (use-package helm-icons
   :after helm
-  :if (window-system)
+  :if window-system
   :custom
   (helm-icons-provider 'all-the-icons)
   :config

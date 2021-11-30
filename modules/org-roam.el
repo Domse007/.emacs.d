@@ -1,6 +1,9 @@
 (use-package org-roam
   :init
   (setq org-roam-v2-ack t)
+  ;; currently this built-in package isn't loaded
+  ;; can be removed in the future.
+  (require 'ucs-normalize)
   :custom
   ((org-roam-directory dk/org-roam-dir)
    (org-roam-completion-everywhere t)
@@ -18,10 +21,10 @@
   (org-roam-setup))
 
 (use-package org-roam-ui
-  :quelpa
-  (org-roam-ui :fetcher github
-	       :repo "org-roam/org-roam-ui"
-	       :files ("*"))
+  ;; :quelpa
+  ;; (org-roam-ui :fetcher github
+  ;; 	       :repo "org-roam/org-roam-ui"
+  ;; 	       :files ("*"))
   :after org-roam
   :hook
   (after-init . org-roam-ui-mode)

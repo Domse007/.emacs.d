@@ -10,7 +10,7 @@ the file."
 	   (helm-build-sync-source "Config files:"
 	     :candidates files
 	     :fuzzy-match t)
-	   :buffer "*config-search*"))
+	   :buffer "*helm-config-search*"))
     (when (not (equal (length result) 0))
       (dk/search-open-file result (dk/search-check-prefix-p result)))))
 
