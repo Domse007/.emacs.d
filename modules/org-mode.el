@@ -43,10 +43,6 @@
   :hook
   ((org-mode-hook . (lambda () (linum-mode nil)))))
 
-(use-package olivetti
-  :hook
-  ((org-mode . olivetti-mode)))
-
 (use-package org-superstar
   :if (window-system)
   :hook
@@ -114,12 +110,12 @@
   :hook
   ((org-mode . org-pretty-table-mode)))
 
-(use-package el-easydraw
-  :quelpa
-  (el-easydraw :fetcher github :repo "/misohena/el-easydraw"))
+;; (use-package el-easydraw
+;;   :quelpa
+;;   (el-easydraw :fetcher github :repo "/misohena/el-easydraw"))
 
-(with-eval-after-load 'org
-  (require 'edraw-org)
-  (edraw-org-setup-default))
+;; (with-eval-after-load 'org
+;;   (require 'edraw-org)
+;;   (edraw-org-setup-default))
 
 (provide 'dk/org-mode)

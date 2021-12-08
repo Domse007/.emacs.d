@@ -23,6 +23,7 @@
    (frame-title-format '("EMACS - " emacs-version))
    (display-time-24hr-format t)
    (display-time-day-and-date nil)
+   (display-time-default-load-average nil)
    ;; File specific variables
    (comint-prompt-read-only t)
    (load-prefer-newer t)
@@ -43,7 +44,8 @@
    (mouse-yank-at-point t)
    ;; disable cl-warnings at startup
    (byte-compile-warnings '(cl-functions))
-   (linum-format "%5d"))
+   (linum-format "%5d")
+   (inhibit-startup-message t))
   :init
   ;; Functions to enable certain emacs behaviours
   (cua-mode t)
@@ -63,6 +65,9 @@
   (global-unset-key (kbd "<menu>"))
   (global-unset-key (kbd "<mouse-1>"))
   (global-unset-key (kbd "<down-mouse-1>"))
+
+  (when (version<= "29.0" emacs-version)
+    (good-scroll-mode t))
   :bind
   (("C-k" . kill-whole-line)
    ("M-p" . backward-paragraph)

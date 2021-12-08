@@ -3,6 +3,10 @@
 ;; garbage collector kicks in.
 (setq gc-cons-threshold 800000)
 
+;;------------------------------------------------------------------------------
+
+(require 'dashboard)
+
 (defun dk/greet (&optional not-print)
   "Print a nice greeting after startup. If
 not-print is given, the function will not print the
@@ -10,8 +14,8 @@ message and just return it."
   (interactive)
   (let ((greet (concat "Welcome back! Running GNU/Emacs "
 		       emacs-version
-		       ". The config is on version "
-		       (dk/config-version t t)
+		       ;; ". The config is on version "
+		       ;; (dk/config-version t t)
 		       ".")))
     (if not-print
 	greet
@@ -20,11 +24,23 @@ message and just return it."
 
 (setq dashboard-banner-logo-title (dk/greet t))
 
+;;------------------------------------------------------------------------------
+
 (when window-system
   (helm-posframe-enable))
 
-(let ((dir (concat user-emacs-directory "auto-save-list")))
-  (when (file-directory-p dir)
-    (delete-directory dir t nil)))
+(defun dk/delete-unused-config-dirs (dk/dirs)
+  "Delete directories in the .emacs.d folder
+that aren't used but still are created."
+  (dolist (d dk/dirs)
+    (let ((dir (concat user-emacs-directory d)))
+      (when (file-directory-p dir)
+	(delete-directory dir t nil)))))
+
+(dk/delete-unused-config-dirs '("auto-save-list" "etc"))
+
+;;------------------------------------------------------------------------------
+
+(message "Config is loaded.")
 
 (provide 'dk/custom-after-init)

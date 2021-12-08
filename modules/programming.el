@@ -17,7 +17,8 @@
   ((lsp-mode-hook . lsp-ui-mode)
    (lsp-mode-hook . linum-mode))
   :bind
-  (("C-c C-f" . lsp-find-definition)))
+  (:map lsp-mode-map
+	("C-c C-f" . lsp-find-definition)))
 
 (use-package lsp-ui
   :config

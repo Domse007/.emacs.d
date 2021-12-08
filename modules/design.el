@@ -59,4 +59,9 @@
 ;;   :config
 ;;   (popper-mode t))
 
+
+(use-package olivetti
+  :hook
+  ((org-mode . olivetti-mode)))
+
 (provide 'dk/design)

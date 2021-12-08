@@ -4,7 +4,7 @@
 (defconst dk/config-major-version 0.3
   "Major version of the config. It increases on major changes.")
 
-(defconst dk/config-minor-version 1
+(defconst dk/config-minor-version 2
   "Minor version of the config. It increases on smaller changes.")
 
 (defcustom dk/windows-flag nil
@@ -68,10 +68,19 @@ search function should add the `dk/user-emacs-subdir' prefix.")
 (defun dk/check-system ()
   "Check if the system-type is `windows-nt'. If true, set 
 the flag."
-  (when (string-equal system-type "windows-nt")
-    (setq dk/windows-flag t))
-  (when (string-equal system-type "gnu/linux")
-    (setq dk/linux-flag t)))
+  (cond ((string-equal system-type "windows-nt")
+	 (setq dk/windows-flag t))
+	((string-equal system-type "gnu/linux")
+	 (setq dk/linux-flag t)))
+  (cond (dk/windows-flag
+	 (message "Detected Windows. Setting variable..."))
+	(dk/linux-flag
+	 (message "Detected Linux. Setting variable..."))))
+
+(defcustom dk/loaded-files-counter 0
+  "Counter for all loaded config files."
+  :type 'number
+  :group 'dk/config)
 
 (defun dk/load-config ()
   "Load the files specified in the `dk/config-file-list' list."
@@ -81,10 +90,14 @@ the flag."
       (let ((file (car item))
 	    (arg (cdr item)))
 	(when arg
-	  (load-file (concat path file)))))))
+	  (progn 
+	    (load-file (concat path file))
+	    (setq dk/loaded-files-counter
+		  (+ dk/loaded-files-counter 1))))))))
 
-;; Call the entry points of the config.
+;; Check the operating system.
 (dk/check-system)
+;; Call the entry point of the config.
 (dk/load-config)
 
-(provide 'init.el)
+(provide 'init)

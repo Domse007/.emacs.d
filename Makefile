@@ -11,8 +11,8 @@ LINUX := unzip zip
 
 deps:
 	@echo "Installing all required deps..."
-	sudo $(PM_UPDATE) $(PM_NO_CONFIRM)
-	sudo $(PM) $(DEPS) $(LINUX) $(PM_NO_CONFIRM)
+	$(PM_UPDATE) $(PM_NO_CONFIRM)
+	$(PM) $(DEPS) $(LINUX) $(PM_NO_CONFIRM)
 	@echo "Done."
 
 windows:
