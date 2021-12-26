@@ -8,13 +8,13 @@
 
 ;;------------------------------------------------------------------------------
 
-(defconst games '(gomoku tetris hanoi 5x5 blackbox bubbles dunnet life)
+(defconst dk/games '(gomoku tetris hanoi 5x5 blackbox bubbles dunnet life)
   "List of included games.")
 
 (defun play-a-game ()
   "randomly play a game."
   (interactive)
-  (let* ((game-list-len (length games))
+  (let* ((game-list-len (length dk/games))
 	 (game-index (random game-list-len))
 	 (game-to-be-played (nth game-index games)))
     (call-interactively game-to-be-played)))
@@ -82,19 +82,32 @@ that can be loaded. This is used by
 	  (setq counter (+ counter 1)))))
     counter))
 
+(defun dk/locate-config-init-error (index)
+  "Function that tries to locate the file where an error occured."
+  (let ((error-file (nth (+ index 2) dk/config-file-list)))
+    (if (not (equal error-file nil))
+	(car error-file)
+      "Could not locate error.")))
+
 (defun display-startup-echo-area-message ()
   "Redefining the default startup message function.
 It appears to be very messi internally. Because
 it's a redefine, it can't have the dk/ prefix."
   (let ((max-files (dk/count-loadable-files)))
-    (message (concat "Info: Loaded "
-		     (number-to-string dk/loaded-files-counter)
-		     " files (out of "
-		     (number-to-string max-files)
-		     "). "
-		     (if (equal max-files dk/loaded-files-counter)
-			 "All loaded."
-		       "An error occured while loading the files."))))
-  (run-with-timer 2 nil 'dk/config-version))
+    (progn 
+      (message (concat "Info: Loaded "
+		       (number-to-string dk/loaded-files-counter)
+		       " files (out of "
+		       (number-to-string max-files)
+		       "). "
+		       (number-to-string gcs-done)
+		       " garbage collection runs. "
+		       (if (equal max-files dk/loaded-files-counter)
+			   "All loaded."
+			 (concat "Error in file "
+				 (dk/locate-config-init-error dk/loaded-files-counter)
+				 "."))))
+      (when (equal max-files dk/loaded-files-counter)
+	(run-with-timer 2 nil 'dk/config-version)))))
 
 (provide 'dk/custom-funcs)

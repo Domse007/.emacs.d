@@ -30,8 +30,7 @@
 (use-package use-package
   :custom
   ((use-package-always-ensure t)
-   (use-package-compute-statistics t)
-   (use-package-always-defer t)))
+   (use-package-compute-statistics t)))
 
 (use-package quelpa-use-package
   :custom
@@ -40,28 +39,6 @@
 		       dk/user-emacs-etcdir
 		       "quelpa/"))))
 
-(defcustom dk/checked-features-loaded '()
-  ""
-  :type '(repeat symbol))
-
-(defcustom dk/checked-features-not-loaded '()
-  ""
-  :type '(repeat symbol))
-
-(defun dk/report-unloaded-features ()
-  ""
-  (interactive)
-  (let ((res ""))
-    (dolist (elem dk/checked-features-not-loaded)
-      (setq res (concat res ", " elem)))
-    res))
-
-(defun dk/check-loadable (req-version vers)
-  ""
-  (interactive)
-  (if (version<= emacs-version req-version)
-      (progn (vers)
-	     (add-to-list dk/checked-features-loaded (quote vers)))
-    (add-to-list dk/checked-features-not-loaded (quote vers))))
+;; (setq use-package-always-defer t)
 
 (provide 'dk/use-package)

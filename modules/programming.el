@@ -1,4 +1,5 @@
 (use-package lsp-mode
+  :defer t
   :custom
   ((lsp-rust-analyzer-cargo-watch-command "clippy")
    (lsp-eldoc-render-all t)
@@ -21,6 +22,7 @@
 	("C-c C-f" . lsp-find-definition)))
 
 (use-package lsp-ui
+  :defer t
   :config
   (lsp-ui-doc-enable t)
   (lsp-ui-mode t)
@@ -32,9 +34,11 @@
    (lsp-ui-doc-max-width 42)
    (lsp-ui-doc-max-height 30)
    (lsp-eldoc-hook nil)
+   (lsp-eldoc-enable-hover nil)
    (lsp-ui-sideline-enable nil)))
 
 (use-package company
+  :defer t
   :bind
   (:map company-active-map
 	("C-n". company-select-next)
@@ -51,19 +55,26 @@
    (prog-mode . company-mode)))
 
 (use-package company-box
+  :defer t
   :hook
   (company-mode . company-box-mode))
 
-(use-package flycheck)
+(use-package flycheck
+  :defer t
+  :hook
+  ((emacs-lisp-mode . flycheck-mode)))
 
 (use-package flycheck-posframe
+  :defer t
   :after flycheck)
 
 (use-package rainbow-delimiters
+  :defer t
   :hook
   (prog-mode . rainbow-delimiters-mode))
 
 (use-package magit
+  :defer t
   :custom
   ((transient-history-file
     (concat user-emacs-directory
@@ -71,6 +82,7 @@
 	    "transient/history.el"))))
 
 (use-package tree-sitter
+  :defer t
   :config
   (tree-sitter-require 'rust)
   (tree-sitter-require 'python)
@@ -81,9 +93,11 @@
    (python-mode . tree-sitter-hl-mode)))
 
 (use-package tree-sitter-langs
+  :defer t
   :after tree-sitter)
 
 (use-package yasnippet
+  :defer t
   :after yasnippet-snippets
   :custom
   ((yas-indent-line 'auto)
@@ -95,7 +109,8 @@
   (yasnippet-snippets-initialize)
   (yas-global-mode 1))
 
-(use-package yasnippet-snippets)
+(use-package yasnippet-snippets
+  :defer t)
 
 (use-package eshell
   :ensure nil

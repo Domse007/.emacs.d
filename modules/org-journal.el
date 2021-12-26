@@ -1,4 +1,5 @@
 (use-package org-journal
+  :defer t
   :custom
   ((org-journal-file-type 'daily)
    (org-journal-dir dk/org-journal-dir)

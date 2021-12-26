@@ -38,7 +38,7 @@
    (scroll-margin 8)
    (scroll-step 1)
    (scroll-conservatively 101)
-   (indent-tabs-mode t)
+   ;; (indent-tabs-mode t)
    (confirm-kill-emacs 'y-or-n-p)
    ;;
    (mouse-yank-at-point t)

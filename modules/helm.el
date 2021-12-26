@@ -1,10 +1,12 @@
 (use-package helm
+  :defer t
   :custom
   ((helm-move-to-line-cycle-in-source t)
    (helm-ff-search-library-in-sexp t)
    (helm-scroll-amount 8)
    (helm-ff-file-name-history-use-recentf t)
-   (helm-echo-input-in-header-line t))
+   (helm-echo-input-in-header-line t)
+   (helm-split-window-inside-p t))
   :config
   (helm-mode t)
   :bind
@@ -21,12 +23,15 @@
   (helm-mode t))
 
 (use-package helm-posframe
+  :defer t
   :after helm
+  :if window-system
   :custom
   ((helm-posframe-width 120)
    (helm-posframe-border-width 5)))
 
 (use-package helm-icons
+  :defer t
   :after helm
   :if window-system
   :custom

@@ -1,4 +1,5 @@
 (use-package doom-modeline
+  :defer t
   :hook (after-init . doom-modeline-mode)
   :custom    
   ((doom-modeline-height 25)
@@ -21,6 +22,7 @@
    (doom-modeline-gnus-timer nil)))
 
 (use-package dashboard
+  :defer t
   :custom
   ((dashboard-startup-banner 'logo)
    (dashboard-show-shortcuts t)
@@ -32,15 +34,18 @@
   (dashboard-setup-startup-hook))
 
 (use-package all-the-icons
+  :defer t
   :if (window-system))
 
 (use-package beacon
+  :defer t
   :custom
   ((beacon-color "#FFFFFF"))
   :hook
   ((after-init . beacon-mode)))
 
 (use-package dimmer
+  :defer t
   :disabled t
   :config
   (dimmer-configure-helm)
@@ -61,6 +66,7 @@
 
 
 (use-package olivetti
+  :defer t
   :hook
   ((org-mode . olivetti-mode)))
 

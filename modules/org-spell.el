@@ -1,4 +1,5 @@
 (use-package ispell
+  :defer t
   :if dk/windows-flag
   :config
   (setq-default ispell-program-name "hunspell")
@@ -15,17 +16,20 @@
    (org-mode . flyspell-mode)))
 
 (use-package flyspell-correct
+  :defer t
   :if dk/windows-flag
   :after flyspell
   :bind
   (:map flyspell-mode-map
 	("C-$" . flyspell-correct-wrapper)))
 
-(use-package fuzzy)
+(use-package fuzzy
+  :defer t)
 
 (use-package org-lang
-  :disabled t
-	:if dk/windows-flag
+  :defer t
+  :disabled t ;;; Disabled
+  :if dk/windows-flag
   :quelpa (org-lang :fetcher github :repo "domse007/org-lang")
   :init
   (use-package fuzzy)

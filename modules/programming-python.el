@@ -1,4 +1,5 @@
 (use-package python-mode
+  :defer t
   :hook
   ((python-mode . lsp-deferred))
   :custom
@@ -10,14 +11,12 @@
 ;; (use-package 'dap-python)
 
 (use-package pyvenv
+  :defer t
   :config
   (pyvenv-mode 1))
 
 (use-package lsp-python-ms
+  :defer t
   :after lsp)
-
-;; (use-package lsp-pyright
-;;   :hook 
-;;   ((python-mode . lsp)))
 
 (provide 'dk/programming-python)

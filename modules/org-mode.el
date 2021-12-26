@@ -39,11 +39,15 @@
    (org-id-locations-file
     (concat user-emacs-directory
 	    dk/user-emacs-etcdir
-	    "org/.org-id-locations")))
+	    "org/.org-id-locations"))
+   (org-export-allow-bind-keywords t)
+   (org-image-actual-width nil)
+   (org-publish-project-alist '("~/SynologyDrive/export")))
   :hook
   ((org-mode-hook . (lambda () (linum-mode nil)))))
 
 (use-package org-superstar
+  :defer t
   :if (window-system)
   :hook
   ((org-mode-hook . (lambda () (org-superstar-mode t)))
@@ -55,14 +59,17 @@
    (org-superstar-leading-bullet ?\s)
    (org-superstar-special-todo-items t)))
 
-(use-package htmlize)
+(use-package htmlize
+  :defer t)
 
 (use-package org-fragtog
+  :defer t
   :if (window-system)
   :hook
   ((org-mode . org-fragtog-mode)))
 
 (use-package org-appear
+  :defer t
   :if (window-system)
   :hook
   (org-mode . org-appear-mode)
@@ -76,6 +83,7 @@
   :ensure nil)
 
 (use-package ox-reveal
+  :defer t
   :custom
   ((org-reveal-root "https://cdn.jsdelivr.net/npm/reveal.js")
    (org-reveal-mathjax t)

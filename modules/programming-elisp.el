@@ -1,4 +1,5 @@
 (use-package highlight-defined
+  :defer t
   :hook
   (emacs-lisp-mode . highlight-defined-mode))
 
@@ -11,10 +12,12 @@
 
 (use-package rainbow-mode
   :diminish t
+  :defer t
   :hook
   (emacs-lisp-mode . rainbow-mode))
 
 (use-package aggressive-indent
+  :defer t
   :bind
   (:map emacs-lisp-mode-map
 	("C-c C-f" . aggressive-indent-indent-defun))

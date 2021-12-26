@@ -13,6 +13,7 @@
    ))
 
 (use-package auto-package-update
+  :defer t
   :custom
   ((auto-package-update-interval 3)
    (auto-package-update-prompt-before-update t)
@@ -26,6 +27,7 @@
    (lambda () (message "I will update packages now"))))
 
 (use-package good-scroll
+  :defer t
   :hook
   ((good-scroll-mode
     .
@@ -39,8 +41,8 @@
     (interactive)
     (good-scroll-mode t)))
 
-(use-package unkillable-scratch
+(use-package dtrt-indent
   :config
-  (unkillable-scratch t))
+  (dtrt-indent-global-mode t))
 
 (provide 'dk/config)
