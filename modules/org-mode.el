@@ -41,8 +41,7 @@
 	    dk/user-emacs-etcdir
 	    "org/.org-id-locations"))
    (org-export-allow-bind-keywords t)
-   (org-image-actual-width nil)
-   (org-publish-project-alist '("~/SynologyDrive/export")))
+   (org-image-actual-width nil))
   :hook
   ((org-mode-hook . (lambda () (linum-mode nil)))))
 

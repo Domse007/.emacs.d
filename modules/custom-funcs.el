@@ -121,4 +121,24 @@ internally. Because it's a redefine, it can't have the dk/ prefix."
       (when (equal max-files dk/loaded-files-counter)
 	(run-with-timer 2 nil 'dk/config-version)))))
 
+;;------------------------------------------------------------------------------
+
+(require 'org)
+
+(defvar org-export-output-directory-prefix "export"
+  "Prefix of directory used for org-mode export")
+
+(defadvice org-export-output-file-name (before org-add-export-dir activate)
+  "Modifies org-export to place exported files in a different directory"
+  (when (not pub-dir)
+    (setq pub-dir org-export-output-directory-prefix)
+    (when (not (file-directory-p pub-dir))
+      (make-directory pub-dir))))
+
+(org-link-set-parameters "id"  :export #'dk/org-id-link-export)
+
+(defun dk/org-id-link-export (link description format _)
+  "Custom formatting org org-roam links in export."
+  description)
+
 (provide 'dk/custom-funcs)
