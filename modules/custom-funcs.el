@@ -6,18 +6,30 @@
 
 (global-set-key (kbd "M-k") 'kill-word-at-point)
 
+(defun dk/delete-window ()
+  "Wrapper around `delete-window' to balance windows
+after deleting the active window."
+  (interactive)
+  (delete-window)
+  (balance-windows))
+
+(global-set-key (kbd "C-x 0") 'dk/delete-window)
+
 ;;------------------------------------------------------------------------------
 
 (defconst dk/games '(gomoku tetris hanoi 5x5 blackbox bubbles dunnet life)
   "List of included games.")
 
-(defun play-a-game ()
-  "randomly play a game."
+(defun dk/play-a-game (&optional game)
+  "Randomly play a game. The optional GAME argument specifies
+a predefined game."
   (interactive)
-  (let* ((game-list-len (length dk/games))
-	 (game-index (random game-list-len))
-	 (game-to-be-played (nth game-index games)))
-    (call-interactively game-to-be-played)))
+  (if game
+      (call-interactively game)
+    (let* ((game-list-len (length dk/games))
+	   (game-index (random game-list-len))
+	   (game-to-be-played (nth game-index dk/games)))
+      (call-interactively game-to-be-played))))
 
 ;;------------------------------------------------------------------------------
 
@@ -42,9 +54,9 @@ olivetti mode."
 ;;------------------------------------------------------------------------------
 
 (defun dk/config-version (&optional not-print only-version)
-  "Return the major version of the config. If not-print
+  "Return the major version of the config. If NOT-PRINT
 is given, the function will not message the string. If
-only-version is given, only the version string is returned
+ONLY-VERSION is given, only the version string is returned
 otherwise the whole sentence is returned."
   (interactive)
   (let ((version-string
@@ -83,7 +95,9 @@ that can be loaded. This is used by
     counter))
 
 (defun dk/locate-config-init-error (index)
-  "Function that tries to locate the file where an error occured."
+  "Function that tries to locate the file where an error occured.
+INDEX is the index of the list `dk/config-file-list' where the
+error occured."
   (let ((error-file (nth (+ index 2) dk/config-file-list)))
     (if (not (equal error-file nil))
 	(car error-file)
