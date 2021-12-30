@@ -18,6 +18,9 @@
    (save-place-file (concat user-emacs-directory
 			    dk/user-emacs-etcdir
 			    "places"))
+   (nsm-settings-file (concat user-emacs-directory
+			      dk/user-emacs-etcdir
+			      "network-security.data"))
    ;; Emacs Built-In Quality of life improvements
    (ring-bell-function 'ignore)
    (frame-title-format '("EMACS - " emacs-version))
