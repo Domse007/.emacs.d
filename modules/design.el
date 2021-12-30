@@ -60,13 +60,10 @@
   :hook
   ((prog-mode . (lambda () (dimmer-mode nil)))))
 
-;; (use-package popper
-;;   :config
-;;   (popper-mode t))
-
-
 (use-package olivetti
   :defer t
+  :custom
+  ((olivetti-style 'fancy))
   :hook
   ((org-mode . olivetti-mode)))
 
