@@ -5,8 +5,7 @@
   "File name of the local emacs config variables.")
 
 (defun dk/set-config-variables ()
-  "Get the directories and save it to the file to
-   save it persistant."
+  "Get the directories and save it to the file to save it persistant."
   (let* ((base-path (read-directory-name "Directory at startup: " "~/"))
 	 (base-path-ending (dk/check-ends-as-dir base-path))
 	 (journal-dir (read-directory-name "Org-roam directory: " base-path))
@@ -28,18 +27,16 @@
      (concat dk/variable-file-dir dk/variable-file-name))))
 
 (defun dk/check-ends-as-dir (path)
-  "Checks that a string ends with a forward slash, that 
-it always is recognized as a directory."
+  "Checks that a string ends with a forward slash, that it always is recognized
+as a directory."
   (let ((last-char (substring path -1)))
     (if (string-equal last-char "/")
 	""
       "/")))
 
 (defun dk/check-config-variables ()
-  "Check if the file exists. If it does,
-   read it and get the values. If not 
-   call `dk/set-config-variables'. In the 
-   end it calls `dk/install-packages'."
+  "Check if the file exists. If it does, read it and get the values. If not call
+ `dk/set-config-variables'. In the end it calls `dk/install-packages'."
   (let ((var-file (concat dk/variable-file-dir
 			  dk/variable-file-name)))
     (if (file-exists-p var-file)

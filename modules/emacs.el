@@ -24,6 +24,7 @@
    (display-time-24hr-format t)
    (display-time-day-and-date nil)
    (display-time-default-load-average nil)
+   (column-number-mode t)
    ;; File specific variables
    (comint-prompt-read-only t)
    (load-prefer-newer t)

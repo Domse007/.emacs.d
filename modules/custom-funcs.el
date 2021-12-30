@@ -24,6 +24,7 @@ after deleting the active window."
   "Randomly play a game. The optional GAME argument specifies
 a predefined game."
   (interactive)
+
   (if game
       (call-interactively game)
     (let* ((game-list-len (length dk/games))
@@ -36,8 +37,7 @@ a predefined game."
 (require 'olivetti)
 
 (defun disable-centering ()
-  "Disable the centering. This is more or less an alias for 
-olivetti mode."
+  "Disable the centering. This is more or less an alias for olivetti mode."
   (interactive)
   (olivetti-mode nil))
 
@@ -54,10 +54,9 @@ olivetti mode."
 ;;------------------------------------------------------------------------------
 
 (defun dk/config-version (&optional not-print only-version)
-  "Return the major version of the config. If NOT-PRINT
-is given, the function will not message the string. If
-ONLY-VERSION is given, only the version string is returned
-otherwise the whole sentence is returned."
+  "Return the major version of the config. If NOT-PRINT is given, the function
+will not message the string. If ONLY-VERSION is given, only the version string
+is returned otherwise the whole sentence is returned."
   (interactive)
   (let ((version-string
 	 (concat
@@ -83,9 +82,8 @@ otherwise the whole sentence is returned."
 ;;------------------------------------------------------------------------------
 
 (defun dk/count-loadable-files ()
-  "Count the number of files in `dk/config-file-list'
-that can be loaded. This is used by
-`display-startup-echo-area-message'."
+  "Count the number of files in `dk/config-file-list' that can be loaded. This
+is used by `display-startup-echo-area-message'."
   (let ((counter 0))
     (dolist (elem dk/config-file-list)
       (let ((file (car elem))
@@ -104,11 +102,10 @@ error occured."
       "Could not locate error.")))
 
 (defun display-startup-echo-area-message ()
-  "Redefining the default startup message function.
-It appears to be very messi internally. Because
-it's a redefine, it can't have the dk/ prefix."
+  "Redefining the default startup message function. It appears to be very messi
+internally. Because it's a redefine, it can't have the dk/ prefix."
   (let ((max-files (dk/count-loadable-files)))
-    (progn 
+    (progn
       (message (concat "Info: Loaded "
 		       (number-to-string dk/loaded-files-counter)
 		       " files (out of "
