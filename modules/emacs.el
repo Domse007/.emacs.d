@@ -69,6 +69,7 @@
   (global-unset-key (kbd "<menu>"))
   (global-unset-key (kbd "<mouse-1>"))
   (global-unset-key (kbd "<down-mouse-1>"))
+  (global-unset-key (kbd "<insert>"))
 
   (when (version<= "29.0" emacs-version)
     (good-scroll-mode t))

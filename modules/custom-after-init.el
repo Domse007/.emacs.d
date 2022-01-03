@@ -1,7 +1,7 @@
 ;; Decrease the garbage collector limit to 8mb after
 ;; startup to ensure that there are no lags, when the
 ;; garbage collector kicks in.
-(setq gc-cons-threshold 800000)
+(setq gc-cons-threshold dk/original-gc-threshold)
 
 ;;------------------------------------------------------------------------------
 

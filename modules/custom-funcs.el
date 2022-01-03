@@ -121,6 +121,11 @@ internally. Because it's a redefine, it can't have the dk/ prefix."
       (when (equal max-files dk/loaded-files-counter)
 	(run-with-timer 2 nil 'dk/config-version)))))
 
+(defun dk/display-startup-message ()
+  "Interactive wrapper around `display-startup-echo-area-message'."
+  (interactive)
+  (display-startup-echo-area-message))
+
 ;;------------------------------------------------------------------------------
 
 (require 'org)

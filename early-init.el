@@ -1,6 +1,9 @@
 ;;; early-init.el --- -*- lexical-binding: t -*-
 
 ;; DeferGC
+(defvar dk/original-gc-threshold gc-cons-threshold
+  "Save the original `gc-cons-threshold'.")
+
 (setq gc-cons-threshold (* 1024 1024 1024))
 ;; -DeferGC
 
