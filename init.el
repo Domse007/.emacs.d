@@ -32,6 +32,11 @@
   :type 'string
   :group 'dk/config)
 
+(defcustom dk/org-export-dir ""
+  "Default directory where org files are exported to."
+  :type 'string
+  :group 'dk/config)
+
 (defconst dk/user-emacs-subdir "modules/"
   "Default location of config files.")
 

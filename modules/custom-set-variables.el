@@ -8,10 +8,12 @@
   "Get the directories and save it to the file to save it persistant."
   (let* ((base-path (read-directory-name "Directory at startup: " "~/"))
 	 (base-path-ending (dk/check-ends-as-dir base-path))
-	 (journal-dir (read-directory-name "Org-roam directory: " base-path))
+	 (journal-dir (read-directory-name "Org-journal directory: " base-path))
 	 (journal-dir-ending (dk/check-ends-as-dir journal-dir))
-	 (roam-dir (read-directory-name "Org-journal directory: " base-path))
-	 (roam-dir-ending (dk/check-ends-as-dir roam-dir)))
+	 (roam-dir (read-directory-name "Org-roam directory: " base-path))
+	 (roam-dir-ending (dk/check-ends-as-dir roam-dir))
+	 (export-dir (read-directory-name "Org export directory: " base-path))
+	 (export-dir-ending (dk/check-ends-as-dir export-dir)))
     (write-region
      (concat "(setq dk/user-system-base-path \""
 	     base-path
@@ -22,6 +24,9 @@
 	     "\")\n(setq dk/org-roam-dir \""
 	     roam-dir
 	     roam-dir-ending
+	     "\")\n(setq dk/org-export-dir \""
+	     export-dir
+	     export-dir-ending
 	     "\")")
      nil
      (concat dk/variable-file-dir dk/variable-file-name))))
