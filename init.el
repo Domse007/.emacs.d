@@ -35,6 +35,7 @@
 (defcustom dk/org-export-dir ""
   "Default directory where org files are exported to."
   :type 'string
+  :group 'dk/config)
 
 (defcustom dk/use-40-percent-keyboard nil
   "Flag that specifies if 40% keyboard specific keybindings should be enabled."
