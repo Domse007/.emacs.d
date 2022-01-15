@@ -61,8 +61,9 @@
 
 (use-package flycheck
   :defer t
-  :hook
-  ((emacs-lisp-mode . flycheck-mode)))
+  ;; :hook
+  ;; ((emacs-lisp-mode . flycheck-mode))
+  )
 
 (use-package flycheck-posframe
   :defer t
