@@ -75,7 +75,8 @@
   :bind
   (("C-k" . kill-whole-line)
    ("M-p" . backward-paragraph)
-   ("M-n" . forward-paragraph))
+   ("M-n" . forward-paragraph)
+   ("C-r" . undo-redo))
   :hook
   ((prog-mode . electric-pair-mode)
    (prog-mode . display-line-numbers-mode)

@@ -13,7 +13,11 @@
 	 (roam-dir (read-directory-name "Org-roam directory: " base-path))
 	 (roam-dir-ending (dk/check-ends-as-dir roam-dir))
 	 (export-dir (read-directory-name "Org export directory: " base-path))
-	 (export-dir-ending (dk/check-ends-as-dir export-dir)))
+	 (export-dir-ending (dk/check-ends-as-dir export-dir))
+	 (roam-dir (read-directory-name "Org-journal directory: " base-path))
+	 (roam-dir-ending (dk/check-ends-as-dir roam-dir))
+	 (use-40-percent-bindings (y-or-n-p "Use 40 percent keyboard? ")))
+
     (write-region
      (concat "(setq dk/user-system-base-path \""
 	     base-path
@@ -27,7 +31,10 @@
 	     "\")\n(setq dk/org-export-dir \""
 	     export-dir
 	     export-dir-ending
-	     "\")")
+	     "\")"
+	     "\")\n(setq dk/use-40-percent-keyboard "
+	     (dk/bool-to-string use-40-percent-bindings)
+	     ")")
      nil
      (concat dk/variable-file-dir dk/variable-file-name))))
 
@@ -58,6 +65,12 @@ as a directory."
     (delete-file var-file)
     (dk/set-config-variables)
     (load-file var-file)))
+
+(defun dk/bool-to-string (arg)
+  "Convert arg to a string"
+  (if arg
+      "t"
+    "nil"))
 
 ;; Disable the visual directory selector.
 (setq use-file-dialog nil)

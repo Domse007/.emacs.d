@@ -35,6 +35,10 @@
 (defcustom dk/org-export-dir ""
   "Default directory where org files are exported to."
   :type 'string
+
+(defcustom dk/use-40-percent-keyboard nil
+  "Flag that specifies if 40% keyboard specific keybindings should be enabled."
+  :type 'bool
   :group 'dk/config)
 
 (defconst dk/user-emacs-subdir "modules/"
@@ -63,6 +67,7 @@
     ("programming-rust.el" . t)
     ("programming-elisp.el" . t)
     ("programming-python.el" . t)
+    ("programming-haskell.el" . t)
     ("rss.el" . t)
     ("custom-after-init.el" . t))
   "List of all files for config. The fist arg is the file
