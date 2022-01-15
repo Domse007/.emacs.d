@@ -32,6 +32,11 @@
   :type 'string
   :group 'dk/config)
 
+(defcustom dk/use-40-percent-keyboard nil
+  "Flag that specifies if 40% keyboard specific keybindings should be enabled."
+  :type 'bool
+  :group 'dk/config)
+
 (defconst dk/user-emacs-subdir "modules/"
   "Default location of config files.")
 
@@ -58,6 +63,7 @@
     ("programming-rust.el" . t)
     ("programming-elisp.el" . t)
     ("programming-python.el" . t)
+    ("programming-haskell.el" . t)
     ("rss.el" . t)
     ("custom-after-init.el" . t))
   "List of all files for config. The fist arg is the file

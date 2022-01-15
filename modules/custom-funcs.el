@@ -141,4 +141,20 @@ internally. Because it's a redefine, it can't have the dk/ prefix."
   "Custom formatting org org-roam links in export."
   description)
 
+;;------------------------------------------------------------------------------
+
+(define-minor-mode dk/40-percent-keyboard-mode
+  "Mode that redefines certain keybindings to support 40% keyboards."
+  :group 'dk/config
+  :global t
+  :lighter " dk/40"
+  :keymap `((,(kbd "C-x q") . delete-other-windows)
+	    (,(kbd "C-x w") . split-window-below)
+	    (,(kbd "C-x e") . split-window-right)
+	    (,(kbd "C-x p") . dk/delete-window)))
+
+(when dk/use-40-percent-keyboard
+  (progn (message "Enabling 40 percent keyboard mode.")
+	 (dk/40-percent-keyboard-mode)))
+
 (provide 'dk/custom-funcs)
