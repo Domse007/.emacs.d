@@ -55,7 +55,12 @@
   (cua-mode t)
   (global-auto-revert-mode t)
   (display-time-mode nil)
-  (display-battery-mode t)
+
+  ;; Enable battery usage. Disabled if not available.
+  (require 'battery)
+  (when (not (and battery-echo-area-format battery-status-function))
+    (display-battery-mode t))
+  
   (save-place-mode t)
   (global-hl-line-mode t)
   ;; Change the annoying yes or no to y or n
@@ -70,9 +75,16 @@
   (global-unset-key (kbd "<mouse-1>"))
   (global-unset-key (kbd "<down-mouse-1>"))
   (global-unset-key (kbd "<insert>"))
-
+  
   (when (version<= "29.0" emacs-version)
-    (good-scroll-mode t))
+    (progn (good-scroll-mode t)
+	   (dk/log "Emacs version %s is used. Emacs 29.0 is prefered."
+		   emacs-version)))
+
+  (if (member dk/default-font (font-family-list))
+      (progn (dk/log (format "Setting font: %s." dk/default-font))
+	     (set-face-attribute 'default nil :font dk/default-font))
+    (dk/log (format "%s ist not available. Maybe install it." dk/default-font) t))
   :bind
   (("C-k" . kill-whole-line)
    ("M-p" . backward-paragraph)

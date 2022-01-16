@@ -23,9 +23,9 @@
 
 (defun dk/load-theme (theme)
   "Function that loads a theme."
-  (message "Loading theme %s" theme)
+  (dk/log (format "Loading theme %s" theme))
   (load-theme theme t)
-  (message "Loaded %s" theme))
+  (dk/log (format "Loaded %s" theme)))
 
 (defun dk/load-light-theme ()
   "Load the light theme."

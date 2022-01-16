@@ -17,7 +17,7 @@ the file."
 (defun dk/search-open-file (file arg)
   "Open the config file. The arg specifies if
 `dk/user-emacs-subdir' should be used."
-  (message (concat "Opening: " file))
+  (dk/log (concat "Opening: " file) t)
   (let ((prefix (if arg
 		    dk/user-emacs-subdir
 		  "")))

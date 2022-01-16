@@ -1,3 +1,6 @@
+;; Personal additions to predefined functions
+;;------------------------------------------------------------------------------
+
 (defun kill-word-at-point ()
   "Kill the word where the point is pointing at."
   (interactive)
@@ -15,6 +18,7 @@ after deleting the active window."
 
 (global-set-key (kbd "C-x 0") 'dk/delete-window)
 
+;; Play a random game
 ;;------------------------------------------------------------------------------
 
 (defconst dk/games '(gomoku tetris hanoi 5x5 blackbox bubbles dunnet life)
@@ -24,7 +28,6 @@ after deleting the active window."
   "Randomly play a game. The optional GAME argument specifies
 a predefined game."
   (interactive)
-
   (if game
       (call-interactively game)
     (let* ((game-list-len (length dk/games))
@@ -32,6 +35,7 @@ a predefined game."
 	   (game-to-be-played (nth game-index dk/games)))
       (call-interactively game-to-be-played))))
 
+;; I'm forgetting a lot of stuff...
 ;;------------------------------------------------------------------------------
 
 (require 'olivetti)
@@ -41,6 +45,7 @@ a predefined game."
   (interactive)
   (olivetti-mode nil))
 
+;; See above...
 ;;------------------------------------------------------------------------------
 
 (require 'auto-package-update)
@@ -48,9 +53,10 @@ a predefined game."
 (defun dk/package-update-packages ()
   "Update all packages. Alias for `auto-package-update-now'."
   (interactive)
-  (message "Updating packages...")
+  (dk/log "Updating packages..." t)
   (auto-package-update-now))
 
+;; Config version stuff
 ;;------------------------------------------------------------------------------
 
 (defun dk/config-version (&optional not-print only-version)
@@ -70,6 +76,7 @@ is returned otherwise the whole sentence is returned."
 	version-string
       (concat explanation version-string))))
 
+;; Open working directory in file explorer
 ;;------------------------------------------------------------------------------
 
 (defun dk/explorer ()
@@ -77,8 +84,9 @@ is returned otherwise the whole sentence is returned."
   (interactive)
   (cond (dk/windows-flag (shell-command "explorer ."))
 	(dk/linux-flag (shell-command "xdg-open ."))
-	(t (message "This command is not supported on this platform."))))
+	(t (dk/log "This command is not supported on this platform." t))))
 
+;; Config error debug functions
 ;;------------------------------------------------------------------------------
 
 (defun dk/count-loadable-files ()
@@ -126,6 +134,7 @@ internally. Because it's a redefine, it can't have the dk/ prefix."
   (interactive)
   (display-startup-echo-area-message))
 
+;; Org (roam) export helpers
 ;;------------------------------------------------------------------------------
 
 (require 'org)
@@ -146,6 +155,7 @@ internally. Because it's a redefine, it can't have the dk/ prefix."
   "Custom formatting org org-roam links in export."
   description)
 
+;; Support for 40% keyboards
 ;;------------------------------------------------------------------------------
 
 (define-minor-mode dk/40-percent-keyboard-mode
@@ -159,7 +169,7 @@ internally. Because it's a redefine, it can't have the dk/ prefix."
 	    (,(kbd "C-x p") . dk/delete-window)))
 
 (when dk/use-40-percent-keyboard
-  (progn (message "Enabling 40 percent keyboard mode.")
+  (progn (dk/log "Enabling 40 percent keyboard mode.")
 	 (dk/40-percent-keyboard-mode)))
 
 (provide 'dk/custom-funcs)

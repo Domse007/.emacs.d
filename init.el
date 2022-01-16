@@ -1,10 +1,10 @@
 (defgroup dk/config nil
   "Group for all custom config variables.")
 
-(defconst dk/config-major-version 0.3
+(defconst dk/config-major-version 0.4
   "Major version of the config. It increases on major changes.")
 
-(defconst dk/config-minor-version 9
+(defconst dk/config-minor-version 0
   "Minor version of the config. It increases on smaller changes.")
 
 (defcustom dk/windows-flag nil
@@ -42,6 +42,9 @@
   :type 'bool
   :group 'dk/config)
 
+(defconst dk/default-font "Source Code Pro"
+  "The default font that will be used.")
+
 (defconst dk/user-emacs-subdir "modules/"
   "Default location of config files.")
 
@@ -76,6 +79,29 @@ name and the second arg is if the `dk/load-config' function
 should load it. Additionally, it specifies if the custom
 search function should add the `dk/user-emacs-subdir' prefix.")
 
+;; logger setup
+;;------------------------------------------------------------------------------
+
+(defvar dk/logging-list '()
+  "List that contain logging messages of the config.")
+
+(defun dk/log (msg &optional p)
+  "Log message. A report can be generated with `dk/generate-logging-report'."
+  (add-to-list 'dk/logging-list msg t)
+  (when p
+    (message p)))
+
+(defun dk/generate-logging-report ()
+  "Generate a report on the config loadup."
+  (interactive)
+  (with-output-to-temp-buffer "*logging-report*"
+    (switch-to-buffer "*logging-report*")
+    (dolist (msg dk/logging-list)
+      (print msg))))
+
+;; init functions
+;;------------------------------------------------------------------------------
+
 (defun dk/check-system ()
   "Check if the system-type is `windows-nt'. If true, set 
 the flag."
@@ -84,9 +110,9 @@ the flag."
 	((string-equal system-type "gnu/linux")
 	 (setq dk/linux-flag t)))
   (cond (dk/windows-flag
-	 (message "Detected Windows. Setting variable..."))
+	 (dk/log "Detected Windows. Setting variable..."))
 	(dk/linux-flag
-	 (message "Detected Linux. Setting variable..."))))
+	 (dk/log "Detected Linux. Setting variable..."))))
 
 (defcustom dk/loaded-files-counter 0
   "Counter for all loaded config files."
