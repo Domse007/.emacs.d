@@ -40,7 +40,12 @@ a predefined game."
 
 (require 'olivetti)
 
-(defun disable-centering ()
+(defun dk/enable-centering ()
+  "Disable the centering. This is more or less an alias for olivetti mode."
+  (interactive)
+  (olivetti-mode t))
+
+(defun dk/disable-centering ()
   "Disable the centering. This is more or less an alias for olivetti mode."
   (interactive)
   (olivetti-mode nil))

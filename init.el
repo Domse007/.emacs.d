@@ -89,7 +89,7 @@ search function should add the `dk/user-emacs-subdir' prefix.")
   "Log message. A report can be generated with `dk/generate-logging-report'."
   (add-to-list 'dk/logging-list msg t)
   (when p
-    (message p)))
+    (message msg)))
 
 (defun dk/generate-logging-report ()
   "Generate a report on the config loadup."

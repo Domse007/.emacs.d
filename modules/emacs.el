@@ -57,9 +57,10 @@
   (display-time-mode nil)
 
   ;; Enable battery usage. Disabled if not available.
-  (require 'battery)
-  (when (not (and battery-echo-area-format battery-status-function))
-    (display-battery-mode t))
+  ;; (require 'battery)
+  ;; (when (not (and battery-echo-area-format battery-status-function))
+  (display-battery-mode t)
+  ;;)
   
   (save-place-mode t)
   (global-hl-line-mode t)
