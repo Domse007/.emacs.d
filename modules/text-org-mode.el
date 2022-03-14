@@ -130,4 +130,4 @@
 ;;   (require 'edraw-org)
 ;;   (edraw-org-setup-default))
 
-(provide 'dk/org-mode)
+(provide 'text-org-mode)

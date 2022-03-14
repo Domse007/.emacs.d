@@ -24,4 +24,4 @@
   :hook
   ((emacs-lisp-mode . aggressive-indent-mode)))
 
-(provide 'dk/programming-elisp)
+(provide 'programming-elisp)

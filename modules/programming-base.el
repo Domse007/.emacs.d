@@ -121,4 +121,27 @@
 	    dk/user-emacs-etcdir
 	    "eshell"))))
 
-(provide 'dk/programming)
+(use-package treemacs-all-the-icons)
+
+(use-package treemacs
+  :custom
+  ((treemacs-follow-after-init t)
+   (treemacs-width 35)
+   (treemacs-indentation 1)
+   (treemacs-recenter-after-file-follow nil)
+   (treemacs-silent-refresh t)
+   (treemacs-silent-filewatch t)
+   (treemacs-change-root-without-asking t)
+   ;; (treemacs-sorting 'alphabetic-desc)
+   (treemacs-show-hidden-files t)
+   (treemacs-never-persist nil)
+   (treemacs-is-never-other-window t))
+  :config
+  (setq treemacs-python-executable (executable-find "python"))
+  (treemacs-follow-mode t)
+  (treemacs-filewatch-mode t)
+  (treemacs-load-theme "all-the-icons")
+  :bind
+  (("C-x t" . treemacs-select-window)))
+
+(provide 'programming-base)

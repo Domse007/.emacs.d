@@ -30,6 +30,8 @@
    (dashboard-set-file-icons t)
    (dashboard-set-heading-icons t)
    (dashboard-items '((recents  . 20))))
+  :bind
+  (("q" . nil))
   :config
   (dashboard-setup-startup-hook))
 
@@ -67,4 +69,4 @@
   :hook
   ((org-mode . olivetti-mode)))
 
-(provide 'dk/design)
+(provide 'base-design)

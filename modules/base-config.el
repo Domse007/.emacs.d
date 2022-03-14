@@ -45,4 +45,4 @@
   :config
   (dtrt-indent-global-mode t))
 
-(provide 'dk/config)
+(provide 'base-config)

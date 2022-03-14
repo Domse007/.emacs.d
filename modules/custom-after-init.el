@@ -44,4 +44,4 @@ that aren't used but still are created."
 
 (dk/log "Config is loaded.")
 
-(provide 'dk/custom-after-init)
+(provide 'custom-after-init)

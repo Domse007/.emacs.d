@@ -32,4 +32,4 @@
   :defer t
   :after flycheck)
 
-(provide 'dk/programming-rust)
+(provide 'programming-rust)

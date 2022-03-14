@@ -33,9 +33,9 @@
 			      (vertical-scroll-bars . nil))))
 ;; -DisableUnnecessaryInterface
 
-(set-face-attribute 'default nil
-                    :height 90)
-(set-face-attribute 'fixed-pitch nil
-                    :height 90)
+;; (set-face-attribute 'default nil
+;;                     :height 90)
+;; (set-face-attribute 'fixed-pitch nil
+;;                     :height 90)
 
 (provide 'early-init)

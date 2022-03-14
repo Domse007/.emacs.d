@@ -119,18 +119,19 @@ error occured."
 internally. Because it's a redefine, it can't have the dk/ prefix."
   (let ((max-files (dk/count-loadable-files)))
     (progn
-      (message (concat "Info: Loaded "
-		       (number-to-string dk/loaded-files-counter)
-		       " files (out of "
-		       (number-to-string max-files)
-		       "). "
-		       (number-to-string gcs-done)
-		       " garbage collection runs. "
-		       (if (equal max-files dk/loaded-files-counter)
-			   "All loaded."
-			 (concat "Error in file "
-				 (dk/locate-config-init-error dk/loaded-files-counter)
-				 "."))))
+      (dk/log (concat "Info: Loaded "
+		      (number-to-string dk/loaded-files-counter)
+		      " files (out of "
+		      (number-to-string max-files)
+		      "). "
+		      (number-to-string gcs-done)
+		      " garbage collection runs. "
+		      (if (equal max-files dk/loaded-files-counter)
+			  "All loaded."
+			(concat "Error in file "
+				(dk/locate-config-init-error dk/loaded-files-counter)
+				".")))
+	      t)
       (when (equal max-files dk/loaded-files-counter)
 	(run-with-timer 2 nil 'dk/config-version)))))
 
@@ -177,4 +178,4 @@ internally. Because it's a redefine, it can't have the dk/ prefix."
   (progn (dk/log "Enabling 40 percent keyboard mode.")
 	 (dk/40-percent-keyboard-mode)))
 
-(provide 'dk/custom-funcs)
+(provide 'custom-funcs)

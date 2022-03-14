@@ -10,16 +10,11 @@
 	 (base-path-ending (dk/check-ends-as-dir base-path))
 	 (roam-dir (read-directory-name "Org-roam directory: " base-path))
 	 (roam-dir-ending (dk/check-ends-as-dir roam-dir))
-	 (journal-dir (read-directory-name "Org-journal directory: " base-path))
-	 (journal-dir-ending (dk/check-ends-as-dir journal-dir))
 	 (use-40-percent-bindings (y-or-n-p "Use 40 percent keyboard? ")))
     (write-region
      (concat "(setq dk/user-system-base-path \""
 	     base-path
 	     base-path-ending
-	     "\")\n(setq dk/org-journal-dir \""
-	     journal-dir
-	     journal-dir-ending
 	     "\")\n(setq dk/org-roam-dir \""
 	     roam-dir
 	     roam-dir-ending
@@ -70,4 +65,4 @@ as a directory."
 ;; This is called when emacs is started.
 (dk/check-config-variables)
 
-(provide 'dk/custom-set-variables)
+(provide 'base-custom-set-variables)

@@ -36,4 +36,4 @@
    (org-roam-ui-update-on-save t)
    (org-roam-ui-open-on-start t)))
 
-(provide 'dk/org-roam)
+(provide 'text-org-roam)

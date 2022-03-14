@@ -41,4 +41,4 @@
 
 ;; (setq use-package-always-defer t)
 
-(provide 'dk/use-package)
+(provide 'base-use-package)

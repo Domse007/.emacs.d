@@ -19,4 +19,4 @@
   :defer t
   :after lsp)
 
-(provide 'dk/programming-python)
+(provide 'programming-python)

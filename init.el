@@ -22,11 +22,6 @@
   :type 'string
   :group 'dk/config)
 
-(defcustom dk/org-journal-dir ""
-  "Default location of journal files."
-  :type 'string
-  :group 'dk/config)
-
 (defcustom dk/org-roam-dir ""
   "Default directory of org files that should be indexed by roam."
   :type 'string
@@ -52,28 +47,27 @@
   "Default location for device specific files")
 
 (defconst dk/config-file-list
-  '(("early-init.el" . nil)
-    ("init.el" . nil)
-    ("use-package.el" . t)
-    ("custom-set-variables.el" . t)
-    ("config.el" . t)
-    ("emacs.el" . t)
-    ("custom-search.el" . t)
-    ("design.el" . t)
-    ("custom-funcs.el" . t)
-    ("custom-theme.el" . t)
-    ("helm.el" . t)
-    ("org-mode.el" . t)
-    ("org-spell.el" . t)
-    ("org-roam.el" . t)
-    ("org-journal.el" . t)
-    ("programming.el" . t)
-    ("programming-rust.el" . t)
-    ("programming-elisp.el" . t)
-    ("programming-python.el" . t)
-    ("programming-haskell.el" . t)
-    ("rss.el" . t)
-    ("custom-after-init.el" . t))
+  '((early-init . nil)
+    (init . nil)
+    (base-use-package . t)
+    (base-custom-set-variables . t)
+    (base-config . t)
+    (base-emacs . t)
+    (base-design . t)
+    (custom-search . t)
+    (custom-funcs . t)
+    (custom-theme . t)
+    (custom-helm . t)
+    (text-org-mode . t)
+    (text-org-spell . t)
+    (text-org-roam . t)
+    (programming-base . t)
+    (programming-rust . t)
+    (programming-elisp . t)
+    (programming-python . t)
+    (programming-haskell . t)
+    (custom-after-init . t)
+    )
   "List of all files for config. The fist arg is the file
 name and the second arg is if the `dk/load-config' function
 should load it. Additionally, it specifies if the custom
@@ -119,18 +113,24 @@ the flag."
   :type 'number
   :group 'dk/config)
 
+
+(add-to-list 'load-path (concat user-emacs-directory dk/user-emacs-subdir))
+
 (defun dk/load-config ()
-  "Load the files specified in the `dk/config-file-list' list."
+  "Load the files specified in the `dk/config-file-list'"
+  (dolist (item dk/config-file-list)
+    (let ((file (car item))
+          (arg (cdr item)))
+      (when arg
+        (progn (require file)
+               (setq dk/loaded-files-counter (+ dk/loaded-files-counter 1))
+               (dk/log (concat "Loading " (symbol-name file) ".")))))))
+
+(defun dk/reload-config ()
+  "Reload the config after making changes."
   (interactive)
-  (let ((path (concat user-emacs-directory dk/user-emacs-subdir)))
-    (dolist (item dk/config-file-list)
-      (let ((file (car item))
-	    (arg (cdr item)))
-	(when arg
-	  (progn 
-	    (load-file (concat path file))
-	    (setq dk/loaded-files-counter
-		  (+ dk/loaded-files-counter 1))))))))
+  (dk/load-config)
+  (run-hooks 'after-init-hook 'emacs-startup-hook))
 
 ;; Check the operating system.
 (dk/check-system)

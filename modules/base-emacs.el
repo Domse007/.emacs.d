@@ -73,14 +73,14 @@
   (advice-add 'split-window-right :after #'balance-windows)
 
   (global-unset-key (kbd "<menu>"))
-  (global-unset-key (kbd "<mouse-1>"))
-  (global-unset-key (kbd "<down-mouse-1>"))
+  ;; (global-unset-key (kbd "<mouse-1>"))
+  ;; (global-unset-key (kbd "<down-mouse-1>"))
   (global-unset-key (kbd "<insert>"))
   
   (when (version<= "29.0" emacs-version)
     (progn (good-scroll-mode t)
-	   (dk/log "Emacs version %s is used. Emacs 29.0 is prefered."
-		   emacs-version)))
+	   (dk/log (format "Emacs version %s is used. Emacs 29.0 is prefered."
+			   (emacs-version)))))
 
   (if (member dk/default-font (font-family-list))
       (progn (dk/log (format "Setting font: %s." dk/default-font))
@@ -97,4 +97,4 @@
    (prog-mode . subword-mode)
    (after-init-hook . auto-revert-mode)))
 
-(provide 'dk/emacs)
+(provide 'base-emacs)

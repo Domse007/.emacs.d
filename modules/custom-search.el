@@ -27,7 +27,7 @@ the file."
   "Extract the files from `dk/config-file-list'."
   (let ((res '()))
     (dolist (item dk/config-file-list)
-      (push (car item) res))
+      (push (format "%s.el" (car item)) res)) ; must convert symbol to filename.
     res))
 
 (defun dk/search-check-prefix-p (name)
@@ -36,10 +36,10 @@ the file."
     (dolist (item dk/config-file-list)
       (let ((file (car item))
 	    (arg (cdr item)))
-	(when (string-equal file name)
+	(when (string-equal (format "%s.el" file) name)
 	  (setq res arg))))
     res))
 
 (global-set-key (kbd "C-x RET") 'dk/search-config-file)
 
-(provide 'dk/custom-search)
+(provide 'custom-search)
