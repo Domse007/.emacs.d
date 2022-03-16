@@ -3,17 +3,17 @@
 #+HTML: </div>
 
 * Overview
-This is my personal =GNU/Emacs= config. I use emacs for the most time on
-=Linux=, but it works on =Windows 10= as well. I am using =GNU/Emacs 27.2=
-and it works without any problems. I want to upgrade to =GNU/Emacs
-28.0.50=, but I can’t compile my config correctly.
+This is my personal =GNU/Emacs= config. I am currently running =Emacs= on
+Windows, but it works on =Linux= as well. I am using =GNU/Emacs 29.0.50=
+and it works without any problems. With lower versions, there may be
+some problems. But I can't pinpoint the problems, because they are
+absolutely random and may be host dependant.
 
 This config is maintained and will get updated in the future. There
-could be some major changes with one commit, because of a really
-boring lessons.
+could be some major changes with one commit.
 
 I use this config mostly for org-mode and programming. For
-programming, I use LSP and nothing else.
+programming, I use =LSP= and =Tree-sitter=.
 
 * Installation
 First clone this repository and install all the system dependencies
@@ -34,35 +34,21 @@ The installation on Linux is very simple. Just execute the following
 command:
 
 #+begin_src sh
-$ sudo pacman -Syyu && sudo pacman -S aspell aspell-de rustup texlive
+$ sudo make
 #+end_src
 
 ** Windows 10
 Install =GNU/Emacs= from the official mirror. Preferably install the
 latest Release: version 27.1. Alternatively, you can use the official
-Microsoft package manager: =winget=.
+Microsoft package manager: =winget=. Please run the Makefile with admin privilege.
 
 #+begin_src sh
-$ winget install emacs
+$ make
 #+end_src
 
 Before starting emacs, install =MSYS2=
 to easily manage external dependencies. Install it to =C:\msys64=. Then
 add =C:\msys64\mingw64\bin\= to the =PATH=.
-
-Then execute the following commands:
-
-#+begin_src sh
-$ pacman -S git
-$ pacman -S mingw-w64-x86_64-sqlite3
-$ pacman -S mingw-w64-x86_64-aspell
-$ pacman -S mingw-w64-x86_64-aspell-de
-$ pacman -S mingw-w64-x86_64-python
-$ pacman -S mingw-w64-x86_64-rustup
-$ pacman -S mingw-w64-x86_64-miktex
-$ pip install python-language-server[all]
-$ pip install pyls-black pyls-isort pyls-mypy
-#+end_src
 
 * Update
 To update and get the newest config, you just have to pull it from
