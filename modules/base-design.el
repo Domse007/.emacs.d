@@ -31,7 +31,7 @@
    (dashboard-set-heading-icons t)
    (dashboard-items '((recents  . 20))))
   :bind
-  (("q" . nil))
+  (:map dashboard-mode-map ("q" . nil))
   :config
   (dashboard-setup-startup-hook))
 
