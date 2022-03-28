@@ -41,7 +41,8 @@
 	    dk/user-emacs-etcdir
 	    "org/.org-id-locations"))
    (org-export-allow-bind-keywords t)
-   (org-image-actual-width nil))
+   (org-image-actual-width nil)
+   (org-special-ctrl-a/e t))
   :hook
   ((org-mode-hook . (lambda () (linum-mode nil)))))
 
@@ -121,6 +122,10 @@
   (org-pretty-table :fetcher github :repo "Fuco1/org-pretty-table")
   :hook
   ((org-mode . org-pretty-table-mode)))
+
+(use-package org-modern
+  :hook
+  ((org-mode . org-modern-mode)))
 
 ;; (use-package el-easydraw
 ;;   :quelpa

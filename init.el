@@ -54,6 +54,7 @@
     (base-config . t)
     (base-emacs . t)
     (base-design . t)
+    (base-evil . t)
     (custom-search . t)
     (custom-funcs . t)
     (custom-theme . t)
@@ -76,22 +77,17 @@ search function should add the `dk/user-emacs-subdir' prefix.")
 ;; logger setup
 ;;------------------------------------------------------------------------------
 
-(defvar dk/logging-list '()
-  "List that contain logging messages of the config.")
-
 (defun dk/log (msg &optional p)
-  "Log message. A report can be generated with `dk/generate-logging-report'."
-  (add-to-list 'dk/logging-list msg t)
-  (when p
-    (message msg)))
-
-(defun dk/generate-logging-report ()
-  "Generate a report on the config loadup."
-  (interactive)
-  (with-output-to-temp-buffer "*logging-report*"
-    (switch-to-buffer "*logging-report*")
-    (dolist (msg dk/logging-list)
-      (print msg))))
+  "Log message. It will report to the minibuffer. The history is available in
+the *messages* buffer."
+  (if p
+      (cond ((eq p 'info)
+             (message "[INFO] %s" msg))
+            ((eq p 'warning)
+             (message "[WARNING] %s" msg))
+            ((eq p 'error)
+             (message  "[ERROR] %s" msg)))
+    (message "[WARNING] %s" msg)))
 
 ;; init functions
 ;;------------------------------------------------------------------------------
@@ -104,9 +100,9 @@ the flag."
 	((string-equal system-type "gnu/linux")
 	 (setq dk/linux-flag t)))
   (cond (dk/windows-flag
-	 (dk/log "Detected Windows. Setting variable..."))
+	 (dk/log "Detected Windows. Setting variable..." 'info))
 	(dk/linux-flag
-	 (dk/log "Detected Linux. Setting variable..."))))
+	 (dk/log "Detected Linux. Setting variable..." 'info))))
 
 (defcustom dk/loaded-files-counter 0
   "Counter for all loaded config files."
@@ -124,7 +120,7 @@ the flag."
       (when arg
         (progn (require file)
                (setq dk/loaded-files-counter (+ dk/loaded-files-counter 1))
-               (dk/log (concat "Loading " (symbol-name file) ".")))))))
+               (dk/log (concat "Loading " (symbol-name file) ".") 'info))))))
 
 (defun dk/reload-config ()
   "Reload the config after making changes."

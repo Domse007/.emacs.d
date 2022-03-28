@@ -58,7 +58,7 @@ a predefined game."
 (defun dk/package-update-packages ()
   "Update all packages. Alias for `auto-package-update-now'."
   (interactive)
-  (dk/log "Updating packages..." t)
+  (dk/log "Updating packages..." 'info)
   (auto-package-update-now))
 
 ;; Config version stuff
@@ -89,7 +89,7 @@ is returned otherwise the whole sentence is returned."
   (interactive)
   (cond (dk/windows-flag (shell-command "explorer ."))
 	(dk/linux-flag (shell-command "xdg-open ."))
-	(t (dk/log "This command is not supported on this platform." t))))
+	(t (dk/log "This command is not supported on this platform." 'error))))
 
 ;; Config error debug functions
 ;;------------------------------------------------------------------------------
@@ -119,7 +119,7 @@ error occured."
 internally. Because it's a redefine, it can't have the dk/ prefix."
   (let ((max-files (dk/count-loadable-files)))
     (progn
-      (dk/log (concat "Info: Loaded "
+      (dk/log (concat "Loaded "
 		      (number-to-string dk/loaded-files-counter)
 		      " files (out of "
 		      (number-to-string max-files)
@@ -131,7 +131,7 @@ internally. Because it's a redefine, it can't have the dk/ prefix."
 			(concat "Error in file "
 				(dk/locate-config-init-error dk/loaded-files-counter)
 				".")))
-	      t)
+	      'info)
       (when (equal max-files dk/loaded-files-counter)
 	(run-with-timer 2 nil 'dk/config-version)))))
 
@@ -175,7 +175,7 @@ internally. Because it's a redefine, it can't have the dk/ prefix."
 	    (,(kbd "C-x p") . dk/delete-window)))
 
 (when dk/use-40-percent-keyboard
-  (progn (dk/log "Enabling 40 percent keyboard mode.")
+  (progn (dk/log "Enabling 40 percent keyboard mode." 'info)
 	 (dk/40-percent-keyboard-mode)))
 
 (provide 'custom-funcs)

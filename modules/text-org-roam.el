@@ -17,15 +17,21 @@
    ("C-c n f" . org-roam-node-find)
    ("C-c n i" . org-roam-node-insert)
    :map org-mode-map
-   ("C-M-i" . completion-at-point))
+   ("C-M-i" . completion-at-point)
+   ("<mouse-1>" . org-roam-visit-thing))
   :config
+  (add-to-list 'display-buffer-alist
+               '("\\*org-roam\\*"
+		 (display-buffer-in-side-window)
+		 (side . right)
+		 (slot . 0)
+		 (window-width . 0.25)
+		 (preserve-size . (t nil))
+		 (window-parameters . ((no-other-window . t)
+                                       (no-delete-other-windows . t)))))
   (org-roam-db-autosync-enable))
 
 (use-package org-roam-ui
-  ;; :quelpa
-  ;; (org-roam-ui :fetcher github
-  ;; 	       :repo "org-roam/org-roam-ui"
-  ;; 	       :files ("*"))
   :defer t
   :after org-roam
   :hook
@@ -35,5 +41,17 @@
    (org-roam-ui-follow t)
    (org-roam-ui-update-on-save t)
    (org-roam-ui-open-on-start t)))
+
+(use-package delve
+  :quelpa
+  (delve :fetcher github :repo "publicimageltd/delve")
+  :custom
+  ((delve-store-directory (concat user-emacs-directory
+				  dk/user-emacs-etcdir
+				  "delve-store")))
+  :bind
+  (("<f12>" . delve))
+  :config
+  (delve-global-minor-mode))
 
 (provide 'text-org-roam)

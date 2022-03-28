@@ -27,7 +27,7 @@ message and just return it."
 ;;------------------------------------------------------------------------------
 
 (when window-system
-  (dk/log "Enabling posframe...")
+  (dk/log "Enabling posframe..." 'info)
   (helm-posframe-enable))
 
 (defun dk/delete-unused-config-dirs (dk/dirs)
@@ -42,6 +42,6 @@ that aren't used but still are created."
 
 ;;------------------------------------------------------------------------------
 
-(dk/log "Config is loaded.")
+(dk/log "Config is loaded." 'info)
 
 (provide 'custom-after-init)
