@@ -34,10 +34,10 @@
 
 (use-package quelpa-use-package
   :custom
-  ((quelpa-upgrade-interval 7)
-   (quelpa-dir (concat user-emacs-directory
+  ((quelpa-dir (concat user-emacs-directory
 		       dk/user-emacs-etcdir
-		       "quelpa/"))))
+		       "quelpa/"))
+   (quelpa-checkout-melpa-p nil)))
 
 ;; (setq use-package-always-defer t)
 

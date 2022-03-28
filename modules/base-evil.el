@@ -1,6 +1,7 @@
 (use-package evil
   :config
-  (evil-mode t))
+  ;; (evil-mode t)
+  )
 
 ;; (use-package evil-general)
 

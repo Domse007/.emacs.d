@@ -25,7 +25,6 @@
    (org-src-tab-acts-natively t)
    (org-catch-invisible-edits 'smart)
    (org-ctrl-k-protect-subtree t)
-   (initial-major-mode 'org-mode)
    (prettify-symbols-unprettify-at-point 'right-edge)
    (org-agenda-files `(,(concat dk/user-system-base-path "TODOs.org")))
    (org-latex-preview-ltxpng-directory "~/.ltxpng/")

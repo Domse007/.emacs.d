@@ -49,7 +49,9 @@
    ;; disable cl-warnings at startup
    (byte-compile-warnings '(cl-functions))
    (linum-format "%5d")
-   (inhibit-startup-message t))
+   (inhibit-startup-message t)
+   ;; initial major mode
+   (initial-major-mode 'emacs-lisp-mode))
   :init
   ;; Functions to enable certain emacs behaviours
   (cua-mode t)
@@ -77,7 +79,7 @@
   ;; (global-unset-key (kbd "<down-mouse-1>"))
   (global-unset-key (kbd "<insert>"))
   
-  (when (version<= "29.0" emacs-version)
+  (when (version<= emacs-version "29.0")
     (progn (good-scroll-mode t)
 	   (dk/log (format "Emacs version %s is used. Emacs 29.0 is prefered."
 			   (emacs-version)) 'warning)))

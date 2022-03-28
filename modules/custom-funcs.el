@@ -59,7 +59,8 @@ a predefined game."
   "Update all packages. Alias for `auto-package-update-now'."
   (interactive)
   (dk/log "Updating packages..." 'info)
-  (auto-package-update-now))
+  (auto-package-update-now)
+  (quelpa-upgrade-all-maybe))
 
 ;; Config version stuff
 ;;------------------------------------------------------------------------------

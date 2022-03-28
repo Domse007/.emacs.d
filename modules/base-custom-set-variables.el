@@ -38,7 +38,8 @@ as a directory."
   (let ((var-file (concat dk/variable-file-dir
 			  dk/variable-file-name)))
     (if (file-exists-p var-file)
-	(load-file var-file)
+	(progn (load-file var-file)
+	       (dk/log "Loaded custom file." 'info))
       (progn
 	(dk/set-config-variables)
 	(dk/check-config-variables)))))

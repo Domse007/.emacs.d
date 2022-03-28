@@ -25,7 +25,7 @@
   "Function that loads a theme."
   (dk/log (format "Loading theme %s" theme) 'info)
   (load-theme theme t)
-  (dk/log (format "Loaded %s" theme)) 'info)
+  (dk/log (format "Loaded %s" theme) 'info))
 
 (defun dk/load-light-theme ()
   "Load the light theme."
