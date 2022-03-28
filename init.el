@@ -86,7 +86,7 @@ the *messages* buffer."
             ((eq p 'warning)
              (message "[WARNING] %s" msg))
             ((eq p 'error)
-             (message  "[ERROR] %s" msg)))
+             (message "[ERROR] %s" msg)))
     (message "[WARNING] %s" msg)))
 
 ;; init functions

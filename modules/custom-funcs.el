@@ -178,4 +178,26 @@ internally. Because it's a redefine, it can't have the dk/ prefix."
   (progn (dk/log "Enabling 40 percent keyboard mode." 'info)
 	 (dk/40-percent-keyboard-mode)))
 
+;; Checking for external dependencies
+;;------------------------------------------------------------------------------
+
+(defconst dk/system-dependencies
+  '("gcc" "grep" "pdflatex" "git" "python" "cargo")
+  "List of external programs that are required to have a working config.")
+
+(defun dk/check-external-deps ()
+  "Check if external programs are available."
+  (interactive)
+  (let ((missing-alist))
+    (dolist (program dk/system-dependencies)
+      (when (equal (executable-find program) nil)
+	(if (not missing-alist)
+	    (setq missing-alist `(,program))
+	  (add-to-list missing-alist program))))
+    (if (equal missing-alist nil)
+	(dk/log "No missing dependencies." 'info)
+      (dk/log (concat "Missing following dependencies: "
+		      (substring (format "%s" missing-alist) 1 -1))
+	      'error))))
+
 (provide 'custom-funcs)
