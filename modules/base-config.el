@@ -24,7 +24,7 @@
   :hook
   (auto-package-update-before-hook
    .
-   (lambda () (dk/log "I will update packages now" 'info))))
+   (lambda () (dk/log 'info "I will update packages now"))))
 
 (use-package good-scroll
   :defer t

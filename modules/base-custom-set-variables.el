@@ -42,7 +42,7 @@ as a directory."
 			  dk/variable-file-name)))
     (if (file-exists-p var-file)
 	(progn (load-file var-file)
-	       (dk/log "Loaded custom file." 'info))
+	       (dk/log 'info "Loaded custom file."))
       (progn
 	(dk/set-config-variables)
 	(dk/check-config-variables)))))

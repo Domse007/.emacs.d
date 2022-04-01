@@ -19,7 +19,7 @@ message and just return it."
 		       ".")))
     (if not-print
 	greet
-      (progn (dk/log greet 'info)
+      (progn (dk/log 'info greet)
 	     greet))))
 
 (setq dashboard-banner-logo-title (dk/greet t))
@@ -27,7 +27,7 @@ message and just return it."
 ;;------------------------------------------------------------------------------
 
 (when window-system
-  (dk/log "Enabling posframe..." 'info)
+  (dk/log 'info "Enabling posframe...")
   (helm-posframe-enable))
 
 (defun dk/delete-unused-config-dirs (dk/dirs)
@@ -42,6 +42,6 @@ that aren't used but still are created."
 
 ;;------------------------------------------------------------------------------
 
-(dk/log "Config is loaded." 'info)
+(dk/log 'info "Config is loaded.")
 
 (provide 'custom-after-init)

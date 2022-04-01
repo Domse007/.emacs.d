@@ -91,17 +91,15 @@ search function should add the `dk/user-emacs-subdir' prefix.")
 ;; logger setup
 ;;------------------------------------------------------------------------------
 
-(defun dk/log (msg &optional p)
-  "Log message. It will report to the minibuffer. The history is available in
-the *messages* buffer."
-  (if p
-      (cond ((eq p 'info)
-             (message "[INFO] %s" msg))
-            ((eq p 'warning)
-             (message "[WARNING] %s" msg))
-            ((eq p 'error)
-             (message "[ERROR] %s" msg)))
-    (message "[WARNING] %s" msg)))
+(defmacro dk/log (kind &rest msg)
+  "Log a message. It will report to the minibuffer. The history is available in
+the *Messages* buffer."
+  `(cond ((eq ,kind 'info)
+          (message (concat "[INFO] " ,@msg)))
+         ((eq ,kind 'warning)
+          (message (concat "[WARNING] " ,@msg)))
+         ((eq ,kind 'error)
+          (message (concat "[ERROR] " ,@msg)))))
 
 ;; portable setup
 ;;------------------------------------------------------------------------------
@@ -110,10 +108,10 @@ the *messages* buffer."
   "Check if the config should be loaded in portable mode and if so, load the
 portable file."
   (if (eq (getenv dk/portable-env-var) "1")
-      (progn (dk/log "Portable config. Loading portable definitions file." 'info)
+      (progn (dk/log 'info "Portable config. Loading portable definitions file.")
              (load-file dk/portable-definitions-file)
              (setq dk/portable-is-portable t))
-    (dk/log "Emacs is locally installed." 'info)))
+    (dk/log 'info "Emacs is locally installed.")))
 
 (dk/check-and-load-portable-file)
 
@@ -128,9 +126,9 @@ the flag."
 	((string-equal system-type "gnu/linux")
 	 (setq dk/linux-flag t)))
   (cond (dk/windows-flag
-	 (dk/log "Detected Windows. Setting variable..." 'info))
+	 (dk/log 'info "Detected Windows. Setting variable..."))
 	(dk/linux-flag
-	 (dk/log "Detected Linux. Setting variable..." 'info))))
+	 (dk/log 'info "Detected Linux. Setting variable..."))))
 
 (defcustom dk/loaded-files-counter 0
   "Counter for all loaded config files."
@@ -148,7 +146,7 @@ the flag."
       (when arg
         (progn (require file)
                (setq dk/loaded-files-counter (+ dk/loaded-files-counter 1))
-               (dk/log (concat "Loading " (symbol-name file) ".") 'info))))))
+               (dk/log 'info "Loading " (symbol-name file) "."))))))
 
 (defun dk/reload-config ()
   "Reload the config after making changes."

@@ -81,14 +81,13 @@
   
   (when (version<= emacs-version "29.0")
     (progn (good-scroll-mode t)
-	   (dk/log (format "Emacs version %s is used. Emacs 29.0 is prefered."
-			   (emacs-version)) 'warning)))
+	   (dk/log 'warning "Emacs version " (emacs-version)
+		   " is used. Emacs 29.0 is prefered.")))
 
   (if (member dk/default-font (font-family-list))
-      (progn (dk/log (format "Setting font: %s." dk/default-font) 'info)
+      (progn (dk/log 'info "Setting font: " dk/default-font)
 	     (set-face-attribute 'default nil :font dk/default-font))
-    (dk/log (format "%s ist not available. Maybe install it." dk/default-font)
-	    'error))
+    (dk/log 'error dk/default-font " is not available. Maybe install it."))
   :bind
   (("C-k" . kill-whole-line)
    ("M-p" . backward-paragraph)

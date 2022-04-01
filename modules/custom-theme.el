@@ -23,9 +23,10 @@
 
 (defun dk/load-theme (theme)
   "Function that loads a theme."
-  (dk/log (format "Loading theme %s" theme) 'info)
-  (load-theme theme t)
-  (dk/log (format "Loaded %s" theme) 'info))
+  (let ((name (symbol-name theme)))
+    (dk/log 'info "Loading theme " name)
+    (load-theme theme t)
+    (dk/log 'info "Loaded " name)))
 
 (defun dk/load-light-theme ()
   "Load the light theme."

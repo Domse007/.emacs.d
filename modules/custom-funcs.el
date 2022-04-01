@@ -58,7 +58,7 @@ a predefined game."
 (defun dk/package-update-packages ()
   "Update all packages. Alias for `auto-package-update-now'."
   (interactive)
-  (dk/log "Updating packages..." 'info)
+  (dk/log 'info "Updating packages...")
   (auto-package-update-now)
   (quelpa-upgrade-all-maybe))
 
@@ -77,7 +77,7 @@ is returned otherwise the whole sentence is returned."
 	  (number-to-string dk/config-minor-version)))
 	(explanation "Personal Emacs config version: "))
     (when (not not-print)
-      (dk/log (concat explanation version-string) 'info))
+      (dk/log 'info explanation version-string))
     (if only-version
 	version-string
       (concat explanation version-string))))
@@ -90,7 +90,7 @@ is returned otherwise the whole sentence is returned."
   (interactive)
   (cond (dk/windows-flag (shell-command "explorer ."))
 	(dk/linux-flag (shell-command "xdg-open ."))
-	(t (dk/log "This command is not supported on this platform." 'error))))
+	(t (dk/log 'error "This command is not supported on this platform."))))
 
 ;; Config error debug functions
 ;;------------------------------------------------------------------------------
@@ -120,19 +120,18 @@ error occured."
 internally. Because it's a redefine, it can't have the dk/ prefix."
   (let ((max-files (dk/count-loadable-files)))
     (progn
-      (dk/log (concat "Loaded "
-		      (number-to-string dk/loaded-files-counter)
-		      " files (out of "
-		      (number-to-string max-files)
-		      "). "
-		      (number-to-string gcs-done)
-		      " garbage collection runs. "
-		      (if (equal max-files dk/loaded-files-counter)
-			  "All loaded."
-			(concat "Error in file "
-				(dk/locate-config-init-error dk/loaded-files-counter)
-				".")))
-	      'info)
+      (dk/log 'info "Loaded "
+	      (number-to-string dk/loaded-files-counter)
+	      " files (out of "
+	      (number-to-string max-files)
+	      "). "
+	      (number-to-string gcs-done)
+	      " garbage collection runs. "
+	      (if (equal max-files dk/loaded-files-counter)
+		  "All loaded."
+		(concat "Error in file "
+			(dk/locate-config-init-error dk/loaded-files-counter)
+			".")))
       (when (equal max-files dk/loaded-files-counter)
 	(run-with-timer 2 nil 'dk/config-version)))))
 
@@ -176,7 +175,7 @@ internally. Because it's a redefine, it can't have the dk/ prefix."
 	    (,(kbd "C-x p") . dk/delete-window)))
 
 (when dk/use-40-percent-keyboard
-  (progn (dk/log "Enabling 40 percent keyboard mode." 'info)
+  (progn (dk/log 'info "Enabling 40 percent keyboard mode.")
 	 (dk/40-percent-keyboard-mode)))
 
 ;; Checking for external dependencies
@@ -196,9 +195,8 @@ internally. Because it's a redefine, it can't have the dk/ prefix."
 	    (setq missing-alist `(,program))
 	  (add-to-list missing-alist program))))
     (if (equal missing-alist nil)
-	(dk/log "No missing dependencies." 'info)
-      (dk/log (concat "Missing following dependencies: "
-		      (substring (format "%s" missing-alist) 1 -1))
-	      'error))))
+	(dk/log 'info "No missing dependencies.")
+      (dk/log 'error "Missing following dependencies: "
+	      (substring (format "%s" missing-alist) 1 -1)))))
 
 (provide 'custom-funcs)
