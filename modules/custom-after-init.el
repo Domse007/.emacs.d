@@ -19,7 +19,7 @@ message and just return it."
 		       ".")))
     (if not-print
 	greet
-      (progn (message greet)
+      (progn (dk/log greet 'info)
 	     greet))))
 
 (setq dashboard-banner-logo-title (dk/greet t))

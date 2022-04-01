@@ -45,4 +45,6 @@
   :config
   (dtrt-indent-global-mode t))
 
+(use-package esup)
+
 (provide 'base-config)

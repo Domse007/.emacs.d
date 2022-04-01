@@ -77,7 +77,7 @@ is returned otherwise the whole sentence is returned."
 	  (number-to-string dk/config-minor-version)))
 	(explanation "Personal Emacs config version: "))
     (when (not not-print)
-      (message (concat explanation version-string)))
+      (dk/log (concat explanation version-string) 'info))
     (if only-version
 	version-string
       (concat explanation version-string))))
@@ -183,7 +183,7 @@ internally. Because it's a redefine, it can't have the dk/ prefix."
 ;;------------------------------------------------------------------------------
 
 (defconst dk/system-dependencies
-  '("gcc" "grep" "pdflatex" "git" "python" "cargo")
+  '("gcc" "grep" "pdflatex" "git" "python" "cargo" "zip" "unzip")
   "List of external programs that are required to have a working config.")
 
 (defun dk/check-external-deps ()
