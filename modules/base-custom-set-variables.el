@@ -1,4 +1,7 @@
-(defconst dk/variable-file-dir "~/"
+(defconst dk/variable-file-dir (if dk/portable-is-portable
+				   (concat user-emacs-directory
+					   "../")
+				 "~/")
   "Directory of the local emacs config variables.")
 
 (defconst dk/variable-file-name ".emacs-config-vars"

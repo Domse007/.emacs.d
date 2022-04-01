@@ -22,6 +22,20 @@
   :type 'string
   :group 'dk/config)
 
+(defconst dk/portable-env-var "PORTABLE"
+  "Name of environment variable that is used to indicate if the emacs instance
+should be started in portable mode.")
+
+(defcustom dk/portable-definitions-file (concat user-emacs-directory
+                                                "../.emacs-portable")
+  "File that contains definitions to make this config portable.
+It may contain paths to external programs or additional elisp files."
+  :type 'string
+  :group 'dk/config)
+
+(defcustom dk/portable-is-portable nil
+  "This variable is true, if the portable env var exists.")
+
 (defcustom dk/org-roam-dir ""
   "Default directory of org files that should be indexed by roam."
   :type 'string
@@ -88,6 +102,20 @@ the *messages* buffer."
             ((eq p 'error)
              (message "[ERROR] %s" msg)))
     (message "[WARNING] %s" msg)))
+
+;; portable setup
+;;------------------------------------------------------------------------------
+
+(defun dk/check-and-load-portable-file ()
+  "Check if the config should be loaded in portable mode and if so, load the
+portable file."
+  (if (eq (getenv dk/portable-env-var) "1")
+      (progn (dk/log "Portable config. Loading portable definitions file." 'info)
+             (load-file dk/portable-definitions-file)
+             (setq dk/portable-is-portable t))
+    (dk/log "Emacs is locally installed." 'info)))
+
+(dk/check-and-load-portable-file)
 
 ;; init functions
 ;;------------------------------------------------------------------------------
