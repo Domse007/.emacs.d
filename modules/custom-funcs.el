@@ -1,17 +1,17 @@
 ;; Personal additions to predefined functions
 ;;------------------------------------------------------------------------------
 
-(defun kill-word-at-point ()
+(defun dk/kill-word-at-point ()
   "Kill the word where the point is pointing at."
   (interactive)
   (let ((range (bounds-of-thing-at-point 'symbol)))
     (kill-region (- (car range) 1) (cdr range))))
 
-(global-set-key (kbd "M-k") 'kill-word-at-point)
+(global-set-key (kbd "M-k") 'dk/kill-word-at-point)
 
 (defun dk/delete-window ()
-  "Wrapper around `delete-window' to balance windows
-after deleting the active window."
+  "Wrapper around `delete-window' to balance windows after deleting the active
+window."
   (interactive)
   (delete-window)
   (balance-windows))
@@ -70,11 +70,9 @@ a predefined game."
 will not message the string. If ONLY-VERSION is given, only the version string
 is returned otherwise the whole sentence is returned."
   (interactive)
-  (let ((version-string
-	 (concat
-	  (number-to-string dk/config-major-version)
-	  "."
-	  (number-to-string dk/config-minor-version)))
+  (let ((version-string (concat (number-to-string dk/config-major-version)
+				"."
+				(number-to-string dk/config-minor-version)))
 	(explanation "Personal Emacs config version: "))
     (when (not not-print)
       (dk/log 'info explanation version-string))

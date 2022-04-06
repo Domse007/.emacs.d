@@ -36,7 +36,7 @@
 	  (setq scroll-margin 8)
 	(setq scroll-margin 0)))))
   :config
-  (defun trackpad-mode ()
+  (defun dk/trackpad-mode ()
     "Alias for good-scroll-mode."
     (interactive)
     (good-scroll-mode t)))

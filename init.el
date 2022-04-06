@@ -135,7 +135,6 @@ the flag."
   :type 'number
   :group 'dk/config)
 
-
 (add-to-list 'load-path (concat user-emacs-directory dk/user-emacs-subdir))
 
 (defun dk/load-config ()

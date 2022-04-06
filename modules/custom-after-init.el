@@ -8,9 +8,8 @@
 (require 'dashboard)
 
 (defun dk/greet (&optional not-print)
-  "Print a nice greeting after startup. If
-not-print is given, the function will not print the
-message and just return it."
+  "Print a nice greeting after startup. If not-print is given, the function will
+not print the message and just return it."
   (interactive)
   (let ((greet (concat "Welcome back! Running GNU/Emacs "
 		       emacs-version
@@ -31,8 +30,8 @@ message and just return it."
   (helm-posframe-enable))
 
 (defun dk/delete-unused-config-dirs (dk/dirs)
-  "Delete directories in the .emacs.d folder
-that aren't used but still are created."
+  "Delete directories in the .emacs.d folder that aren't used but still are
+created."
   (dolist (d dk/dirs)
     (let ((dir (concat user-emacs-directory d)))
       (when (file-directory-p dir)
