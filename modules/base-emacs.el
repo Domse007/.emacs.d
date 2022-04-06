@@ -80,7 +80,7 @@
   (global-unset-key (kbd "<insert>"))
   
   (when (version<= emacs-version "29.0")
-    (progn (good-scroll-mode t)
+    (progn (pixel-scroll-precision-mode t)
 	   (dk/log 'warning "Emacs version " (emacs-version)
 		   " is used. Emacs 29.0 is prefered.")))
 
@@ -88,6 +88,22 @@
       (progn (dk/log 'info "Setting font: " dk/default-font)
 	     (set-face-attribute 'default nil :font dk/default-font))
     (dk/log 'error dk/default-font " is not available. Maybe install it."))
+
+  (defcustom dk/default-coding-system 'utf-8-unix
+    "Default coding system that is used. This must be set."
+    :type 'symbol
+    :group 'dk/config)
+
+  (defun dk/set-default-coding-system ()
+    "Set the default coding system."
+    (interactive)
+    (if (not (eq dk/default-coding-system nil))
+	(progn (dk/log 'info "Setting default coding system: "
+		       (symbol-name dk/default-coding-system))
+	       (prefer-coding-system 'utf-8-unix))
+      (dk/log 'error "No default coding system defined.")))
+
+  (dk/set-default-coding-system)
   :bind
   (("C-k" . kill-whole-line)
    ("M-p" . backward-paragraph)

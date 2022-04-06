@@ -13,7 +13,11 @@
     (concat user-emacs-directory
 	    dk/user-emacs-etcdir
 	    "lsp-server/"))
-   (lsp-signature-auto-activate nil))
+   (lsp-signature-auto-activate nil)
+   ;; rust
+   (lsp-rust-analyzer-display-closure-return-type-hints t)
+   (lsp-rust-analyzer-display-parameter-hints t)
+   (lsp-rust-analyzer-import-granularity "module"))
   :hook
   ((lsp-mode-hook . lsp-ui-mode)
    (lsp-mode-hook . linum-mode))
