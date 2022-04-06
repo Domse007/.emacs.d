@@ -1,4 +1,5 @@
 (use-package org
+  :pin melpa
   :init
   (org-babel-do-load-languages
    'org-babel-load-languages

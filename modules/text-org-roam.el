@@ -11,7 +11,13 @@
    (org-roam-db-location
     (concat user-emacs-directory
 	    dk/user-emacs-etcdir
-	    "org/org-roam.db")))
+	    "org/org-roam.db"))
+   (org-roam-capture-templates
+    `(("d" "default" plain "%?" :target
+       (file+head "${slug}.org"
+		  ,(concat "#+title: ${title}\n"
+			   "#+options: toc:nil date:nil author:t"))
+       :unnarrowed t))))
   :bind
   (("C-c n l" . org-roam-buffer-toggle)
    ("C-c n f" . org-roam-node-find)
@@ -42,16 +48,16 @@
    (org-roam-ui-update-on-save t)
    (org-roam-ui-open-on-start t)))
 
-(use-package delve
-  :quelpa
-  (delve :fetcher github :repo "publicimageltd/delve")
-  :custom
-  ((delve-store-directory (concat user-emacs-directory
-				  dk/user-emacs-etcdir
-				  "delve-store")))
-  :bind
-  (("<f12>" . delve))
-  :config
-  (delve-global-minor-mode))
+;; (use-package delve
+;;   :quelpa
+;;   (delve :fetcher github :repo "publicimageltd/delve")
+;;   :custom
+;;   ((delve-store-directory (concat user-emacs-directory
+;; 				  dk/user-emacs-etcdir
+;; 				  "delve-store")))
+;;   :bind
+;;   (("<f12>" . delve))
+;;   :config
+;;   (delve-global-minor-mode t))
 
 (provide 'text-org-roam)

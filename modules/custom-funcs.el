@@ -143,7 +143,7 @@ internally. Because it's a redefine, it can't have the dk/ prefix."
 
 (require 'org)
 
-(defvar org-export-output-directory-prefix "export"
+(defvar org-export-output-directory-prefix ".export"
   "Prefix of directory used for org-mode export")
 
 (defadvice org-export-output-file-name (before org-add-export-dir activate)
