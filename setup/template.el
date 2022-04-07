@@ -1,7 +1,7 @@
 (setq user-full-name "{NAME}")
 (setq user-mail-address "{EMAIL}")
-(setq dk/user-system-base-path "~/SynologyDrive/")
-(setq dk/org-roam-dir "~/SynologyDrive/Notes/")
+(setq dk/user-system-base-path "~/")
+(setq dk/org-roam-dir "~/Notes/")
 (setq dk/use-40-percent-keyboard {KEYBOARD})
 
 (dk/customize! 'custom-search)

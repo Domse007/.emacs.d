@@ -23,12 +23,13 @@
   (helm-mode t))
 
 (use-package helm-posframe
-  :defer t
   :after helm
   :if window-system
   :custom
   ((helm-posframe-width 120)
-   (helm-posframe-border-width 5)))
+   (helm-posframe-border-width 5))
+  :config
+  (helm-posframe-enable))
 
 (use-package helm-icons
   :defer t
