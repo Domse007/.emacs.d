@@ -1,7 +1,7 @@
 (defgroup dk/config nil
   "Group for all custom config variables.")
 
-(defconst dk/config-major-version 0.4
+(defconst dk/config-major-version 0.5
   "Major version of the config. It increases on major changes.")
 
 (defconst dk/config-minor-version 0
@@ -54,41 +54,61 @@ It may contain paths to external programs or additional elisp files."
 (defconst dk/default-font "Source Code Pro"
   "The default font that will be used.")
 
-(defconst dk/user-emacs-subdir "modules/"
-  "Default location of config files.")
-
 (defconst dk/user-emacs-etcdir "var/"
   "Default location for device specific files")
 
-(defconst dk/config-file-list
-  '((early-init . nil)
-    (init . nil)
-    (base-use-package . t)
-    (base-custom-set-variables . t)
-    (base-config . t)
-    (base-emacs . t)
-    (base-design . t)
-    (base-evil . t)
-    (custom-search . t)
-    (custom-funcs . t)
-    (custom-theme . t)
-    (custom-helm . t)
-    (text-org-mode . t)
-    (text-org-spell . t)
-    (text-org-roam . t)
-    (programming-base . t)
-    (programming-rust . t)
-    (programming-elisp . t)
-    (programming-python . t)
-    (programming-haskell . t)
-    (custom-after-init . t)
-    )
-  "List of all files for config. The fist arg is the file
-name and the second arg is if the `dk/load-config' function
-should load it. Additionally, it specifies if the custom
-search function should add the `dk/user-emacs-subdir' prefix.")
+(defconst dk/user-config-file "~/.oec.el"
+  "File where the customization by the user is performed.")
 
-;; logger setup
+(defconst dk/config-core-path (concat user-emacs-directory "core/")
+  "Location where the core files are located.")
+
+(defconst dk/config-core-list
+  '(
+    ;; '((:file early-init :load nil
+    ;;          :description "File that is loaded before the frame init.")
+    ;;   (:file init :load  nil
+    ;;          :description "Main file that is automatically loaded.")
+    (:file base-use-package :description "Setup of use-package.")
+    ;; (:file base-custom-set-variables :load t
+    ;;        :description "Installation specific variables.")
+    (:file base-config :description "Setup of invisible packages.")
+    (:file base-emacs :description "Setup of built-in things.")
+    (:file base-design :description "Definitions of visible related packages.")
+    (:file base-evil :description "Definitions of file definitions."))
+  "List of core files for this config.")
+
+(defconst dk/config-optional-path (concat user-emacs-directory "modules/")
+  "Default location of config files.")
+
+(defconst dk/config-optional-list
+  '((:file custom-search :description "Custom functions for querying config.")
+    (:file custom-funcs :description "General custom functions.")
+    (:file custom-theme :description "Definitions of theme related packages.")
+    (:file custom-helm :description "Setup of helm packages.")
+    (:file text-org-mode :description "Setup of org-mode.")
+    (:file text-org-spell :description "Setup spell checking.")
+    (:file text-org-roam :description "Setup of org-roam.")
+    (:file programming-base :description "Setup of basic programming features.")
+    (:file programming-rust :description "Setup rust development environment.")
+    (:file programming-elisp :description "Setup elisp development environment.")
+    (:file programming-python :description "Setup python development environment.")
+    (:file programming-haskell :description "Setup haskell development environment."))
+  "List of optional files that can be loaded at startup.")
+
+(defcustom dk/config-optional-selected-list '()
+  "List of symbols that will be `required'. This is customized by the user in the
+file "
+  :group 'dk/config)
+
+(defconst dk/config-after-init-path (concat user-emacs-directory "after-init/")
+  "Default location where the after-init scripts reside.")
+
+(defconst dk/config-after-init-list
+  '((:file custom-after-init :description "Setup stuff at end of config init."))
+  "List of files that are loaded after optional files are loaded.")
+
+;; Macros
 ;;------------------------------------------------------------------------------
 
 (defmacro dk/log (kind &rest msg)
@@ -100,6 +120,10 @@ the *Messages* buffer."
           (message (concat "[WARNING] " ,@msg)))
          ((eq ,kind 'error)
           (message (concat "[ERROR] " ,@msg)))))
+
+(defmacro dk/customize! (module)
+  "Add a module to the to be loaded config."
+  `(push ,module dk/config-optional-selected-list))
 
 ;; portable setup
 ;;------------------------------------------------------------------------------
@@ -130,28 +154,28 @@ the flag."
 	(dk/linux-flag
 	 (dk/log 'info "Detected Linux. Setting variable..."))))
 
-(defcustom dk/loaded-files-counter 0
-  "Counter for all loaded config files."
-  :type 'number
-  :group 'dk/config)
-
-(add-to-list 'load-path (concat user-emacs-directory dk/user-emacs-subdir))
+(add-to-list 'load-path dk/config-core-path)
+(add-to-list 'load-path dk/config-optional-path)
+(add-to-list 'load-path dk/config-after-init-path)
 
 (defun dk/load-config ()
-  "Load the files specified in the `dk/config-file-list'"
-  (dolist (item dk/config-file-list)
-    (let ((file (car item))
-          (arg (cdr item)))
-      (when arg
-        (progn (require file)
-               (setq dk/loaded-files-counter (+ dk/loaded-files-counter 1))
-               (dk/log 'info "Loading " (symbol-name file) "."))))))
-
-(defun dk/reload-config ()
-  "Reload the config after making changes."
-  (interactive)
-  (dk/load-config)
-  (run-hooks 'after-init-hook 'emacs-startup-hook))
+  "Load the files specified in the `dk/config-core-list',
+`dk/config-optional-list' and `dk/config-after-init-list'. It also loads the
+file specified in `dk/user-config-file' to see what modules are required."
+  (dolist (item dk/config-core-list)
+    (let ((file (plist-get item :file)))
+      (dk/log 'info "Loading " (symbol-name file) ".")
+      (require file)))
+  ;; load the user customization.
+  (dk/log 'info "Loading the user configuration.")
+  (load-file dk/user-config-file)
+  (dolist (item dk/config-optional-selected-list)
+    (dk/log 'info "Loading " (symbol-name item) ".")
+    (require item))
+  (dolist (item dk/config-after-init-path)
+    (let ((file (plist-get item :file)))
+      (dk/log 'infog "Loading " (symbol-name file) ".")
+      (require item))))
 
 ;; Check the operating system.
 (dk/check-system)
