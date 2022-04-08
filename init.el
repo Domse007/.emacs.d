@@ -64,14 +64,7 @@ It may contain paths to external programs or additional elisp files."
   "Location where the core files are located.")
 
 (defconst dk/config-core-list
-  '(
-    ;; '((:file early-init :load nil
-    ;;          :description "File that is loaded before the frame init.")
-    ;;   (:file init :load  nil
-    ;;          :description "Main file that is automatically loaded.")
-    (:file base-use-package :description "Setup of use-package.")
-    ;; (:file base-custom-set-variables :load t
-    ;;        :description "Installation specific variables.")
+  '((:file base-use-package :description "Setup of use-package.")
     (:file base-config :description "Setup of invisible packages.")
     (:file base-emacs :description "Setup of built-in things.")
     (:file base-design :description "Definitions of visible related packages.")
