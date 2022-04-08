@@ -1,48 +1,58 @@
+(defconst dk/search-queryable-vars
+  `((,dk/config-core-list . ,dk/config-core-path)
+    (,dk/config-optional-list . ,dk/config-optional-path)
+    (,dk/config-after-init-list . ,dk/config-after-init-path)
+    (((:file init) (:file early-init)) . ,user-emacs-directory))
+  "List of cons where the first element is a variable with a list of files. The
+second element is a path, where the files can be found. These are used to
+easily query the files and open them.")
+
+(defvar dk/search-cache '()
+  "List of cons, where the first element is the displayed filename and the
+second element is the path to the file.")
+
+(defun dk/search-build-cache ()
+  "Build the cache of config files and save it in `dk/search-cache'.
+This function is only invoked once."
+  (dolist (con dk/search-queryable-vars)
+    (let ((listing (car con))
+	  (path (cdr con)))
+      (dolist (file listing)
+	(let ((file-name (symbol-name (plist-get file :file))))
+	  (push `(,file-name . ,(concat path file-name ".el"))
+		dk/search-cache))))))
+
+(defun dk/search-build-helm-readable-data ()
+  "Process `dk/search-cache' to get a list that can be interpreted by helm."
+  (let ((helm-list '()))
+    (dolist (cons-cell dk/search-cache)
+      (push (nth 0 cons-cell) helm-list))
+    helm-list))
+
+(defun dk/search-open-selected-file (file)
+  "Open the file that was reported by helm."
+  (dolist (item dk/search-cache)
+    (let ((name (car item))
+	  (path (cdr item)))
+      (when (string-equal name file)
+	(dk/log 'info "Opening config file: " name)
+	(find-file path)))))
+
 (defun dk/search-config-file ()
-  "Get the user input and call the function to open
-the file."
+  "Main function for the opening of config file. It uses the files specified in
+`dk/search-queryable-vars' and caches a more usable form for the function. The
+generated cache is stored in `dk/search-cache'. With the help of
+`dk/search-build-helm-readable-data', the data will be presented to the user.
+The selection will be passed to `dk/search-open-selected-file', which looks
+for the path in the cache and opens the file."
   (interactive)
-  (let ((files (dk/search-extract-files))
-	(result ""))
-    (setq result
-	  (helm
-	   :sources
-	   (helm-build-sync-source "Config files:"
-	     :candidates files
-	     :fuzzy-match t)
-	   :buffer "*helm-config-search*"))
-    (when (not (equal (length result) 0))
-      (let* ((arg-and-doc (dk/search-get-arg-and-docs result))
-	     (arg (nth 0 arg-and-doc))
-	     (description (nth 1 arg-and-doc)))
-	(dk/search-open-file result arg description)))))
-
-(defun dk/search-open-file (file arg description)
-  "Open the config file. The arg specifies if
-`dk/user-emacs-subdir' should be used."
-  (dk/log 'info "Opening: " file ".")
-  (let ((prefix (if arg
-		    dk/user-emacs-subdir
-		  "")))
-    (find-file (concat user-emacs-directory prefix file))))
-
-(defun dk/search-extract-files ()
-  "Extract the files from `dk/config-file-list'."
-  (let ((res '()))
-    (dolist (item dk/config-file-list)
-      (push (format "%s.el" (plist-get item :file)) res)) ; must convert symbol to filename.
-    res))
-
-(defun dk/search-get-arg-and-docs (name)
-  "Check if the prefix must be applied."
-  (let ((res nil))
-    (dolist (item dk/config-file-list)
-      (let ((file (plist-get item :file))
-	    (arg (plist-get item :load))
-	    (description (plist-get item :description)))
-	(when (string-equal (format "%s.el" file) name)
-	  (setq res '(arg description)))))
-    res))
+  (when (eq dk/search-cache nil)
+    (dk/search-build-cache))
+  (dk/search-open-selected-file
+   (helm :sources (helm-build-sync-source "Config files:"
+		    :candidates (dk/search-build-helm-readable-data)
+		    :fuzzy-match t)
+	 :buffer "*helm-config-search*")))
 
 (global-set-key (kbd "C-x RET") 'dk/search-config-file)
 
