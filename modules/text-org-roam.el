@@ -16,7 +16,8 @@
     `(("d" "default" plain "%?" :target
        (file+head "${slug}.org"
 		  ,(concat "#+title: ${title}\n"
-			   "#+options: toc:nil date:nil author:t"))
+			   "#+author: " user-full-name "\n"
+			   "#+options: toc:nil date:nil author:t\n\n"))
        :unnarrowed t))))
   :bind
   (("C-c n l" . org-roam-buffer-toggle)

@@ -25,10 +25,6 @@ not print the message and just return it."
 
 ;;------------------------------------------------------------------------------
 
-(when window-system
-  (dk/log 'info "Enabling posframe...")
-  (helm-posframe-enable))
-
 (defun dk/delete-unused-config-dirs (dk/dirs)
   "Delete directories in the .emacs.d folder that aren't used but still are
 created."
