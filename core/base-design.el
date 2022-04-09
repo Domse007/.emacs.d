@@ -44,7 +44,7 @@
   ((after-init . beacon-mode)))
 
 (use-package dimmer
-  :disabled t
+					; :disabled t
   :config
   (dimmer-configure-helm)
   (dimmer-configure-company-box)
@@ -53,7 +53,7 @@
   (dimmer-configure-posframe)
   (dimmer-mode t)
   :custom
-  ((dimmer-fraction 0.5)
+  ((dimmer-fraction 0.3)
    (dimmer-buffer-exclusion-regexps '("Treemacs" "\*[.]\*" "*.rs")))
   :hook
   ((prog-mode . (lambda () (dimmer-mode nil)))))

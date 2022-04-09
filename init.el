@@ -89,6 +89,9 @@ It may contain paths to external programs or additional elisp files."
     (:file programming-haskell :description "Setup haskell development environment."))
   "List of optional files that can be loaded at startup.")
 
+(defvar dk/after-optional-config-hook nil
+  "Hook that is run after the user definable modules are loaded.")
+
 (defcustom dk/config-optional-selected-list '()
   "List of symbols that will be `required'. This is customized by the user in the
 file "
@@ -117,6 +120,10 @@ the *Messages* buffer."
 (defmacro dk/customize! (module)
   "Add a module to the to be loaded config."
   `(push ,module dk/config-optional-selected-list))
+
+(defmacro dk/theme! (theme)
+  `(add-hook 'dk/after-optional-config-hook
+             (lambda () (setq dk/theme ,theme))))
 
 ;; portable setup
 ;;------------------------------------------------------------------------------
@@ -165,6 +172,8 @@ file specified in `dk/user-config-file' to see what modules are required."
   (dolist (item dk/config-optional-selected-list)
     (dk/log 'info "Loading " (symbol-name item) ".")
     (require item))
+  (run-hooks 'dk/after-optional-config-hook)
+  (dk/load-theme) ; load the default theme.
   (dolist (item dk/config-after-init-path)
     (let ((file (plist-get item :file)))
       (dk/log 'infog "Loading " (symbol-name file) ".")
