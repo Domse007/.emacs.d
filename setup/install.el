@@ -15,12 +15,16 @@
   (copy-file (concat user-emacs-directory "setup/template.el")
 	     config-file)
   (with-temp-buffer
-    (find-file config-file)
-    (replace-string "{NAME}" (plist-get installer-info-list :name))
-    (replace-string "{KEYBOARD}" (format "%s" (plist-get installer-info-list
-							 :keyboard)))
-    (replace-string "{EMAIL}" (plist-get installer-info-list :email))
-    (save-buffer)))
+    (let ((inhibit-message t))
+      (find-file config-file)
+      (replace-string "{NAME}" (plist-get installer-info-list :name))
+      (goto-char 1)
+      (replace-string "{KEYBOARD}" (format "%s" (plist-get installer-info-list
+							   :keyboard)))
+      (goto-char 1)
+      (replace-string "{EMAIL}" (plist-get installer-info-list :email))
+      (goto-char 1)
+      (save-buffer))))
 
 (defun check-user-file-exists ()
   (if (not (file-exists-p config-file))

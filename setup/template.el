@@ -16,3 +16,5 @@
 (dk/customize! 'programming-elisp)
 (dk/customize! 'programming-python)
 (dk/customize! 'programming-haskell)
+
+(dk/theme! 'humanoid-dark)
