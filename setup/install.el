@@ -1,5 +1,6 @@
 (defvar installer-info-list '(:name nil :keyboard nil :email nil))
 (defconst config-file "~/.oec.el")
+(defconst config-backup-file "~/.oec.el.backup")
 
 (defun get-installation-infos ()
   (message "Welcome to the interactive installer.")
@@ -30,8 +31,15 @@
   (if (not (file-exists-p config-file))
       (progn (get-installation-infos)
 	     (apply-installation-info))
-    (progn (message "The file already exists. If you start new,")
-	   (message "please delete the following file: %s." config-file))))
+    (progn ;; (message "The file already exists. If you start new,")
+      ;; (message "please delete the following file: %s." config-file)
+      (when (y-or-n-p "Do you want to reinstall the config? ")
+        (when (file-exists-p config-backup-file)
+          (delete-file config-backup-file))
+        (rename-file config-file config-backup-file)
+        (message "Backed up old config file to %s" config-backup-file)
+        (check-user-file-exists); File has been moved and this function will take the other path
+        ))))
 
 (defun install ()
   (check-user-file-exists))

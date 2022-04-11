@@ -1,8 +1,9 @@
 (defconst dk/search-queryable-vars
-  `((,dk/config-core-list . ,dk/config-core-path)
+  `((((:file install) (:file template)) . ,(concat user-emacs-directory "setup/"))
+    (((:file init) (:file early-init)) . ,user-emacs-directory)
+    (,dk/config-core-list . ,dk/config-core-path)
     (,dk/config-optional-list . ,dk/config-optional-path)
-    (,dk/config-after-init-list . ,dk/config-after-init-path)
-    (((:file init) (:file early-init)) . ,user-emacs-directory))
+    (,dk/config-after-init-list . ,dk/config-after-init-path))
   "List of cons where the first element is a variable with a list of files. The
 second element is a path, where the files can be found. These are used to
 easily query the files and open them.")

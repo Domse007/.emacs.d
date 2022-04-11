@@ -124,6 +124,7 @@
   ((org-mode . org-pretty-table-mode)))
 
 (use-package org-modern
+  :disabled t
   :hook
   ((org-mode . org-modern-mode)))
 

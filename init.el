@@ -4,7 +4,7 @@
 (defconst dk/config-major-version 0.5
   "Major version of the config. It increases on major changes.")
 
-(defconst dk/config-minor-version 0
+(defconst dk/config-minor-version 1
   "Minor version of the config. It increases on smaller changes.")
 
 (defcustom dk/windows-flag nil
