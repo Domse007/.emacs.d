@@ -23,15 +23,15 @@ This function is only invoked once."
 	  (push `(,file-name . ,(concat path file-name ".el"))
 		dk/search-cache))))))
 
-(defun dk/search-build-helm-readable-data ()
-  "Process `dk/search-cache' to get a list that can be interpreted by helm."
-  (let ((helm-list '()))
+(defun dk/search-build-readable-data ()
+  "Process `dk/search-cache' to get a list that can be interpreted."
+  (let ((c-list '()))
     (dolist (cons-cell dk/search-cache)
-      (push (nth 0 cons-cell) helm-list))
-    helm-list))
+      (push (nth 0 cons-cell) c-list))
+    c-list))
 
 (defun dk/search-open-selected-file (file)
-  "Open the file that was reported by helm."
+  "Open the file that was reported by read."
   (dolist (item dk/search-cache)
     (let ((name (car item))
 	  (path (cdr item)))
@@ -43,18 +43,23 @@ This function is only invoked once."
   "Main function for the opening of config file. It uses the files specified in
 `dk/search-queryable-vars' and caches a more usable form for the function. The
 generated cache is stored in `dk/search-cache'. With the help of
-`dk/search-build-helm-readable-data', the data will be presented to the user.
-The selection will be passed to `dk/search-open-selected-file', which looks
-for the path in the cache and opens the file."
+`dk/search-build-readable-data', the data will be presented to the user. The
+selection will be passed to `dk/search-open-selected-file', which looks for the
+path in the cache and opens the file."
   (interactive)
   (when (eq dk/search-cache nil)
     (dk/search-build-cache))
   (dk/search-open-selected-file
-   (helm :sources (helm-build-sync-source "Config files:"
-		    :candidates (dk/search-build-helm-readable-data)
-		    :fuzzy-match t)
-	 :buffer "*helm-config-search*")))
+   (completing-read "Config files: " (dk/search-build-readable-data) nil t)))
 
 (global-set-key (kbd "C-x RET") 'dk/search-config-file)
+
+(defun dk/open-user-config-file ()
+  "Open the file specified `dk/user-config-file'."
+  (interactive)
+  (dk/log 'info "Opening user config file: " dk/user-config-file ".")
+  (find-file dk/user-config-file))
+
+(global-set-key (kbd "C-c RET") 'dk/open-user-config-file)
 
 (provide 'custom-search)

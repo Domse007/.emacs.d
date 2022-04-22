@@ -37,6 +37,9 @@ created."
 
 ;;------------------------------------------------------------------------------
 
+;; (when window-system
+;;   (helm-posframe-enable))
+
 (dk/log 'info "Config is loaded.")
 
 (provide 'custom-after-init)

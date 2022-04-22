@@ -146,13 +146,11 @@ portable file."
   "Check if the system-type is `windows-nt'. If true, set 
 the flag."
   (cond ((string-equal system-type "windows-nt")
-	 (setq dk/windows-flag t))
+	 (setq dk/windows-flag t)
+         (dk/log 'info "Detected Windows. Setting variable..."))
 	((string-equal system-type "gnu/linux")
-	 (setq dk/linux-flag t)))
-  (cond (dk/windows-flag
-	 (dk/log 'info "Detected Windows. Setting variable..."))
-	(dk/linux-flag
-	 (dk/log 'info "Detected Linux. Setting variable..."))))
+	 (setq dk/linux-flag t)
+         (dk/log 'info "Detected Linux. Setting variable..."))))
 
 (add-to-list 'load-path dk/config-core-path)
 (add-to-list 'load-path dk/config-optional-path)
@@ -174,10 +172,10 @@ file specified in `dk/user-config-file' to see what modules are required."
     (require item))
   (run-hooks 'dk/after-optional-config-hook)
   (dk/load-theme) ; load the default theme.
-  (dolist (item dk/config-after-init-path)
+  (dolist (item dk/config-after-init-list)
     (let ((file (plist-get item :file)))
       (dk/log 'infog "Loading " (symbol-name file) ".")
-      (require item))))
+      (require file))))
 
 ;; Check the operating system.
 (dk/check-system)
