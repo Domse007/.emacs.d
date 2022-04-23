@@ -146,6 +146,28 @@
   (treemacs-filewatch-mode t)
   (treemacs-load-theme "all-the-icons")
   :bind
-  (("C-x t" . treemacs-select-window)))
+  (("C-x t" . treemacs-select-window))
+  :hook
+  ((lsp-mode . (lambda () (unless (eq (treemacs-current-visibility) 'visible)
+			    (treemacs t))))))
+
+(use-package sublimity
+  :disabled t
+  :config
+  (require 'sublimity)
+  ;; minimap
+  (require 'sublimity-map)
+  (sublimity-map-set-delay nil)
+  :hook
+  ((lsp-mode . sublimity-mode)))
+
+;; Code folding.
+(use-package hideshow
+  :ensure nil)
+
+;; Org like TAB behaviour for hideshow.
+(use-package hideshow-org
+  :hook
+  ((prog-mode . hs-org/minor-mode)))
 
 (provide 'programming-base)
