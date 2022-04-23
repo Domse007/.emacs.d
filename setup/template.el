@@ -8,6 +8,7 @@
 (dk/customize! 'custom-funcs)
 (dk/customize! 'custom-theme)
 (dk/customize! 'custom-helm)
+;; (dk/customize! 'custom-ivy)
 (dk/customize! 'text-org-mode)
 (dk/customize! 'text-org-spell)
 (dk/customize! 'text-org-roam)
