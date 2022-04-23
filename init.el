@@ -79,6 +79,7 @@ It may contain paths to external programs or additional elisp files."
     (:file custom-funcs :description "General custom functions.")
     (:file custom-theme :description "Definitions of theme related packages.")
     (:file custom-helm :description "Setup of helm packages.")
+    (:file custom-ivy :description "Setup of ivy packages.")
     (:file text-org-mode :description "Setup of org-mode.")
     (:file text-org-spell :description "Setup spell checking.")
     (:file text-org-roam :description "Setup of org-roam.")
