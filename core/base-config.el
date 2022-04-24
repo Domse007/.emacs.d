@@ -47,4 +47,6 @@
 
 (use-package esup)
 
+(use-package posframe)
+
 (provide 'base-config)

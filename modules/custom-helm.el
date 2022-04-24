@@ -1,5 +1,4 @@
 (use-package helm
-  :defer t
   :custom
   ((helm-move-to-line-cycle-in-source t)
    (helm-ff-search-library-in-sexp t)
@@ -23,13 +22,21 @@
   (helm-mode t))
 
 (use-package helm-posframe
+  :defer nil
   :after helm
   :if window-system
   :custom
   ((helm-posframe-width 120)
    (helm-posframe-border-width 5))
-  :config
-  (helm-posframe-enable))
+  ;;  :init
+  ;; (setq helm-display-function #'helm-posframe-display)
+  ;; (advice-add 'helm-cleanup :around #'helm-posframe-cleanup)
+  ;; (require 'posframe)
+  ;;(helm-posframe-enable)
+  )
+
+(require 'helm-posframe)
+(helm-posframe-enable)
 
 (use-package helm-icons
   :defer t

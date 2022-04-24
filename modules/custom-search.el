@@ -1,6 +1,21 @@
+(defconst dk/search-setup-files
+  '((:file install :description "File where the installation scripts are located.")
+    (:file template :description "Template that will be installed."))
+  "List of plists that are part of the install process. These are not loaded
+by the config.")
+
+(defconst dk/search-setup-path (concat user-emacs-directory "setup/")
+  "Path where the files defined in `dk/search-init-files' are located.")
+
+(defconst dk/search-init-files
+  '((:file init :description "The main init file. The config will start here.")
+    (:file early-init :description "Code that is executed before frame creation."))
+  "List of plists that contain files that are stored in the
+`user-emacs-directory'")
+
 (defconst dk/search-queryable-vars
-  `((((:file install) (:file template)) . ,(concat user-emacs-directory "setup/"))
-    (((:file init) (:file early-init)) . ,user-emacs-directory)
+  `((,dk/search-setup-files . ,dk/search-setup-path)
+    (,dk/search-init-files . ,user-emacs-directory)
     (,dk/config-core-list . ,dk/config-core-path)
     (,dk/config-optional-list . ,dk/config-optional-path)
     (,dk/config-after-init-list . ,dk/config-after-init-path))
@@ -19,8 +34,12 @@ This function is only invoked once."
     (let ((listing (car con))
 	  (path (cdr con)))
       (dolist (file listing)
-	(let ((file-name (symbol-name (plist-get file :file))))
-	  (push `(,file-name . ,(concat path file-name ".el"))
+	(let* ((file-name (symbol-name (plist-get file :file)))
+	       (description (plist-get file :description))
+	       (view (if (eq description nil)
+			 file-name
+		       (concat file-name " - " description))))
+	  (push `(,view . ,(concat path file-name ".el"))
 		dk/search-cache))))))
 
 (defun dk/search-build-readable-data ()
