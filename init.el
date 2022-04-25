@@ -22,17 +22,6 @@
   :type 'string
   :group 'dk/config)
 
-(defconst dk/portable-env-var "PORTABLE"
-  "Name of environment variable that is used to indicate if the emacs instance
-should be started in portable mode.")
-
-(defcustom dk/portable-definitions-file (concat user-emacs-directory
-                                                "../.emacs-portable")
-  "File that contains definitions to make this config portable.
-It may contain paths to external programs or additional elisp files."
-  :type 'string
-  :group 'dk/config)
-
 (defcustom dk/portable-is-portable nil
   "This variable is true, if the portable env var exists.")
 
@@ -63,47 +52,8 @@ It may contain paths to external programs or additional elisp files."
 (defconst dk/config-core-path (concat user-emacs-directory "core/")
   "Location where the core files are located.")
 
-(defconst dk/config-core-list
-  '((:file base-use-package :description "Setup of use-package.")
-    (:file base-config :description "Setup of invisible packages.")
-    (:file base-emacs :description "Setup of built-in things.")
-    (:file base-design :description "Definitions of visible related packages.")
-    (:file base-evil :description "Definitions of file definitions."))
-  "List of core files for this config.")
-
 (defconst dk/config-optional-path (concat user-emacs-directory "modules/")
   "Default location of config files.")
-
-(defconst dk/config-optional-list
-  '((:file custom-search :description "Custom functions for querying config.")
-    (:file custom-funcs :description "General custom functions.")
-    (:file custom-theme :description "Definitions of theme related packages.")
-    (:file custom-helm :description "Setup of helm packages.")
-    (:file custom-ivy :description "Setup of ivy packages.")
-    (:file text-org-mode :description "Setup of org-mode.")
-    (:file text-org-spell :description "Setup spell checking.")
-    (:file text-org-roam :description "Setup of org-roam.")
-    (:file programming-base :description "Setup of basic programming features.")
-    (:file programming-rust :description "Setup rust development environment.")
-    (:file programming-elisp :description "Setup elisp development environment.")
-    (:file programming-python :description "Setup python development environment.")
-    (:file programming-haskell :description "Setup haskell development environment."))
-  "List of optional files that can be loaded at startup.")
-
-(defvar dk/after-optional-config-hook nil
-  "Hook that is run after the user definable modules are loaded.")
-
-(defcustom dk/config-optional-selected-list '()
-  "List of symbols that will be `required'. This is customized by the user in the
-file "
-  :group 'dk/config)
-
-(defconst dk/config-after-init-path (concat user-emacs-directory "after-init/")
-  "Default location where the after-init scripts reside.")
-
-(defconst dk/config-after-init-list
-  '((:file custom-after-init :description "Setup stuff at end of config init."))
-  "List of files that are loaded after optional files are loaded.")
 
 ;; Macros
 ;;------------------------------------------------------------------------------
@@ -118,27 +68,18 @@ the *Messages* buffer."
          ((eq ,kind 'error)
           (message (concat "[ERROR] " ,@msg)))))
 
-(defmacro dk/customize! (module)
-  "Add a module to the to be loaded config."
-  `(push ,module dk/config-optional-selected-list))
-
 (defmacro dk/theme! (theme)
   `(add-hook 'dk/after-optional-config-hook
-             (lambda () (setq dk/theme ,theme))))
+             (lambda () (progn (setq dk/theme ,theme)
+                               (dk/load-theme)))))
 
-;; portable setup
-;;------------------------------------------------------------------------------
+(defmacro dk/use-module! (module)
+  "Let the user define which modules should be loaded.
+The only argument is a symbol with a name of a module."
+  `(push ,module dk/user-defined-modules))
 
-(defun dk/check-and-load-portable-file ()
-  "Check if the config should be loaded in portable mode and if so, load the
-portable file."
-  (if (eq (getenv dk/portable-env-var) "1")
-      (progn (dk/log 'info "Portable config. Loading portable definitions file.")
-             (load-file dk/portable-definitions-file)
-             (setq dk/portable-is-portable t))
-    (dk/log 'info "Emacs is locally installed.")))
-
-(dk/check-and-load-portable-file)
+(defvar dk/user-defined-modules nil
+  "List of module names that are defined with `dk/use-module'.")
 
 ;; init functions
 ;;------------------------------------------------------------------------------
@@ -153,30 +94,16 @@ the flag."
 	 (setq dk/linux-flag t)
          (dk/log 'info "Detected Linux. Setting variable..."))))
 
-(add-to-list 'load-path dk/config-core-path)
-(add-to-list 'load-path dk/config-optional-path)
-(add-to-list 'load-path dk/config-after-init-path)
-
 (defun dk/load-config ()
-  "Load the files specified in the `dk/config-core-list',
-`dk/config-optional-list' and `dk/config-after-init-list'. It also loads the
-file specified in `dk/user-config-file' to see what modules are required."
-  (dolist (item dk/config-core-list)
-    (let ((file (plist-get item :file)))
-      (dk/log 'info "Loading " (symbol-name file) ".")
-      (require file)))
-  ;; load the user customization.
-  (dk/log 'info "Loading the user configuration.")
+  (load-file (concat dk/config-core-path "base-module-declaration.el"))
   (load-file dk/user-config-file)
-  (dolist (item dk/config-optional-selected-list)
-    (dk/log 'info "Loading " (symbol-name item) ".")
-    (require item))
+  (require 'base-module-resolving)
+  (dk/resolve-modules)
+  (dk/load-modules)
+  (dk/run-hooks)
+  (message "%s" dk/after-optional-config-hook)
   (run-hooks 'dk/after-optional-config-hook)
-  (dk/load-theme) ; load the default theme.
-  (dolist (item dk/config-after-init-list)
-    (let ((file (plist-get item :file)))
-      (dk/log 'infog "Loading " (symbol-name file) ".")
-      (require file))))
+  (dk/log 'info "Config loaded."))
 
 ;; Check the operating system.
 (dk/check-system)

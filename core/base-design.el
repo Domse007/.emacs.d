@@ -44,7 +44,7 @@
   ((after-init . beacon-mode)))
 
 (use-package dimmer
-					; :disabled t
+  ;; :disabled t
   :config
   (dimmer-configure-helm)
   (dimmer-configure-company-box)
@@ -63,5 +63,12 @@
   ((olivetti-style 'fancy))
   :hook
   ((org-mode . olivetti-mode)))
+
+(use-package perfect-margin
+  :disabled t
+  :custom
+  ((perfect-margin-visible-width 80))
+  :hook
+  ((org-mode . perfect-margin-mode)))
 
 (provide 'base-design)
