@@ -2,12 +2,10 @@
   :custom
   ((no-littering-etc-directory
     (concat user-emacs-directory
-	    dk/user-emacs-subdir
-	    "etc/"))
+	    dk/user-emacs-etcdir))
    (no-littering-var-directory
     (concat user-emacs-directory
-	    dk/user-emacs-subdir
-	    "var/"))
+	    dk/user-emacs-etcdir))
    ;; ((auto-save-file-name-transforms
    ;;   '((".*" "~/.emacs.d/var/auto-save/" t)))
    ))

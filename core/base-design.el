@@ -31,8 +31,8 @@
   :bind
   (:map dashboard-mode-map ("q" . nil))
   :config
-  (message "interupt received.")
-  (dashboard-setup-startup-hook))
+  (when (eq (length command-line-args) 1)
+    (dashboard-setup-startup-hook)))
 
 (use-package all-the-icons
   :if (window-system))

@@ -28,7 +28,8 @@
 		     (dolist (dep module-dependencies)
 		       (push dep dk/to-be-loaded-modules)))))
 	   (module-optional
-	    (progn (push `(:name ,module-name :deps ,module-dependencies)
+	    (progn (push `(:name ,module-name :deps ,module-dependencies
+				 :after-init ,module-after-init)
 			 dk/optional-modules))))
      (push `(:name ,module-name :description ,module-docs
 		   :deps ,module-dependencies :load-default ,module-load-p

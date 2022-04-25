@@ -35,9 +35,6 @@
   ;;(helm-posframe-enable)
   )
 
-(require 'helm-posframe)
-(helm-posframe-enable)
-
 (use-package helm-icons
   :defer t
   :after helm

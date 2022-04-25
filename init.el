@@ -101,7 +101,6 @@ the flag."
   (dk/resolve-modules)
   (dk/load-modules)
   (dk/run-hooks)
-  (message "%s" dk/after-optional-config-hook)
   (run-hooks 'dk/after-optional-config-hook)
   (dk/log 'info "Config loaded."))
 

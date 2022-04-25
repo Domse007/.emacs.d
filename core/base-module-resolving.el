@@ -8,12 +8,15 @@
     ;; Loop through all user defined modules and gather deps.
     (dolist (user-mod dk/user-defined-modules)
       (dolist (config-mod dk/optional-modules)
-	(let ((config-mod-name (plist-get config-mod :name)))
+	(let ((config-mod-name (plist-get config-mod :name))
+	      (after-init-fn (plist-get config-mod :after-init)))
 	  (when (eq user-mod config-mod-name)
 	    (progn
 	      (dolist (config-mod-s (plist-get config-mod :deps))
 		(push config-mod-s dependency-modules))
-	      (push config-mod-name dk/to-be-loaded-modules))))))
+	      (push config-mod-name dk/to-be-loaded-modules)
+	      (unless (eq after-init-fn nil)
+		(push after-init-fn dk/custom-after-init-hook)))))))
     ;; Check if deps are already defined.
     (dolist (dependency dependency-modules)
       (unless (member dependency dk/to-be-loaded-modules)
