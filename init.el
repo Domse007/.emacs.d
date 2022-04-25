@@ -4,7 +4,7 @@
 (defconst dk/config-major-version 0.5
   "Major version of the config. It increases on major changes.")
 
-(defconst dk/config-minor-version 1
+(defconst dk/config-minor-version 99
   "Minor version of the config. It increases on smaller changes.")
 
 (defcustom dk/windows-flag nil
@@ -102,7 +102,8 @@ the flag."
   (dk/load-modules)
   (dk/run-hooks)
   (run-hooks 'dk/after-optional-config-hook)
-  (dk/log 'info "Config loaded."))
+  (dk/log 'info "Config loaded.")
+  (setq gc-cons-threshold dk/original-gc-threshold)) ; old gc value
 
 ;; Check the operating system.
 (dk/check-system)
