@@ -128,6 +128,7 @@
 (use-package treemacs-all-the-icons)
 
 (use-package treemacs
+  :disabled t
   :custom
   ((treemacs-follow-after-init t)
    (treemacs-width 35)
