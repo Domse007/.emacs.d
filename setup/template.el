@@ -7,7 +7,6 @@
 
 (defun dk/user-file-setup ()
   (dk/use-module! 'custom-search)
-  (dk/use-module! 'custom-funcs)
   (dk/use-module! 'custom-theme)
   (dk/use-module! 'custom-helm)
   ;; (dk/use-module! 'custom-ivy)

@@ -104,20 +104,14 @@
   :optional nil
   :dir dk/config-core-path)
 
-(dk/declare-module! base-evil
-  "Setup evil key bindings."
-  :load-default nil
-  :optional t
+(dk/declare-module! base-funcs
+  "General custom funcs."
+  :load-default t
+  :optional nil
   :dir dk/config-core-path)
 
 (dk/declare-module! custom-search
   "Custom function for querying config."
-  :load-default nil
-  :optional t
-  :dir dk/config-optional-path)
-
-(dk/declare-module! custom-funcs
-  "General custom funcs."
   :load-default nil
   :optional t
   :dir dk/config-optional-path)
