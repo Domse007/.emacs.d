@@ -26,10 +26,16 @@
 (use-package fuzzy
   :defer t)
 
+(dk/get-package!
+    :user "Domse007"
+    :repo "org-lang"
+    :force dk/get-package-override-git-availability)
+
 (use-package org-lang
   :defer t
   :disabled t ;;; Disabled
   :if dk/windows-flag
+  :ensure (not dk/get-package-override-git-availability)
   :quelpa (org-lang :fetcher github :repo "domse007/org-lang")
   :init
   (use-package fuzzy)

@@ -4,6 +4,7 @@
 (setq dk/user-system-base-path "~/")
 (setq dk/org-roam-dir "~/Notes/")
 (setq dk/use-40-percent-keyboard {KEYBOARD})
+(setq dk/get-package-override-git-availability nil)
 
 (defun dk/user-file-setup ()
   (dk/use-module! 'custom-search)

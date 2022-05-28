@@ -93,12 +93,10 @@ which they are checked if they can be used.")
   (let* ((branches-url (dk/get-package-build-url-for-branch-list user repo))
 	 (available-branches (dk/get-package-get-branches branches-url))
 	 (selected-branch (if branch branch
-			    (progn     (message "files: %s" available-branches)
-				       (dk/get-packages-select-branch available-branches))))
+			    (dk/get-packages-select-branch available-branches)))
 	 (files-url (dk/get-package-build-url-for-file-list user repo selected-branch))
 	 (files (dk/get-packages-get-file-names files-url)))
     (dolist (file files)
-      (message "%s"        (dk/get-package-build-url-for-content user repo selected-branch file))
       (dk/get-package-retrieve-content-and-save
        (dk/get-package-build-url-for-content user repo selected-branch file)
        (concat dk/get-package-install-dir "/" repo "/" file)))))
@@ -106,22 +104,32 @@ which they are checked if they can be used.")
 ;; Example: (dk/get-package-get-package "Domse007" "snipsearch")
 
 (defun dk/get-package! (&rest args)
-  "Get a package if git is not available. The following parameters must be
+"Get a package if git is not available. The following parameters must be
 defined:
+
  1) :user <string>    The github user name
  2) :repo <string>    The repository
  3) :branch <string>  Optional the branch of the repo.
- 4) :force <bool>     Force to install with get-package."
-  (declare (indent 1))
-  (let* ((user (plist-get args :user))
-	 (repo (plist-get args :repo))
-	 (branch (plist-get args :branch))
-	 (force (plist-get args :force))
-	 (package-path (concat dk/get-package-install-dir repo "/")))
-    (when (and (or (eq (executable-find "git") nil) force)
-	       (not (file-directory-p package-path)))
-      (dk/get-package-get-package user repo branch))
-    (when (file-directory-p package-path)
-      (add-to-list 'load-path package-path))))
+ 4) :force <bool>     Force to install with get-package.
+
+Example:
+
+(dk/get-package! :user \"magnars\" :repo \"multiple-cursors.el\" :force t)
+
+Here we are defining the recipe for multiple cursors. We force it to override
+the check if it should skip because git is installed and quelpa can install it.
+
+It is possible that :ensure set to false if get-package is used."
+(declare (indent 1))
+(let* ((user (plist-get args :user))
+       (repo (plist-get args :repo))
+       (branch (plist-get args :branch))
+       (force (plist-get args :force))
+       (package-path (concat dk/get-package-install-dir repo "/")))
+  (when (and (or (eq (executable-find "git") nil) force)
+	     (not (file-directory-p package-path)))
+    (dk/get-package-get-package user repo branch))
+  (when (file-directory-p package-path)
+    (add-to-list 'load-path package-path))))
 
 (provide 'base-get-package)

@@ -90,8 +90,14 @@
    (org-reveal-ignore-speaker-notes nil)
    (org-reveal-note-key-char nil)))
 
+(dk/get-package!
+    :user "Domse007"
+    :repo "snipsearch"
+    :force dk/get-package-override-git-availability)
+
 (use-package snipsearch
   :after helm
+  :ensure (not dk/get-package-override-git-availability)
   :quelpa
   (snipsearch :fetcher github :repo "domse007/snipsearch")
   :custom
@@ -117,7 +123,13 @@
   :bind
   (("C-c m" . snipsearch)))
 
+(dk/get-package!
+    :user "Fuco1"
+    :repo "org-pretty-table"
+    :force dk/get-package-override-git-availability)
+
 (use-package org-pretty-table
+  :ensure (not dk/get-package-override-git-availability)
   :quelpa
   (org-pretty-table :fetcher github :repo "Fuco1/org-pretty-table")
   :hook
@@ -128,10 +140,16 @@
   :hook
   ((org-mode . org-modern-mode)))
 
+;; (dk/get-package!
+;;     :user "misohena"
+;;     :repo "el-easydraw"
+;;     :force dk/get-package-override-git-availability)
+;;
 ;; (use-package el-easydraw
+;;   :ensure (not dk/get-package-override-git-availability)
 ;;   :quelpa
 ;;   (el-easydraw :fetcher github :repo "/misohena/el-easydraw"))
-
+;;
 ;; (with-eval-after-load 'org
 ;;   (require 'edraw-org)
 ;;   (edraw-org-setup-default))

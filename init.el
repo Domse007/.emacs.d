@@ -34,6 +34,11 @@
   :type 'bool
   :group 'dk/config)
 
+(defcustom dk/get-package-override-git-availability nil
+  "Flag that will if true use get-package instead of quelpa, which requires git."
+  :type 'bool
+  :group 'dk/config)
+
 (defconst dk/default-font "Source Code Pro"
   "The default font that will be used.")
 

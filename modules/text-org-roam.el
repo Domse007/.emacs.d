@@ -49,7 +49,13 @@
    (org-roam-ui-update-on-save t)
    (org-roam-ui-open-on-start t)))
 
+;; (dk/get-package!
+;;     :user "publicimageltd"
+;;     :repo "delve"
+;;     :force dk/get-package-override-git-availability)
+;;
 ;; (use-package delve
+;;   :ensure (not dk/get-package-override-git-availability)
 ;;   :quelpa
 ;;   (delve :fetcher github :repo "publicimageltd/delve")
 ;;   :custom
