@@ -37,9 +37,16 @@ which they are checked if they can be used.")
 
 (defun dk/get-package-retrieve-content-and-save (url file-name)
   "Get content from url and return it as a string."
-  (with-temp-buffer
-    (url-insert-file-contents url)
-    (write-file file-name nil)))
+  (let ((interpreter-mode-alist nil)
+	(magic-mode-alist nil)
+	(magic-fallback-mode-alist nil)
+	(auto-mode-alist nil))
+    (with-temp-buffer
+      (url-insert-file-contents url)
+      (let ((direcory (file-name-directory file-name)))
+	(unless (file-directory-p direcory)
+	  (mkdir direcory t)))
+      (write-file file-name nil))))
 
 (defun dk/get-package-retrieve-content-as-json (url)
   "Get content from url and return it as a string."
@@ -60,11 +67,10 @@ which they are checked if they can be used.")
 
 (defun dk/get-packages-select-branch (available-branches)
   "Select a branch that will used to get the files from github."
-  (let ((selectable-branches (car (mapcar (lambda (elem)
-					    (member elem dk/get-package-branch-names))
-					  available-branches))))
-    (message "selectable branches: %s" selectable-branches)
-    (message "selected branch: %s" (car selectable-branches))
+  (let ((selectable-branches nil))
+    (dolist (avail available-branches)
+      (when (member avail dk/get-package-branch-names)
+	(push avail selectable-branches)))
     (if (eq selectable-branches nil)
 	(error "There are no fitting branches.")
       (car selectable-branches))))
@@ -73,25 +79,49 @@ which they are checked if they can be used.")
   "Get all files from a repo from github."
   (let* ((content (dk/get-package-retrieve-content-as-json url))
 	 (tree (nth 2 content)))
-    (mapcar (lambda (elem)
-	      (let ((keyword (car (nth 0 elem)))
-		    (file (cdr (nth 0 elem))))
-		(when (string-equal keyword "path")
-		  file)))
-	    (cdr tree))))
+    (remove nil (mapcar (lambda (elem)
+			  (let ((keyword (car (nth 0 elem)))
+				(type (cdr (nth 1 elem))) 
+				(file (cdr (nth 0 elem))))
+			    (when (and (string-equal keyword "path")
+				       (not (string-equal type "040000"))) ;; ensure not dir
+			      file)))
+			(cdr tree)))))
 
-(defun dk/get-package-get-package (user repo)
+(defun dk/get-package-get-package (user repo branch)
   "Install a package with get-package."
   (let* ((branches-url (dk/get-package-build-url-for-branch-list user repo))
 	 (available-branches (dk/get-package-get-branches branches-url))
-	 (selected-branch (dk/get-packages-select-branch available-branches))
+	 (selected-branch (if branch branch
+			    (progn     (message "files: %s" available-branches)
+				       (dk/get-packages-select-branch available-branches))))
 	 (files-url (dk/get-package-build-url-for-file-list user repo selected-branch))
 	 (files (dk/get-packages-get-file-names files-url)))
     (dolist (file files)
+      (message "%s"        (dk/get-package-build-url-for-content user repo selected-branch file))
       (dk/get-package-retrieve-content-and-save
        (dk/get-package-build-url-for-content user repo selected-branch file)
        (concat dk/get-package-install-dir "/" repo "/" file)))))
 
 ;; Example: (dk/get-package-get-package "Domse007" "snipsearch")
+
+(defun dk/get-package! (&rest args)
+  "Get a package if git is not available. The following parameters must be
+defined:
+ 1) :user <string>    The github user name
+ 2) :repo <string>    The repository
+ 3) :branch <string>  Optional the branch of the repo.
+ 4) :force <bool>     Force to install with get-package."
+  (declare (indent 1))
+  (let* ((user (plist-get args :user))
+	 (repo (plist-get args :repo))
+	 (branch (plist-get args :branch))
+	 (force (plist-get args :force))
+	 (package-path (concat dk/get-package-install-dir repo "/")))
+    (when (and (or (eq (executable-find "git") nil) force)
+	       (not (file-directory-p package-path)))
+      (dk/get-package-get-package user repo branch))
+    (when (file-directory-p package-path)
+      (add-to-list 'load-path package-path))))
 
 (provide 'base-get-package)
