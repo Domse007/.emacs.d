@@ -157,4 +157,4 @@ internally. Because it's a redefine, it can't have the dk/ prefix."
       (dk/log 'error "Missing following dependencies: "
 	      (substring (format "%s" missing-alist) 1 -1)))))
 
-(provide 'custom-funcs)
+(provide 'base-funcs)
