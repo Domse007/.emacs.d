@@ -47,8 +47,8 @@ path in the cache and opens the file."
 (defun dk/open-user-config-file ()
   "Open the file specified `dk/user-config-file'."
   (interactive)
-  (dk/log 'info "Opening user config file: " dk/user-config-file ".")
-  (find-file dk/user-config-file))
+  (dk/log 'info "Opening user config file: " (dk/user-config-get-user-file) ".")
+  (find-file (dk/user-config-get-user-file)))
 
 (global-set-key (kbd "C-c RET") 'dk/open-user-config-file)
 
