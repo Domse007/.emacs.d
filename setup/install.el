@@ -1,6 +1,10 @@
 (defvar installer-info-list '(:name nil :keyboard nil :email nil))
-(defconst config-file "~/.oec.el")
-(defconst config-backup-file "~/.oec.el.backup")
+
+(load-file (concat user-emacs-directory "core/base-version.el"))
+(load-file (concat user-emacs-directory "core/base-user-config.el"))
+
+(defconst config-file dk/user-config-simple-file)
+(defconst config-backup-file (concat config-file ".backup"))
 
 (defun get-installation-infos ()
   (message "Welcome to the interactive installer.")
@@ -18,6 +22,8 @@
   (with-temp-buffer
     (let ((inhibit-message t))
       (find-file config-file)
+      (replace-string "{VERSION}" (number-to-string dk/config-required-user-file-version))
+      (goto-char 1)
       (replace-string "{NAME}" (plist-get installer-info-list :name))
       (goto-char 1)
       (replace-string "{KEYBOARD}" (format "%s" (plist-get installer-info-list

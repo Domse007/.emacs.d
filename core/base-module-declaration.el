@@ -12,8 +12,9 @@
 
 (defmacro dk/declare-module! (name docs &rest args)
   "Default way of declaring modules."
+  (declare (indent 1))
   `(let* ((arg-list (list ,@args))
-	  (module-name ,name)
+	  (module-name ',name)
 	  (module-docs ,docs)
 	  (module-dependencies (plist-get arg-list :depends-on))
 	  (module-after-init (plist-get arg-list :after-init))
@@ -39,127 +40,151 @@
 (add-to-list 'load-path dk/config-core-path)
 (add-to-list 'load-path dk/config-optional-path)
 
-(dk/declare-module!
- 'early-init "The early-init file."
- :load-default nil
- :dir user-emacs-directory)
+(dk/declare-module! early-init
+  "The early-init file."
+  :load-default nil
+  :dir user-emacs-directory)
 
-(dk/declare-module!
- 'init "The main init file."
- :load-default nil
- :dir user-emacs-directory)
+(dk/declare-module! init
+  "The main init file."
+  :load-default nil
+  :dir user-emacs-directory)
 
-(dk/declare-module!
- 'base-use-package "Setup of use-package"
- :load-default t
- :optional nil
- :dir dk/config-core-path)
+(dk/declare-module! base-user-config
+  "Definitions to be able to load the user config."
+  :load-default nil
+  :optional nil
+  :dir dk/config-core-path)
 
-(dk/declare-module!
- 'base-config "Setup of invisible packages"
- :load-default t
- :optional nil
- :dir dk/config-core-path)
+(dk/declare-module! base-version
+  "Definitions of all version variables and functions"
+  :load-default t
+  :optional nil
+  :dir dk/config-core-path)
 
-(dk/declare-module!
- 'base-emacs "Setup of built-in things."
- :load-default t
- :optional nil
- :dir dk/config-core-path)
+(dk/declare-module! base-module-declaration
+  "Definitions of all modules for this config."
+  :load-default t
+  :optional nil
+  :dir dk/config-core-path)
 
-(dk/declare-module!
- 'base-design "Definitions of visible related packages."
- :load-default t
- :optional nil
- :dir dk/config-core-path)
+(dk/declare-module! base-module-resolving
+  "Module to resolve the module definitions"
+  :load-default t
+  :optional nil
+  :dir dk/config-core-path)
 
-(dk/declare-module!
- 'base-evil "Setup evil key bindings."
- :load-default nil
- :optional t
- :dir dk/config-core-path)
+(dk/declare-module! base-get-package
+  "Module which allows to pull package the quelpa way without git."
+  :load-default t
+  :optional nil
+  :dir dk/config-core-path)
 
-(dk/declare-module!
- 'custom-search "Custom function for querying config."
- :load-default nil
- :optional t
- :dir dk/config-optional-path)
+(dk/declare-module! base-use-package
+  "Setup of use-package"
+  :load-default t
+  :optional nil
+  :dir dk/config-core-path)
 
-(dk/declare-module!
- 'custom-funcs "General custom funcs."
- :load-default nil
- :optional t
- :dir dk/config-optional-path)
+(dk/declare-module! base-config
+  "Setup of invisible packages"
+  :load-default t
+  :optional nil
+  :dir dk/config-core-path)
 
-(dk/declare-module!
- 'custom-theme "Definitions of theme related packages."
- :load-default nil
- :optional t
- :dir dk/config-optional-path)
+(dk/declare-module! base-emacs
+  "Setup of built-in things."
+  :load-default t
+  :optional nil
+  :dir dk/config-core-path)
 
-(dk/declare-module!
- 'custom-helm "Setup of helm packages."
- :load-default nil
- :optional t
- :dir dk/config-optional-path
- :after-init (lambda () (helm-posframe-enable)))
+(dk/declare-module! base-design
+  "Definitions of visible related packages."
+  :load-default t
+  :optional nil
+  :dir dk/config-core-path)
 
-(dk/declare-module!
- 'custom-ivy "Setup of ivy packages."
- :load-default nil
- :optional t
- :dir dk/config-optional-path)
+(dk/declare-module! base-funcs
+  "General custom funcs."
+  :load-default t
+  :optional nil
+  :dir dk/config-core-path)
 
-(dk/declare-module!
- 'text-org-mode "Setup of org-mode."
- :load-default nil
- :optional t
- :dir dk/config-optional-path)
+(dk/declare-module! custom-search
+  "Custom function for querying config."
+  :load-default nil
+  :optional t
+  :dir dk/config-optional-path)
 
-(dk/declare-module!
- 'text-org-spell "Setup of spell checking."
- :load-default nil
- :optional t
- :dir dk/config-optional-path)
+(dk/declare-module! custom-theme
+  "Definitions of theme related packages."
+  :load-default nil
+  :optional t
+  :dir dk/config-optional-path)
 
-(dk/declare-module!
- 'text-org-roam "Setup of org-roams."
- :load-default nil
- :optional t
- :dir dk/config-optional-path)
+(dk/declare-module! custom-helm
+  "Setup of helm packages."
+  :load-default nil
+  :optional t
+  :dir dk/config-optional-path
+  :after-init (lambda () (helm-posframe-enable)))
 
-(dk/declare-module!
- 'programming-base "Setup of basic programming features."
- :load-default nil
- :optional t
- :dir dk/config-optional-path)
+(dk/declare-module! custom-ivy
+  "Setup of ivy packages."
+  :load-default nil
+  :optional t
+  :dir dk/config-optional-path)
 
-(dk/declare-module!
- 'programming-rust "Setup rust development environment."
- :load-default nil
- :optional t
- :depends-on '(programming-base)
- :dir dk/config-optional-path)
+(dk/declare-module! text-org-mode
+  "Setup of org-mode."
+  :load-default nil
+  :optional t
+  :dir dk/config-optional-path)
 
-(dk/declare-module!
- 'programming-elisp "Setup elisp development environment."
- :load-default nil
- :optional t
- :depends-on '(programming-base)
- :dir dk/config-optional-path)
+(dk/declare-module! text-org-spell
+  "Setup of spell checking."
+  :load-default nil
+  :optional t
+  :dir dk/config-optional-path)
 
-(dk/declare-module!
- 'programming-python "Setup python development environment."
- :load-default nil
- :optional t
- :depends-on '(programming-base)
- :dir dk/config-optional-path)
+(dk/declare-module! text-org-roam
+  "Setup of org-roams."
+  :load-default nil
+  :optional t
+  :dir dk/config-optional-path)
 
-(dk/declare-module!
- 'programming-haskell "Setup haskell development environment."
- :load-default nil
- :optional t
- :depends-on '(programming-base)
- :dir dk/config-optional-path)
+(dk/declare-module! programming-base
+  "Setup of basic programming features."
+  :load-default nil
+  :optional t
+  :dir dk/config-optional-path)
+
+(dk/declare-module! programming-rust
+  "Setup rust development environment."
+  :load-default nil
+  :optional t
+  :depends-on '(programming-base)
+  :dir dk/config-optional-path)
+
+(dk/declare-module! programming-elisp
+  "Setup elisp development environment."
+  :load-default nil
+  :optional t
+  :depends-on '(programming-base)
+  :dir dk/config-optional-path)
+
+(dk/declare-module! programming-python
+  "Setup python development environment."
+  :load-default nil
+  :optional t
+  :depends-on '(programming-base)
+  :dir dk/config-optional-path)
+
+(dk/declare-module! programming-haskell
+  "Setup haskell development environment."
+  :load-default nil
+  :optional t
+  :depends-on '(programming-base)
+  :dir dk/config-optional-path)
 
 (provide 'base-module-declaration)

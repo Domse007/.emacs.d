@@ -1,12 +1,6 @@
 (defgroup dk/config nil
   "Group for all custom config variables.")
 
-(defconst dk/config-major-version 0.5
-  "Major version of the config. It increases on major changes.")
-
-(defconst dk/config-minor-version 99
-  "Minor version of the config. It increases on smaller changes.")
-
 (defcustom dk/windows-flag nil
   "Flag that is set, if the host is a windows-nt kernel."
   :type 'bool
@@ -45,9 +39,6 @@
 
 (defconst dk/user-emacs-etcdir "var/"
   "Default location for device specific files")
-
-(defconst dk/user-config-file "~/.oec.el"
-  "File where the customization by the user is performed.")
 
 (defconst dk/config-core-path (concat user-emacs-directory "core/")
   "Location where the core files are located.")
@@ -96,10 +87,15 @@ the flag."
 
 (defun dk/load-config ()
   (load-file (concat dk/config-core-path "base-module-declaration.el"))
-  (load-file dk/user-config-file)
+  (require 'base-user-config)
+  (load-file (dk/user-config-get-user-file))
+  ;; eval function that defines to be loaded modules.
+  (dk/user-file-setup)
   (require 'base-module-resolving)
   (dk/resolve-modules)
   (dk/load-modules)
+  ;; load user defined stuff
+  (dk/user-file-custom)
   (dk/run-hooks)
   (run-hooks 'dk/after-optional-config-hook)
   (dk/log 'info "Config loaded.")
