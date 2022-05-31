@@ -120,15 +120,13 @@
 (use-package eshell
   :ensure nil
   :custom
-  ((eshell-directory-name
-    (concat user-emacs-directory
-	    dk/user-emacs-etcdir
-	    "eshell"))))
+  ((eshell-directory-name (concat user-emacs-directory
+				  dk/user-emacs-etcdir
+				  "eshell"))))
 
 (use-package treemacs-all-the-icons)
 
 (use-package treemacs
-  :disabled t
   :custom
   ((treemacs-follow-after-init t)
    (treemacs-width 35)
@@ -137,20 +135,33 @@
    (treemacs-silent-refresh t)
    (treemacs-silent-filewatch t)
    (treemacs-change-root-without-asking t)
-   ;; (treemacs-sorting 'alphabetic-desc)
    (treemacs-show-hidden-files t)
    (treemacs-never-persist nil)
-   (treemacs-is-never-other-window t))
-  :config
-  (setq treemacs-python-executable (executable-find "python"))
-  (treemacs-follow-mode t)
-  (treemacs-filewatch-mode t)
-  (treemacs-load-theme "all-the-icons")
+   (treemacs-is-never-other-window t)
+   (treemacs-sorting 'alphabetic-case-insensitive-asc)
+   (treemacs-persist-file
+    (concat user-emacs-directory dk/user-emacs-etcdir "treemacs-persist"))
+   (treemacs-last-error-persist-file
+    (concat dk/user-emacs-etcdir "treemacs-last-error-persist"))
+   (treemacs-collapse-dirs 0))
   :bind
   (("C-x t" . treemacs-select-window))
   :hook
-  ((lsp-mode . (lambda () (unless (eq (treemacs-current-visibility) 'visible)
-			    (treemacs t))))))
+  ((lsp . dk/ask-enable-treemacs)
+   (emacs-lisp-mode . dk/ask-enable-treemacs))
+  :init
+  (defun dk/ask-enable-treemacs ()
+    "Ask if treemacs should be enabled."
+    (when (and (eq (treemacs-current-visibility) 'none)
+	       (not (string-equal (buffer-name) "*scratch*")))
+      (when (y-or-n-p "Activate treemacs?")
+	(treemacs t))))
+  :config
+  (treemacs-follow-mode t)
+  (treemacs-project-follow-mode t)
+  (treemacs-filewatch-mode t)
+  (treemacs-load-theme "all-the-icons")
+  (treemacs-git-mode 'simple))
 
 (use-package sublimity
   :disabled t
