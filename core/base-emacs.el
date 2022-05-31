@@ -79,7 +79,7 @@
   ;; (global-unset-key (kbd "<down-mouse-1>"))
   (global-unset-key (kbd "<insert>"))
   
-  (when (featurep 'xinput2)
+  (when (boundp 'pixel-scroll-precision-mode)
     (progn (pixel-scroll-precision-mode t)
 	   (dk/log 'warning "Emacs version " (emacs-version)
 		   " is used. Emacs 29.0 is prefered.")))

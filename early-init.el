@@ -23,11 +23,11 @@
 ;; DisableUnnecessaryInterface
 (menu-bar-mode -1)
 (unless (display-graphic-p)
-  (setq default-frame-alist '(;; (fullscreen . maximized)
+  (setq default-frame-alist '((fullscreen . maximized)
 			      (menu-bar-lines . 0)
 			      (tool-bar-lines . 0)
 			      (vertical-scroll-bars . nil))
-	initial-frame-alist '(;; (fullscreen . maximized)
+	initial-frame-alist '((fullscreen . maximized)
 			      (menu-bar-lines . 0)
 			      (tool-bar-lines . 0)
 			      (vertical-scroll-bars . nil))))

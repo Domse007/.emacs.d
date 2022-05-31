@@ -24,12 +24,9 @@
 (use-package good-scroll
   :defer t
   :hook
-  ((good-scroll-mode
-    .
-    (lambda ()
-      (if (equal scroll-margin 0)
-	  (setq scroll-margin 8)
-	(setq scroll-margin 0)))))
+  ((good-scroll-mode . (lambda () (if (equal scroll-margin 0)
+				      (setq scroll-margin 8)
+				    (setq scroll-margin 0)))))
   :config
   (defun dk/trackpad-mode ()
     "Alias for good-scroll-mode."
@@ -39,6 +36,8 @@
 (use-package dtrt-indent
   :config
   (dtrt-indent-global-mode t))
+
+(use-package restart-emacs)
 
 (use-package esup)
 
