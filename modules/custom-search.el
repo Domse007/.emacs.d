@@ -1,3 +1,9 @@
+(module! custom-search
+  "Module that provides an interface to search through modules."
+  :depends-on nil
+  :conflicts-with nil
+  :dir dk/config-optional-path)
+
 (defvar dk/search-cache '()
   "List of cons, where the first element is the displayed filename and the
 second element is the path to the file.")

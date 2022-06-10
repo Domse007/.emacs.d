@@ -1,3 +1,9 @@
+(module! custom-helm
+  "Module that enables ivy and presents it through posframe."
+  :depends-on nil
+  :conflicts-with (custom-helm)
+  :dir dk/config-optional-path)
+
 (use-package counsel
   :hook
   ((after-init . ivy-mode)

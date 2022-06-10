@@ -7,7 +7,7 @@
 (defconst dk/config-minor-version 99
   "Minor version of the config. It increases on smaller changes.")
 
-(defconst dk/config-required-user-file-version 1
+(defconst dk/config-required-user-file-version 2
   "Version of the `dk/user-config-file' file. If the version declared in the
 file is smaller, an error will be raised. This version is updated every time
 there is a breaking change to the `dk/user-config-file'")

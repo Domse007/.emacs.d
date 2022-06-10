@@ -1,3 +1,9 @@
+(module! base-use-package
+  "Module that defines package installation."
+  :depends-on nil
+  :conflicts-with nil
+  :dir dk/config-core-path)
+
 (require 'package)
 
 (when (equal system-type 'windows-nt)
@@ -31,6 +37,8 @@
   :custom
   ((use-package-always-ensure t)
    (use-package-compute-statistics t)))
+
+(new-external-dependency! 'git)
 
 (use-package quelpa-use-package
   :custom

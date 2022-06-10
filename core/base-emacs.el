@@ -1,3 +1,9 @@
+(module! base-emacs
+  "Module that adjusts emacs settings."
+  :depends-on nil
+  :conflicts-with nil
+  :dir dk/config-core-path)
+
 (use-package emacs
   :custom
   (;; File locations
@@ -59,10 +65,8 @@
   (display-time-mode nil)
 
   ;; Enable battery usage. Disabled if not available.
-  ;; (require 'battery)
-  ;; (when (not (and battery-echo-area-format battery-status-function))
-  (display-battery-mode t)
-  ;;)
+  (unless (string-match-p "N/A" (battery))
+    (display-battery-mode 1)) 
   
   (save-place-mode t)
   (global-hl-line-mode t)
@@ -70,9 +74,6 @@
   (defalias 'yes-or-no-p 'y-or-n-p)
   ;; Set default encoding system
   (set-language-environment "UTF-8")
-
-  ;; better window splitting behaviour
-  (advice-add 'split-window-right :after #'balance-windows)
 
   (global-unset-key (kbd "<menu>"))
   ;; (global-unset-key (kbd "<mouse-1>"))

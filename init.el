@@ -42,7 +42,7 @@
 (defconst dk/default-font "Source Code Pro"
   "The default font that will be used.")
 
-(defconst dk/user-emacs-etcdir "var/"
+(defconst dk/user-emacs-etcdir ".cache/"
   "Default location for device specific files")
 
 (defconst dk/config-core-path (concat user-emacs-directory "core/")
@@ -69,13 +69,23 @@ the *Messages* buffer."
              (lambda () (progn (setq dk/theme ,theme)
                                (dk/load-theme)))))
 
-(defmacro dk/use-module! (module)
+(defmacro use-modules! (modules)
   "Let the user define which modules should be loaded.
-The only argument is a symbol with a name of a module."
-  `(push ,module dk/user-defined-modules))
+The only argument is a list with symbols of the modules."
+  (declare (indent 1))
+  `(dolist (module ,modules)
+     (require module)))
 
-(defvar dk/user-defined-modules nil
-  "List of module names that are defined with `dk/use-module'.")
+;; Tracking of external dependencies
+;;------------------------------------------------------------------------------
+
+(defvar dk/external-dependencies nil
+  "List of external programs that are used with this config.")
+
+(defun new-external-dependency! (program)
+  "Add a new external program to `dk/external-dependencies'."
+  (unless (member program dk/external-dependencies)
+    (push program dk/external-dependencies)))
 
 ;; init functions
 ;;------------------------------------------------------------------------------
@@ -92,16 +102,16 @@ the flag."
 
 (defun dk/load-config ()
   (load-file (concat dk/config-core-path "base-module-declaration.el"))
-  (require 'base-user-config)
+  (dk/load-core)
   (load-file (dk/user-config-get-user-file))
   ;; eval function that defines to be loaded modules.
   (dk/user-file-setup)
-  (require 'base-module-resolving)
-  (dk/resolve-modules)
-  (dk/load-modules)
   ;; load user defined stuff
   (dk/user-file-custom)
-  (dk/run-hooks)
+  
+  (dk/log 'info "Running custom after init hooks.")
+  (run-hooks 'dk/custom-after-init-hook)
+  
   (run-hooks 'dk/after-optional-config-hook)
   (dk/log 'info "Config loaded.")
   (setq gc-cons-threshold dk/original-gc-threshold)) ; old gc value

@@ -1,3 +1,9 @@
+(module! base-funcs
+  "Module that defines custom functions."
+  :depends-on nil
+  :conflicts-with nil
+  :dir dk/config-core-path)
+
 ;; Personal additions to predefined functions
 ;;------------------------------------------------------------------------------
 
@@ -9,14 +15,14 @@
 
 (global-set-key (kbd "M-k") 'dk/kill-word-at-point)
 
-(defun dk/delete-window ()
-  "Wrapper around `delete-window' to balance windows after deleting the active
-window."
-  (interactive)
-  (delete-window)
-  (balance-windows))
+;; (defun dk/delete-window ()
+;;   "Wrapper around `delete-window' to balance windows after deleting the active
+;; window."
+;;   (interactive)
+;;   (delete-window)
+;;   (balance-windows))
 
-(global-set-key (kbd "C-x 0") 'dk/delete-window)
+;; (global-set-key (kbd "C-x 0") 'dk/delete-window)
 
 ;; Play a random game
 ;;------------------------------------------------------------------------------
@@ -34,21 +40,6 @@ a predefined game."
 	   (game-index (random game-list-len))
 	   (game-to-be-played (nth game-index dk/games)))
       (call-interactively game-to-be-played))))
-
-;; I'm forgetting a lot of stuff...
-;;------------------------------------------------------------------------------
-
-(require 'olivetti)
-
-(defun dk/enable-centering ()
-  "Disable the centering. This is more or less an alias for olivetti mode."
-  (interactive)
-  (olivetti-mode t))
-
-(defun dk/disable-centering ()
-  "Disable the centering. This is more or less an alias for olivetti mode."
-  (interactive)
-  (olivetti-mode nil))
 
 ;; See above...
 ;;------------------------------------------------------------------------------
@@ -132,26 +123,30 @@ internally. Because it's a redefine, it can't have the dk/ prefix."
 	    (,(kbd "C-x e") . split-window-right)
 	    (,(kbd "C-x p") . dk/delete-window)))
 
-(when dk/use-40-percent-keyboard
-  (progn (dk/log 'info "Enabling 40 percent keyboard mode.")
-	 (dk/40-percent-keyboard-mode)))
+(defun dk/40-percent-keyboard-mode-maybe-enable ()
+  "Enable `dk/40-percent-keyboard-mode' when `dk/use-40-percent-keyboard'
+is `t'"
+  (when dk/use-40-percent-keyboard
+    (progn (dk/log 'info "Enabling 40 percent keyboard mode.")
+	   (dk/40-percent-keyboard-mode))))
+
+(add-hook 'dk/custom-after-init-hook 'dk/40-percent-keyboard-mode-maybe-enable)
 
 ;; Checking for external dependencies
 ;;------------------------------------------------------------------------------
 
-(defconst dk/system-dependencies
-  '("gcc" "grep" "pdflatex" "git" "python" "cargo" "zip" "unzip")
-  "List of external programs that are required to have a working config.")
+;; (defconst dk/system-dependencies
+;;   '("gcc" "grep" "pdflatex" "git" "python" "cargo" "zip" "unzip")
+;;   "List of external programs that are required to have a working config.")
 
 (defun dk/check-external-deps ()
   "Check if external programs are available."
   (interactive)
-  (let ((missing-alist))
-    (dolist (program dk/system-dependencies)
-      (when (equal (executable-find program) nil)
-	(if (not missing-alist)
-	    (setq missing-alist `(,program))
-	  (add-to-list missing-alist program))))
+  (let ((missing-alist nil))
+    (dolist (program dk/external-dependencies)
+      (let ((program-str (symbol-name program)))
+	(unless (executable-find program-str)
+	  (push missing-alist program))))
     (if (equal missing-alist nil)
 	(dk/log 'info "No missing dependencies.")
       (dk/log 'error "Missing following dependencies: "

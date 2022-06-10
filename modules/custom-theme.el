@@ -1,3 +1,9 @@
+(module! custom-theme
+  "Module that defines themes."
+  :depends-on nil
+  :conflicts-with nil
+  :dir dk/config-optional-path)
+
 (use-package doom-themes
   :defer t
   :custom
@@ -13,6 +19,14 @@
   :custom
   ((humanoid-comment-italic t)
    (humanoid-org-highlight t)))
+
+(use-package moe-theme
+  :custom
+  ((moe-theme-set-color 'magenta)
+   (moe-theme-resize-org-title '(2.2 1.8 1.6 1.4 1.2 1.0 1.0 1.0 1.0)))
+  :config
+  ;;(moe-dark)
+  )
 
 (defvar dk/theme 'doom-old-hope ;;'doom-1337 ;;'humanoid-dark
   ;; others: doom-monokai-spectrum

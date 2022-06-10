@@ -1,3 +1,9 @@
+(module! custom-helm
+  "Module that enables helm and presents it through posframe."
+  :depends-on nil
+  :conflicts-with (custom-ivy)
+  :dir dk/config-optional-path)
+
 (use-package helm
   :custom
   ((helm-move-to-line-cycle-in-source t)
@@ -6,7 +12,8 @@
    (helm-ff-file-name-history-use-recentf t)
    (helm-echo-input-in-header-line t)
    (helm-split-window-inside-p t))
-  :config
+  :init
+  (require 'helm-config)
   (helm-mode t)
   :bind
   (("M-x" . helm-M-x)
@@ -17,26 +24,18 @@
    ("C-x b" . helm-mini)
    ("M-y" . helm-show-kill-ring)
    :map helm-map
-   ("<tab>" . helm-ff-RET))
-  :config
-  (helm-mode t))
+   ("<tab>" . helm-ff-RET)))
 
 (use-package helm-posframe
-  :defer nil
   :after helm
   :if window-system
   :custom
   ((helm-posframe-width 120)
-   (helm-posframe-border-width 5))
-  ;;  :init
-  ;; (setq helm-display-function #'helm-posframe-display)
-  ;; (advice-add 'helm-cleanup :around #'helm-posframe-cleanup)
-  ;; (require 'posframe)
-  ;;(helm-posframe-enable)
-  )
+   (helm-posframe-border-width 2))
+  :config
+  (helm-posframe-enable))
 
 (use-package helm-icons
-  :defer t
   :after helm
   :if window-system
   :custom

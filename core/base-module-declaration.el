@@ -4,187 +4,109 @@
 (defvar dk/to-be-loaded-modules nil
   "List of names of modules that will be `required'.")
 
-(defvar dk/optional-modules nil
-  "List of plists with declarations of optional modules.")
-
 (defvar dk/custom-after-init-hook nil
   "List of lambdas that will be called after config loading.")
 
-(defmacro dk/declare-module! (name docs &rest args)
+(defmacro core-module! (name docs &rest args)
   "Default way of declaring modules."
   (declare (indent 1))
   `(let* ((arg-list (list ,@args))
 	  (module-name ',name)
 	  (module-docs ,docs)
-	  (module-dependencies (plist-get arg-list :depends-on))
 	  (module-after-init (plist-get arg-list :after-init))
-	  (module-load-p (plist-get arg-list :load-default))
-	  (module-dir (plist-get arg-list :dir))
-	  (module-optional (plist-get arg-list :optional)))
-     (cond (module-load-p
-	    (progn (push module-name dk/to-be-loaded-modules)
-		   (unless (eq module-after-init nil)
-		     (push module-after-init dk/custom-after-init-hook))
-		   (unless (eq module-dependencies nil)
-		     (dolist (dep module-dependencies)
-		       (push dep dk/to-be-loaded-modules)))))
-	   (module-optional
-	    (progn (push `(:name ,module-name :deps ,module-dependencies
-				 :after-init ,module-after-init)
-			 dk/optional-modules))))
-     (push `(:name ,module-name :description ,module-docs
-		   :deps ,module-dependencies :load-default ,module-load-p
-		   :dir ,module-dir :optional ,module-optional)
+	  (module-load-p (plist-get arg-list :not-load))
+	  (module-dir (plist-get arg-list :dir)))
+     (progn (unless module-load-p
+              (push module-name dk/to-be-loaded-modules))
+	    (unless (eq module-after-init nil)
+	      (push module-after-init dk/custom-after-init-hook)))
+     (push `(:name ,module-name :description ,module-docs :dir ,module-dir)
 	   dk/declared-modules)))
+
+(defun dk/load-core ()
+  "Load the core modules."
+  (dolist (module (reverse dk/to-be-loaded-modules))
+    (require module)))
+
+(defmacro module! (name docs &rest args)
+  "New way of declaring modules. This will be located in the according file."
+  (declare (indent 1))
+  `(let* ((arg-list ',args)
+          (module-name ',name)
+          (module-docs ,docs)
+          (module-dependencies (plist-get arg-list :depends-on))
+          (module-conflicts (plist-get arg-list :conflicts-with))
+          (module-after-init (plist-get arg-list :after-init))
+          (module-dir (plist-get arg-list :dir)))
+     (push `(:name ,module-name :description ,module-docs :dir ,module-dir)
+           dk/declared-modules)
+     (if (listp module-conflicts)
+         (dolist (conflicted module-conflicts)
+           (when (featurep conflicted)
+             (error "Module %s is incompatible with %s." module-name conflicted)))
+       (when (featurep conflicts-with)
+         (error "Module %s is incompatible with %s." module-name conflicted)))
+     (dolist (dependency module-dependencies)
+       (if (listp dependency)
+           (let ((found nil))
+             (dolist (dep dependency)
+               (when (featurep dep)
+                 (setq found t)))
+             (when found
+               (require (nth 1 dependency))))
+         (require dependency)))))
 
 (add-to-list 'load-path dk/config-core-path)
 (add-to-list 'load-path dk/config-optional-path)
 
-(dk/declare-module! early-init
+(core-module! early-init
   "The early-init file."
-  :load-default nil
+  :not-load t
   :dir user-emacs-directory)
 
-(dk/declare-module! init
+(core-module! init
   "The main init file."
-  :load-default nil
+  :not-load t
   :dir user-emacs-directory)
 
-(dk/declare-module! base-user-config
+(core-module! base-user-config
   "Definitions to be able to load the user config."
-  :load-default nil
-  :optional nil
   :dir dk/config-core-path)
 
-(dk/declare-module! base-version
+(core-module! base-version
   "Definitions of all version variables and functions"
-  :load-default t
-  :optional nil
   :dir dk/config-core-path)
 
-(dk/declare-module! base-module-declaration
+(core-module! base-module-declaration
   "Definitions of all modules for this config."
-  :load-default t
-  :optional nil
   :dir dk/config-core-path)
 
-(dk/declare-module! base-module-resolving
-  "Module to resolve the module definitions"
-  :load-default t
-  :optional nil
-  :dir dk/config-core-path)
-
-(dk/declare-module! base-get-package
+(core-module! base-get-package
   "Module which allows to pull package the quelpa way without git."
-  :load-default t
-  :optional nil
   :dir dk/config-core-path)
 
-(dk/declare-module! base-use-package
+(core-module! base-use-package
   "Setup of use-package"
-  :load-default t
-  :optional nil
   :dir dk/config-core-path)
 
-(dk/declare-module! base-config
+(core-module! base-config
   "Setup of invisible packages"
-  :load-default t
-  :optional nil
   :dir dk/config-core-path)
 
-(dk/declare-module! base-emacs
+(core-module! base-emacs
   "Setup of built-in things."
-  :load-default t
-  :optional nil
   :dir dk/config-core-path)
 
-(dk/declare-module! base-design
+(core-module! base-design
   "Definitions of visible related packages."
-  :load-default t
-  :optional nil
   :dir dk/config-core-path)
 
-(dk/declare-module! base-funcs
+(core-module! base-funcs
   "General custom funcs."
-  :load-default t
-  :optional nil
   :dir dk/config-core-path)
 
-(dk/declare-module! custom-search
-  "Custom function for querying config."
-  :load-default nil
-  :optional t
-  :dir dk/config-optional-path)
-
-(dk/declare-module! custom-theme
-  "Definitions of theme related packages."
-  :load-default nil
-  :optional t
-  :dir dk/config-optional-path)
-
-(dk/declare-module! custom-helm
-  "Setup of helm packages."
-  :load-default nil
-  :optional t
-  :dir dk/config-optional-path
-  :after-init (lambda () (helm-posframe-enable)))
-
-(dk/declare-module! custom-ivy
-  "Setup of ivy packages."
-  :load-default nil
-  :optional t
-  :dir dk/config-optional-path)
-
-(dk/declare-module! text-org-mode
-  "Setup of org-mode."
-  :load-default nil
-  :optional t
-  :dir dk/config-optional-path)
-
-(dk/declare-module! text-org-spell
-  "Setup of spell checking."
-  :load-default nil
-  :optional t
-  :dir dk/config-optional-path)
-
-(dk/declare-module! text-org-roam
-  "Setup of org-roams."
-  :load-default nil
-  :optional t
-  :dir dk/config-optional-path)
-
-(dk/declare-module! programming-base
-  "Setup of basic programming features."
-  :load-default nil
-  :optional t
-  :dir dk/config-optional-path)
-
-(dk/declare-module! programming-rust
-  "Setup rust development environment."
-  :load-default nil
-  :optional t
-  :depends-on '(programming-base)
-  :dir dk/config-optional-path)
-
-(dk/declare-module! programming-elisp
-  "Setup elisp development environment."
-  :load-default nil
-  :optional t
-  :depends-on '(programming-base)
-  :dir dk/config-optional-path)
-
-(dk/declare-module! programming-python
-  "Setup python development environment."
-  :load-default nil
-  :optional t
-  :depends-on '(programming-base)
-  :dir dk/config-optional-path)
-
-(dk/declare-module! programming-haskell
-  "Setup haskell development environment."
-  :load-default nil
-  :optional t
-  :depends-on '(programming-base)
-  :dir dk/config-optional-path)
+(core-module! base-user-config
+  "Definitions for user file."
+  :dir dk/config-core-path)
 
 (provide 'base-module-declaration)

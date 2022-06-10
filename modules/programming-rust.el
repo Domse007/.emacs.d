@@ -1,3 +1,11 @@
+(module! programming-rust
+  "Module that uses lsp to create a great rust environment."
+  :depends-on (programming-base)
+  :conflicts-with nil
+  :dir dk/config-optional-path)
+
+(new-external-dependency! 'cargo)
+
 (use-package rustic
   :defer t
   :custom
@@ -12,9 +20,7 @@
         ("C-c C-c r" . lsp-rename)
         ("C-c C-c q" . lsp-workspace-restart)
         ("C-c C-c Q" . lsp-workspace-shutdown)
-        ("C-c C-c s" . lsp-rust-analyzer-status))
-  :hook
-  ((rustic-mode-hook . lsp)))
+        ("C-c C-c s" . lsp-rust-analyzer-status)))
 
 (use-package rust-auto-use
   :defer t

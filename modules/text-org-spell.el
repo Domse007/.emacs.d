@@ -1,3 +1,11 @@
+(module! text-org-spell
+  "Module that enables spell checking in org."
+  :depends-on (text-org-mode)
+  :conflicts-with nil
+  :dir dk/config-optional-path)
+
+(new-external-dependency! 'hunspell)
+
 (use-package ispell
   :defer t
   :if dk/windows-flag

@@ -1,3 +1,9 @@
+(module! base-config
+  "Setup of core packages that are mostly invisible to the user."
+  :depends-on nil
+  :conflicts-with nil
+  :dir dk/config-core-path)
+
 (use-package no-littering
   :custom
   ((no-littering-etc-directory (concat user-emacs-directory

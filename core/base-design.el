@@ -1,3 +1,9 @@
+(module! base-design
+  "Module that includes packages that change the visible interface."
+  :depends-on nil
+  :conflicts-with nil
+  :dir dk/config-core-path)
+
 (use-package doom-modeline
   :hook (after-init . doom-modeline-mode)
   :custom    
@@ -27,7 +33,8 @@
    (dashboard-center-content t)
    (dashboard-set-file-icons t)
    (dashboard-set-heading-icons t)
-   (dashboard-items '((recents  . 20))))
+   (dashboard-items '((recents  . 15)
+		      (projects . 5))))
   :bind
   (:map dashboard-mode-map ("q" . nil))
   :config
@@ -70,5 +77,10 @@
   ((perfect-margin-visible-width 80))
   :hook
   ((org-mode . perfect-margin-mode)))
+
+;; automatic window balancing.
+(use-package zoom
+  :config
+  (zoom-mode t))
 
 (provide 'base-design)
