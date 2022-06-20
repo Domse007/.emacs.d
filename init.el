@@ -42,8 +42,8 @@
 (defconst dk/default-font "Source Code Pro"
   "The default font that will be used.")
 
-(defconst dk/user-emacs-etcdir ".cache/"
-  "Default location for device specific files")
+(defconst dk/user-emacs-cache-dir (concat user-emacs-directory ".cache/")
+  "Default location for device specific files.")
 
 (defconst dk/config-core-path (concat user-emacs-directory "core/")
   "Location where the core files are located.")

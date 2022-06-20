@@ -53,24 +53,6 @@ a predefined game."
   (auto-package-update-now)
   (quelpa-upgrade-all-maybe))
 
-;; Config version stuff
-;;------------------------------------------------------------------------------
-
-(defun dk/config-version (&optional not-print only-version)
-  "Return the major version of the config. If NOT-PRINT is given, the function
-will not message the string. If ONLY-VERSION is given, only the version string
-is returned otherwise the whole sentence is returned."
-  (interactive)
-  (let ((version-string (concat (number-to-string dk/config-major-version)
-				"."
-				(number-to-string dk/config-minor-version)))
-	(explanation "Personal Emacs config version: "))
-    (when (not not-print)
-      (dk/log 'info explanation version-string))
-    (if only-version
-	version-string
-      (concat explanation version-string))))
-
 ;; Open working directory in file explorer
 ;;------------------------------------------------------------------------------
 

@@ -9,4 +9,12 @@
   :config
   (which-key-posframe-mode))
 
+;; better *help* buffer.
+(use-package helpful
+  :disabled t
+  :bind
+  (("C-h f" . helpful-callable)
+   ("C-h v" . helpful-variable)
+   ("C-h k" . helpful-key)))
+
 (provide 'optional-visuals)

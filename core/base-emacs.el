@@ -7,26 +7,14 @@
 (use-package emacs
   :custom
   (;; File locations
-   (custom-file (concat user-emacs-directory
-			dk/user-emacs-etcdir
-			"custom.el"))
-   (recentf-save-file (concat user-emacs-directory
-			      dk/user-emacs-etcdir
-			      "recentf"))
+   (custom-file (concat dk/user-emacs-cache-dir "custom.el"))
+   (recentf-save-file (concat dk/user-emacs-cache-dir "recentf"))
    (default-directory dk/user-system-base-path)
-   (eshell-aliases-file (concat user-emacs-directory
-				dk/user-emacs-etcdir
-				"aliases"))
-   (backup-directory-alist
-    `((".*" . ,temporary-file-directory)))
-   (auto-save-file-name-transforms
-    `((".*" ,temporary-file-directory t)))
-   (save-place-file (concat user-emacs-directory
-			    dk/user-emacs-etcdir
-			    "places"))
-   (nsm-settings-file (concat user-emacs-directory
-			      dk/user-emacs-etcdir
-			      "network-security.data"))
+   (eshell-aliases-file (concat dk/user-emacs-cache-dir "aliases"))
+   (backup-directory-alist `((".*" . ,temporary-file-directory)))
+   (auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
+   (save-place-file (concat dk/user-emacs-cache-dir "places"))
+   (nsm-settings-file (concat dk/user-emacs-cache-dir "network-security.data"))
    ;; Emacs Built-In Quality of life improvements
    (ring-bell-function 'ignore)
    (frame-title-format '("EMACS - " emacs-version))

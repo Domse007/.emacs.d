@@ -11,14 +11,8 @@
    (lsp-eldoc-render-all t)
    (lsp-idle-delay 0.6)
    (lsp-rust-analyzer-server-display-inlay-hints t)
-   (lsp-session-file
-    (concat user-emacs-directory
-	    dk/user-emacs-etcdir
-	    "lsp/lsp"))
-   (lsp-server-install-dir
-    (concat user-emacs-directory
-	    dk/user-emacs-etcdir
-	    "lsp-server/"))
+   (lsp-session-file (concat dk/user-emacs-cache-dir "lsp/lsp"))
+   (lsp-server-install-dir (concat dk/user-emacs-cache-dir "lsp-server/"))
    (lsp-signature-auto-activate t)
    (lsp-signature-render-documentation nil)
    ;; rust

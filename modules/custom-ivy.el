@@ -43,9 +43,7 @@
   :after ivy
   :custom
   ((amx-backend 'auto)
-   (amx-save-file (concat user-emacs-directory
-			  dk/user-emacs-etcdir
-			  "amx-items"))
+   (amx-save-file (concat dk/user-emacs-cache-dir "amx-items"))
    (amx-history-length 50)
    (amx-show-key-bindings nil))
   :config

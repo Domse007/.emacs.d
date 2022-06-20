@@ -56,9 +56,7 @@
   :defer t
   :custom
   ((transient-history-file
-    (concat user-emacs-directory
-	    dk/user-emacs-etcdir
-	    "transient/history.el"))))
+    (concat dk/user-emacs-cache-dir "transient/history.el"))))
 
 (use-package tree-sitter
   :defer t
@@ -80,10 +78,7 @@
   :after yasnippet-snippets
   :custom
   ((yas-indent-line 'auto)
-   (yas/snippet-dirs `(;; ,(concat user-emacs-directory
-		       ;; 		dk/user-emacs-etcdir
-		       ;; 		"snippets")
-		       ,yasnippet-snippets-dir)))
+   (yas/snippet-dirs `(,yasnippet-snippets-dir)))
   :config
   (yasnippet-snippets-initialize)
   (yas-global-mode 1))
@@ -94,9 +89,7 @@
 (use-package eshell
   :ensure nil
   :custom
-  ((eshell-directory-name (concat user-emacs-directory
-				  dk/user-emacs-etcdir
-				  "eshell"))))
+  ((eshell-directory-name (concat dk/user-emacs-cache-dir "eshell"))))
 
 (use-package treemacs-all-the-icons)
 
@@ -114,9 +107,9 @@
    (treemacs-is-never-other-window t)
    (treemacs-sorting 'alphabetic-case-insensitive-asc)
    (treemacs-persist-file
-    (concat user-emacs-directory dk/user-emacs-etcdir "treemacs-persist"))
+    (concat user-emacs-directory dk/user-emacs-cache-dir "treemacs-persist"))
    (treemacs-last-error-persist-file
-    (concat dk/user-emacs-etcdir "treemacs-last-error-persist"))
+    (concat dk/user-emacs-cache-dir "treemacs-last-error-persist"))
    (treemacs-collapse-dirs 0))
   :bind
   (("C-x t" . treemacs-select-window))

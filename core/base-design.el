@@ -39,6 +39,10 @@
   (:map dashboard-mode-map ("q" . nil))
   :config
   (when (eq (length command-line-args) 1)
+    (let ((home (getenv "HOME")))
+      (if (getenv "HOME")
+	  (cd home)
+	(cd (concat user-emacs-directory "../"))))
     (dashboard-setup-startup-hook)))
 
 (use-package all-the-icons
@@ -67,7 +71,7 @@
 
 (use-package olivetti
   :custom
-  ((olivetti-style 'fancy))
+  ((olivetti-style nil))
   :hook
   ((org-mode . olivetti-mode)))
 
@@ -80,7 +84,10 @@
 
 ;; automatic window balancing.
 (use-package zoom
+  :custom
+  ((zoom-ignored-buffer-name-regexps '("\\`\\*helm")))
   :config
-  (zoom-mode t))
+  (when (window-system)
+    (zoom-mode t)))
 
 (provide 'base-design)

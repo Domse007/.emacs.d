@@ -46,9 +46,7 @@
    (org-src-preserve-indentation t)
    (org-export-babel-evaluate t)
    (org-id-locations-file
-    (concat user-emacs-directory
-	    dk/user-emacs-etcdir
-	    "org/.org-id-locations"))
+    (concat dk/user-emacs-cache-dir "org/.org-id-locations"))
    (org-export-allow-bind-keywords t)
    (org-image-actual-width nil)
    (org-special-ctrl-a/e t))
@@ -145,7 +143,6 @@
 ;;   ((org-mode . org-pretty-table-mode)))
 
 (use-package org-modern
-  :disabled t
   :hook
   ((org-mode . org-modern-mode)))
 
