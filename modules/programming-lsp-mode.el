@@ -1,7 +1,7 @@
 (module! programming-lsp-mode
   "Module that simplifies elisp programming."
   :depends-on nil
-  :conflicts-with (programming-eglot)
+  :conflicts-with (programming-eglot programming-lsp-bridge)
   :dir dk/config-optional-path)
 
 (use-package lsp-mode

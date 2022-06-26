@@ -70,8 +70,8 @@
   
   (when (boundp 'pixel-scroll-precision-mode)
     (progn (pixel-scroll-precision-mode t)
-	   (dk/log 'warning "Emacs version " (emacs-version)
-		   " is used. Emacs 29.0 is prefered.")))
+	   (dk/log 'warning "This emacs installation does not support "
+		   "pixel-scroll-precision-mode.")))
 
   (if (member dk/default-font (font-family-list))
       (progn (dk/log 'info "Setting font: " dk/default-font)

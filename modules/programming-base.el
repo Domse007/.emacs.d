@@ -1,12 +1,11 @@
 (module! programming-base
   "Module that defines basics for programming."
-  :depends-on (programming-lsp-mode ;; programming-eglot
-	       )
+  ;; :depends-on (programming-lsp-mode ;; programming-eglot)
   :conflicts-with nil
   :dir dk/config-optional-path)
 
 (new-external-dependency! 'grep)
-(new-external-dependency! 'ripgrep)
+(new-external-dependency! '(ripgrep . "cargo install ripgrep"))
 
 (use-package projectile
   :bind

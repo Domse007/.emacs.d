@@ -57,7 +57,10 @@
 
 (use-package org-roam-peek
   :after org-roam
-  :quelpa (org-roam-peek :fetcher github :repo "domse007/org-roam-peek"))
+  :quelpa
+  (org-roam-peek :fetcher github :repo "domse007/org-roam-peek")
+  :hook
+  ((org-mode . org-roam-peek-mode)))
 
 ;; (dk/get-package!
 ;;     :user "publicimageltd"

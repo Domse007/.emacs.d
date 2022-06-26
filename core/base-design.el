@@ -84,8 +84,9 @@
 
 ;; automatic window balancing.
 (use-package zoom
+  :disabled t
   :custom
-  ((zoom-ignored-buffer-name-regexps '("\\`\\*helm")))
+  ((zoom-ignored-buffer-name-regexps '("\\`\\*helm" "\\`\\*org-roam")))
   :config
   (when (window-system)
     (zoom-mode t)))

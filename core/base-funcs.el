@@ -126,12 +126,28 @@ is `t'"
   (interactive)
   (let ((missing-alist nil))
     (dolist (program dk/external-dependencies)
-      (let ((program-str (symbol-name program)))
+      (let ((program-str (if (consp program)
+                             (car program)
+                           (symbol-name program))))
 	(unless (executable-find program-str)
 	  (push missing-alist program))))
     (if (equal missing-alist nil)
 	(dk/log 'info "No missing dependencies.")
       (dk/log 'error "Missing following dependencies: "
 	      (substring (format "%s" missing-alist) 1 -1)))))
+
+(defun dk/describe-external-dependency ()
+  "Report the installation process for an external dependency."
+  (interactive)
+  (let* ((list-of-syms (mapcar (lambda (thing) (if (consp thing) (car thing) thing))
+                               dk/external-dependencies))
+         (user-input (completing-read "Dependency: " list-of-syms nil t)))
+    (dolist (dep dk/external-dependencies)
+      (if (consp dep)
+          (when (string-equal user-input (symbol-name (car dep)))
+            (message "%s can be installed with the following command: %s"
+                     (symbol-name (car dep)) (cdr dep)))
+        (when (string-equal user-input (symbol-name dep))
+          (message "No instructions are available."))))))
 
 (provide 'base-funcs)

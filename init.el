@@ -83,7 +83,10 @@ The only argument is a list with symbols of the modules."
   "List of external programs that are used with this config.")
 
 (defun new-external-dependency! (program)
-  "Add a new external program to `dk/external-dependencies'."
+  "Add a new external program to `dk/external-dependencies'. It is either a
+symbol or a cons. If it is a symbol, it is just the name of the dependency. If
+it is a cons cell, the car is the same symbol, but the cdr is a string with
+installation instructions."
   (unless (member program dk/external-dependencies)
     (push program dk/external-dependencies)))
 

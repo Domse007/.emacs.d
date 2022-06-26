@@ -16,6 +16,9 @@
                   text-org-spell
                   text-org-roam
                   programming-base
+                  ;; programming-lsp-mode
+                  ;; programming-lsp-eglot
+                  ;; programming-lsp-bridge
                   programming-rust
                   programming-elisp
                   programming-python

@@ -44,6 +44,7 @@
   (helm-flx-mode t))
 
 (use-package helm-posframe
+  :disabled t
   :after helm
   :if window-system
   :custom
