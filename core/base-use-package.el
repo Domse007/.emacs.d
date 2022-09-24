@@ -1,9 +1,3 @@
-(module! base-use-package
-  "Module that defines package installation."
-  :depends-on nil
-  :conflicts-with nil
-  :dir dk/config-core-path)
-
 (require 'package)
 
 (when (equal system-type 'windows-nt)

@@ -1,9 +1,3 @@
-(module! programming-python
-  "Module that provides a better python workflow."
-  :depends-on (programming-base)
-  :conflicts-with nil
-  :dir dk/config-optional-path)
-
 (new-external-dependency! 'python)
 
 (use-package python-mode

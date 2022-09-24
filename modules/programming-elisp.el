@@ -1,9 +1,3 @@
-(module! programming-elisp
-  "Module that simplifies elisp programming."
-  :depends-on (programming-base)
-  :conflicts-with nil
-  :dir dk/config-optional-path)
-
 (use-package highlight-defined
   :defer t
   :hook

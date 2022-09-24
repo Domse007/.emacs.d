@@ -1,9 +1,3 @@
-(module! custom-helm
-  "Module that enables helm and presents it through posframe."
-  :depends-on nil
-  :conflicts-with (custom-ivy)
-  :dir dk/config-optional-path)
-
 (use-package helm
   :custom
   ((helm-move-to-line-cycle-in-source t)

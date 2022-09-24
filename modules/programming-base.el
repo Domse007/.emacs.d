@@ -1,9 +1,3 @@
-(module! programming-base
-  "Module that defines basics for programming."
-  ;; :depends-on (programming-lsp-mode ;; programming-eglot)
-  :conflicts-with nil
-  :dir dk/config-optional-path)
-
 (new-external-dependency! 'grep)
 (new-external-dependency! '(ripgrep . "cargo install ripgrep"))
 
@@ -55,7 +49,7 @@
   :defer t
   :custom
   ((transient-history-file
-    (concat dk/user-emacs-cache-dir "transient/history.el"))))
+    (expand-file-name dk/user-emacs-cache-dir "transient/history.el"))))
 
 (use-package tree-sitter
   :defer t

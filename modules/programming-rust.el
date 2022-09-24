@@ -1,10 +1,5 @@
-(module! programming-rust
-  "Module that uses lsp to create a great rust environment."
-  :depends-on (programming-base)
-  :conflicts-with nil
-  :dir dk/config-optional-path)
-
 (new-external-dependency! 'cargo)
+(new-external-dependency! 'rustc)
 
 (use-package rustic
   :defer t

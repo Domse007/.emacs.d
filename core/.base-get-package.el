@@ -1,9 +1,3 @@
-(module! base-get-package
-  "Functions to get a package from github without the dependency on git."
-  :depends-on nil
-  :conflicts-with nil
-  :dir dk/config-core-path)
-
 (require 'json)
 
 (defconst dk/get-package-github-api-url "https://api.github.com/repos/"

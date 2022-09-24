@@ -1,9 +1,3 @@
-(module! base-design
-  "Module that includes packages that change the visible interface."
-  :depends-on nil
-  :conflicts-with nil
-  :dir dk/config-core-path)
-
 (use-package doom-modeline
   :hook (after-init . doom-modeline-mode)
   :custom    

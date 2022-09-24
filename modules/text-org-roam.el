@@ -1,9 +1,3 @@
-(module! text-org-roam
-  "Module that enables org-roam."
-  :depends-on (text-org-mode)
-  :conflicts-with nil
-  :dir dk/config-optional-path)
-
 (new-external-dependency! 'gcc) ;; for compiling sqlite.
 
 (use-package org-roam

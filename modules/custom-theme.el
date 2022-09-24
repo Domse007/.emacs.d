@@ -1,9 +1,3 @@
-(module! custom-theme
-  "Module that defines themes."
-  :depends-on nil
-  :conflicts-with nil
-  :dir dk/config-optional-path)
-
 (use-package doom-themes
   :defer t
   :custom
@@ -28,7 +22,7 @@
   ;;(moe-dark)
   )
 
-(defvar dk/theme 'doom-old-hope ;;'doom-1337 ;;'humanoid-dark
+(defvar dk/theme 'humanoid-dark ;;'doom-old-hope ;;'doom-1337 ;;'humanoid-dark
   ;; others: doom-monokai-spectrum
   "Main theme that is loaded by default.")
 

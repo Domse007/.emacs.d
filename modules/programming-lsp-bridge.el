@@ -1,9 +1,3 @@
-(module! programming-lsp-bridge
-  "Wrapper around the package lsp-bridge"
-  :depends-on nil
-  :conflicts-with (programming-eglot programming-lsp-mode)
-  :dir dk/config-optional-path)
-
 (new-external-dependency! 'python)
 (new-external-dependency! 'pip)
 (new-external-dependency! '(epc . "pip install epc"))

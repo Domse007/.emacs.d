@@ -1,9 +1,3 @@
-(module! base-emacs
-  "Module that adjusts emacs settings."
-  :depends-on nil
-  :conflicts-with nil
-  :dir dk/config-core-path)
-
 (use-package emacs
   :custom
   (;; File locations
@@ -68,10 +62,10 @@
   ;; (global-unset-key (kbd "<down-mouse-1>"))
   (global-unset-key (kbd "<insert>"))
   
-  (when (boundp 'pixel-scroll-precision-mode)
-    (progn (pixel-scroll-precision-mode t)
-	   (dk/log 'warning "This emacs installation does not support "
-		   "pixel-scroll-precision-mode.")))
+  (if (boundp 'pixel-scroll-precision-mode)
+      (pixel-scroll-precision-mode t)
+    (dk/log 'warning "This emacs installation does not support "
+	    "pixel-scroll-precision-mode."))
 
   (if (member dk/default-font (font-family-list))
       (progn (dk/log 'info "Setting font: " dk/default-font)

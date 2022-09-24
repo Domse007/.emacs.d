@@ -1,56 +1,3 @@
-(defgroup dk/config nil
-  "Group for all custom config variables.")
-
-(defcustom dk/windows-flag nil
-  "Flag that is set, if the host is a windows-nt kernel."
-  :type 'bool
-  :group 'dk/config)
-
-(defcustom dk/linux-flag nil
-  "Flag that is set, if the host has a linux kernel."
-  :type 'bool
-  :group 'dk/config)
-
-(defcustom dk/user-system-base-path ""
-  "Selected path at startup"
-  :type 'string
-  :group 'dk/config)
-
-(defcustom dk/portable-is-portable nil
-  "This variable is true, if the portable env var exists.")
-
-(defcustom dk/org-roam-dir ""
-  "Default directory of org files that should be indexed by roam."
-  :type 'string
-  :group 'dk/config)
-
-(defcustom dk/org-export-dir ""
-  "Default directory where org files are exported to."
-  :type 'string
-  :group 'dk/config)
-
-(defcustom dk/use-40-percent-keyboard nil
-  "Flag that specifies if 40% keyboard specific keybindings should be enabled."
-  :type 'bool
-  :group 'dk/config)
-
-(defcustom dk/get-package-override-git-availability nil
-  "Flag that will if true use get-package instead of quelpa, which requires git."
-  :type 'bool
-  :group 'dk/config)
-
-(defconst dk/default-font "Source Code Pro"
-  "The default font that will be used.")
-
-(defconst dk/user-emacs-cache-dir (concat user-emacs-directory ".cache/")
-  "Default location for device specific files.")
-
-(defconst dk/config-core-path (concat user-emacs-directory "core/")
-  "Location where the core files are located.")
-
-(defconst dk/config-optional-path (concat user-emacs-directory "modules/")
-  "Default location of config files.")
-
 ;; Macros
 ;;------------------------------------------------------------------------------
 
@@ -64,17 +11,42 @@ the *Messages* buffer."
          ((eq ,kind 'error)
           (message (concat "[ERROR] " ,@msg)))))
 
-(defmacro dk/theme! (theme)
-  `(add-hook 'dk/after-optional-config-hook
-             (lambda () (progn (setq dk/theme ,theme)
-                               (dk/load-theme)))))
+;; Variables
+;;------------------------------------------------------------------------------
 
-(defmacro use-modules! (modules)
-  "Let the user define which modules should be loaded.
-The only argument is a list with symbols of the modules."
-  (declare (indent 1))
-  `(dolist (module ,modules)
-     (require module)))
+(defgroup dk/config nil
+  "Group for all custom config variables.")
+
+(defconst dk/windows-flag
+  (progn (dk/log 'info "Detected Windows. Setting variable...")
+         (string-equal system-type "windows-nt"))
+  "Flag that is set, if the host is a windows-nt kernel.")
+
+(defconst dk/linux-flag
+  (progn (dk/log 'info "Detected Linux. Setting variable...")
+         (string-equal system-type "gnu/linux"))
+  "Flag that is set, if the host has a linux kernel.")
+
+(defcustom dk/user-system-base-path ""
+  "Selected path at startup"
+  :type 'string
+  :group 'dk/config)
+
+(defcustom dk/org-roam-dir ""
+  "Default directory of org files that should be indexed by roam."
+  :type 'string
+  :group 'dk/config)
+
+(defcustom dk/use-40-percent-keyboard nil
+  "Flag that specifies if 40% keyboard specific keybindings should be enabled."
+  :type 'bool
+  :group 'dk/config)
+
+(defconst dk/default-font "Source Code Pro"
+  "The default font that will be used.")
+
+(defconst dk/user-emacs-cache-dir (expand-file-name "var/" user-emacs-directory)
+  "Default location for device specific files.")
 
 ;; Tracking of external dependencies
 ;;------------------------------------------------------------------------------
@@ -90,37 +62,74 @@ installation instructions."
   (unless (member program dk/external-dependencies)
     (push program dk/external-dependencies)))
 
+;; Modules
+;;------------------------------------------------------------------------------
+
+(defconst dk/config-core-path (expand-file-name "core/" user-emacs-directory)
+  "Location where the core files are located.")
+
+(defconst dk/config-optional-path (expand-file-name "modules/" user-emacs-directory)
+  "Default location of config files.")
+
+(add-to-list 'load-path dk/config-core-path)
+(add-to-list 'load-path dk/config-optional-path)
+
+(defconst dk/modules
+  '((early-init             root   nil "The early-init file.")
+    (init                   root   nil "The main init file.")
+    (base-use-package       core   t   "Setup of use-package")
+    (base-version           core   t   "Definitions of all version variables and functions") ; possibly useless
+    (base-config            core   t   "Setup of invisible packages")
+    (base-emacs             core   t   "Setup of built-in things.")
+    (base-design            core   t   "Definitions of visible related packages.")
+    (base-funcs             core   t   "General custom funcs.")
+    (custom-search          module t   "Module that provides an interface to search through modules.")
+    (custom-helm            module t   "Module that enables helm and presents it through posframe.")
+    (custom-ivy             module nil "Module that enables ivy and presents it through posframe.")
+    (custom-theme           module t   "Module that loads the desired theme.")
+    (text-org-mode          module t   "Module that defines basic org setup.")
+    (text-org-spell         module t   "Module that enables spell checking in org.")
+    (text-org-roam          module t   "Module that enables org-roam.")
+    (programming-base       module t   "Module that defines basics for programming.")
+    (programming-lsp-mode   module t   "Module that simplifies elisp programming.")
+    (programming-lsp-eglot  module nil "Module that enables eglot - an lsp-client.")
+    (programming-lsp-bridge module nil "Wrapper around the package lsp-bridge")
+    (programming-rust       module t   "Module that uses lsp to create a great rust environment.")
+    (programming-elisp      module t   "Module that simplifies elisp programming.")
+    (programming-python     module t   "Module that provides a better python workflow.")
+    (programming-haskell    module t   "Module that enables haskell programming.")
+    (optional-visuals       module t   "Module that enables more visual packages.")
+    )
+  "All modules that can be loaded. The first element is the module name. The
+second element is the location of the module. The third element is the arg if
+the module should be loaded. The fourth element is the description of the
+module. `early-init' and `init' must be nil.")
+
+(defun dk/load-modules ()
+  (dolist (module-cons dk/modules)
+    (let ((name (nth 0 module-cons))
+          (location (nth 1 module-cons))
+          (arg (nth 2 module-cons)))
+      (when arg
+        (dk/log 'info "Loading file " (symbol-name name) " from "
+                (symbol-name location) ".")
+        (require name)))))
+
 ;; init functions
 ;;------------------------------------------------------------------------------
 
-(defun dk/check-system ()
-  "Check if the system-type is `windows-nt'. If true, set 
-the flag."
-  (cond ((string-equal system-type "windows-nt")
-	 (setq dk/windows-flag t)
-         (dk/log 'info "Detected Windows. Setting variable..."))
-	((string-equal system-type "gnu/linux")
-	 (setq dk/linux-flag t)
-         (dk/log 'info "Detected Linux. Setting variable..."))))
-
 (defun dk/load-config ()
-  (load-file (concat dk/config-core-path "base-module-declaration.el"))
-  (dk/load-core)
-  (load-file (dk/user-config-get-user-file))
-  ;; eval function that defines to be loaded modules.
-  (dk/user-file-setup)
-  ;; load user defined stuff
-  (dk/user-file-custom)
+  (when (daemonp)
+    (require 'early-init))
   
-  (dk/log 'info "Running custom after init hooks.")
-  (run-hooks 'dk/custom-after-init-hook)
+  (dk/load-modules)
+
+  (dk/load-theme)
   
-  (run-hooks 'dk/after-optional-config-hook)
+  (dk/40-percent-keyboard-mode-maybe-enable)
   (dk/log 'info "Config loaded.")
   (setq gc-cons-threshold dk/original-gc-threshold)) ; old gc value
 
-;; Check the operating system.
-(dk/check-system)
 ;; Call the entry point of the config.
 (dk/load-config)
 

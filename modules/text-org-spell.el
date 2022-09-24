@@ -1,9 +1,3 @@
-(module! text-org-spell
-  "Module that enables spell checking in org."
-  :depends-on (text-org-mode)
-  :conflicts-with nil
-  :dir dk/config-optional-path)
-
 (new-external-dependency! 'hunspell)
 
 (use-package ispell
@@ -34,10 +28,10 @@
 (use-package fuzzy
   :defer t)
 
-(dk/get-package!
-    :user "Domse007"
-    :repo "org-lang"
-    :force dk/get-package-override-git-availability)
+;; (dk/get-package!
+;;     :user "Domse007"
+;;     :repo "org-lang"
+;;     :force dk/get-package-override-git-availability)
 
 (use-package org-lang
   :defer t

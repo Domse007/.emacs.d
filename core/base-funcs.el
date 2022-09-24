@@ -1,9 +1,3 @@
-(module! base-funcs
-  "Module that defines custom functions."
-  :depends-on nil
-  :conflicts-with nil
-  :dir dk/config-core-path)
-
 ;; Personal additions to predefined functions
 ;;------------------------------------------------------------------------------
 
@@ -111,8 +105,6 @@ is `t'"
   (when dk/use-40-percent-keyboard
     (progn (dk/log 'info "Enabling 40 percent keyboard mode.")
 	   (dk/40-percent-keyboard-mode))))
-
-(add-hook 'dk/custom-after-init-hook 'dk/40-percent-keyboard-mode-maybe-enable)
 
 ;; Checking for external dependencies
 ;;------------------------------------------------------------------------------

@@ -1,9 +1,3 @@
-(module! text-org-mode
-  "Module that defines basic org setup."
-  :depends-on nil
-  :conflicts-with nil
-  :dir dk/config-optional-path)
-
 (new-external-dependency! 'pdflatex)
 (new-external-dependency! 'dvipng)
 
@@ -97,10 +91,10 @@
    (org-reveal-ignore-speaker-notes nil)
    (org-reveal-note-key-char nil)))
 
-(dk/get-package!
-    :user "Domse007"
-    :repo "snipsearch"
-    :force dk/get-package-override-git-availability)
+;; (dk/get-package!
+;;     :user "Domse007"
+;;     :repo "snipsearch"
+;;     :force dk/get-package-override-git-availability)
 
 ;; (use-package snipsearch
 ;;   :after helm
