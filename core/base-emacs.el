@@ -27,7 +27,7 @@
    (delete-old-versions t)
    (version-control t)
    ;; Movement preferences
-   (scroll-margin 8)
+   ;; (scroll-margin 8)
    (scroll-step 1)
    (scroll-conservatively 101)
    ;; (indent-tabs-mode t)
@@ -71,6 +71,14 @@
       (progn (dk/log 'info "Setting font: " dk/default-font)
 	     (set-face-attribute 'default nil :font dk/default-font))
     (dk/log 'error dk/default-font " is not available. Maybe install it."))
+
+  (when (and dk/windows-flag
+	     (boundp 'w32-get-true-file-attributes))
+    (dk/log 'info "Setting windows optimizations.")
+    (setq w32-get-true-file-attributes nil    ; decrease file IO workload
+	  w32-pipe-read-delay 0               ; faster IPC
+	  w32-pipe-buffer-size (* 64 1024)    ; read more at a time (was 4K)
+	  inhibit-compacting-font-caches t))
 
   (defcustom dk/default-coding-system 'utf-8-unix
     "Default coding system that is used. This must be set."

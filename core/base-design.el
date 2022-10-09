@@ -1,5 +1,11 @@
 (use-package doom-modeline
   :hook (after-init . doom-modeline-mode)
+  :config
+  (defun my-doom-modeline--font-height ()
+    "Calculate the actual char height of the mode-line."
+    (+ (frame-char-height) 1))
+  (advice-add #'doom-modeline--font-height
+	      :override #'my-doom-modeline--font-height)
   :custom    
   ((doom-modeline-height 25)
    (doom-modeline-bar-width 1)
@@ -84,5 +90,12 @@
   :config
   (when (window-system)
     (zoom-mode t)))
+
+(use-package humanoid-themes
+  :custom
+  ((humanoid-comment-italic t)
+   (humanoid-org-highlight t))
+  :config
+  (load-theme 'humanoid-dark t))
 
 (provide 'base-design)

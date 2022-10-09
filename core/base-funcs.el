@@ -63,7 +63,10 @@ a predefined game."
 (defun display-startup-echo-area-message ()
   "Redefining the default startup message function. It appears to be very messi
 internally. Because it's a redefine, it can't have the dk/ prefix."
-  (dk/config-version))
+  (if (not (file-exists-p dk/custom-settings-file))
+      (message (concat "Customs file not installed. "
+                       "Consider calling `M-x dk/install-customs-file RET'."))
+    (dk/config-version)))
 
 ;; Org (roam) export helpers
 ;;------------------------------------------------------------------------------

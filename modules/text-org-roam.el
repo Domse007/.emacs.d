@@ -50,6 +50,7 @@
    (org-roam-ui-open-on-start t)))
 
 (use-package org-roam-peek
+  :disabled t
   :after org-roam
   :quelpa
   (org-roam-peek :fetcher github :repo "domse007/org-roam-peek")

@@ -30,6 +30,12 @@
   :hook
   (company-mode . company-box-mode))
 
+(use-package prescient)
+
+(use-package company-prescient
+  :config
+  (company-prescient-mode))
+
 (use-package flycheck
   :defer t
   ;; :hook
@@ -38,7 +44,9 @@
 
 (use-package flycheck-posframe
   :defer t
-  :after flycheck)
+  :after flycheck
+  :config
+  (flycheck-posframe-configure-pretty-defaults))
 
 (use-package rainbow-delimiters
   :defer t
@@ -74,7 +82,14 @@
    (yas/snippet-dirs `(,yasnippet-snippets-dir)))
   :config
   (yasnippet-snippets-initialize)
-  (yas-global-mode 1))
+  (yas-global-mode 1)
+  ;; (yas-reload-all)
+  ;; (add-hook 'prog-mode-hook #'yas-minor-mode)
+  ;; (yas-global-mode 1)
+  ;; (setq yas-prompt-functions '(yas-dropdown-prompt
+  ;;                              yas-ido-prompt
+  ;;                              yas-completing-prompt))
+  )
 
 (use-package yasnippet-snippets
   :defer t)
@@ -133,5 +148,9 @@
 (use-package hideshow-org
   :hook
   ((prog-mode . hs-org/minor-mode)))
+
+(use-package shell-pop
+  :bind
+  (("C-t" . shell-pop)))
 
 (provide 'programming-base)

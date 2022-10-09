@@ -17,6 +17,7 @@
   ((rustic-mode . lsp)
    (rust-mode . lsp)
    (python-mode . lsp)
+   (vue-mode . lsp)
    (lsp-mode-hook . lsp-ui-mode)
    (lsp-mode-hook . linum-mode))
   :bind

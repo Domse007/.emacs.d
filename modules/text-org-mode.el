@@ -1,3 +1,5 @@
+;; org-transclusion
+
 (new-external-dependency! 'pdflatex)
 (new-external-dependency! 'dvipng)
 
@@ -9,18 +11,19 @@
    '((plantuml . t)
      (python . t)
      (shell . t)))
-  (when (window-system)
-    (setq org-ellipsis " ▼ "))
+  ;; (when (window-system)
+  ;;   (setq org-ellipsis " ▼ "))
   :hook
   ((org-mode-hook . org-toggle-pretty-entities)
    (org-mode-hook . prettify-symbols-mode)
    (org-mode-hook . (lambda () (setq fill-column 70)))
    (org-mode  . turn-on-auto-fill)
-   (org-mode . (lambda ()
-		 (push '("[ ]" . "☐") prettify-symbols-alist)
-		 (push '("[X]" . "☑" ) prettify-symbols-alist)
-		 (push '("[-]" . "❍" ) prettify-symbols-alist)
-		 (prettify-symbols-mode))))
+   ;; (org-mode . (lambda ()
+   ;; 		 (push '("[ ]" . "☐") prettify-symbols-alist)
+   ;; 		 (push '("[X]" . "☑" ) prettify-symbols-alist)
+   ;; 		 (push '("[-]" . "❍" ) prettify-symbols-alist)
+   ;; 		 (prettify-symbols-mode)))
+   )
   :custom
   ((org-src-fontify-natively t)
    (org-highlight-latex-and-related '(latex script entities))
@@ -47,18 +50,18 @@
   :hook
   ((org-mode-hook . (lambda () (linum-mode nil)))))
 
-(use-package org-superstar
-  :defer t
-  :if (window-system)
-  :hook
-  ((org-mode-hook . (lambda () (org-superstar-mode t)))
-   (org-mode . org-superstar-mode))
-  :custom
-  ((org-superstar-prettify-item-bullets t)
-   (org-superstar-configure-like-org-bullets t)
-   (org-hide-leading-stars nil)
-   (org-superstar-leading-bullet ?\s)
-   (org-superstar-special-todo-items t)))
+;; (use-package org-superstar
+;;   :defer t
+;;   :if (window-system)
+;;   :hook
+;;   ((org-mode-hook . (lambda () (org-superstar-mode t)))
+;;    (org-mode . org-superstar-mode))
+;;   :custom
+;;   ((org-superstar-prettify-item-bullets t)
+;;    (org-superstar-configure-like-org-bullets t)
+;;    (org-hide-leading-stars nil)
+;;    (org-superstar-leading-bullet ?\s)
+;;    (org-superstar-special-todo-items t)))
 
 (use-package htmlize
   :defer t)
@@ -83,13 +86,13 @@
 (use-package org-tempo
   :ensure nil)
 
-(use-package ox-reveal
-  :defer t
-  :custom
-  ((org-reveal-root "https://cdn.jsdelivr.net/npm/reveal.js")
-   (org-reveal-mathjax t)
-   (org-reveal-ignore-speaker-notes nil)
-   (org-reveal-note-key-char nil)))
+;; (use-package ox-reveal
+;;   :defer t
+;;   :custom
+;;   ((org-reveal-root "https://cdn.jsdelivr.net/npm/reveal.js")
+;;    (org-reveal-mathjax t)
+;;    (org-reveal-ignore-speaker-notes nil)
+;;    (org-reveal-note-key-char nil)))
 
 ;; (dk/get-package!
 ;;     :user "Domse007"
@@ -139,19 +142,5 @@
 (use-package org-modern
   :hook
   ((org-mode . org-modern-mode)))
-
-;; (dk/get-package!
-;;     :user "misohena"
-;;     :repo "el-easydraw"
-;;     :force dk/get-package-override-git-availability)
-;;
-;; (use-package el-easydraw
-;;   :ensure (not dk/get-package-override-git-availability)
-;;   :quelpa
-;;   (el-easydraw :fetcher github :repo "/misohena/el-easydraw"))
-;;
-;; (with-eval-after-load 'org
-;;   (require 'edraw-org)
-;;   (edraw-org-setup-default))
 
 (provide 'text-org-mode)

@@ -27,12 +27,12 @@ the *Messages* buffer."
          (string-equal system-type "gnu/linux"))
   "Flag that is set, if the host has a linux kernel.")
 
-(defcustom dk/user-system-base-path ""
+(defcustom dk/user-system-base-path (expand-file-name "~/")
   "Selected path at startup"
   :type 'string
   :group 'dk/config)
 
-(defcustom dk/org-roam-dir ""
+(defcustom dk/org-roam-dir (expand-file-name "~/Notes/")
   "Default directory of org files that should be indexed by roam."
   :type 'string
   :group 'dk/config)
@@ -85,8 +85,6 @@ installation instructions."
     (base-funcs             core   t   "General custom funcs.")
     (custom-search          module t   "Module that provides an interface to search through modules.")
     (custom-helm            module t   "Module that enables helm and presents it through posframe.")
-    (custom-ivy             module nil "Module that enables ivy and presents it through posframe.")
-    (custom-theme           module t   "Module that loads the desired theme.")
     (text-org-mode          module t   "Module that defines basic org setup.")
     (text-org-spell         module t   "Module that enables spell checking in org.")
     (text-org-roam          module t   "Module that enables org-roam.")
@@ -98,7 +96,8 @@ installation instructions."
     (programming-elisp      module t   "Module that simplifies elisp programming.")
     (programming-python     module t   "Module that provides a better python workflow.")
     (programming-haskell    module t   "Module that enables haskell programming.")
-    (optional-visuals       module t   "Module that enables more visual packages.")
+    (programming-vue        module t   "Module for vue.js programming.")
+    (optional-visuals       module nil "Module that enables more visual packages.")
     )
   "All modules that can be loaded. The first element is the module name. The
 second element is the location of the module. The third element is the arg if
@@ -115,20 +114,61 @@ module. `early-init' and `init' must be nil.")
                 (symbol-name location) ".")
         (require name)))))
 
+;; machine specific settings
+;;------------------------------------------------------------------------------
+
+(defconst dk/custom-settings-file (expand-file-name "~/.emacs-customs.el")
+  "File where the machine specific settings are stored.")
+
+(defun dk/load-customs-file ()
+  "Function that loads the machine specific settings."
+  (if (file-exists-p dk/custom-settings-file)
+      (progn (dk/log 'info "Loading customs file from "
+                     dk/custom-settings-file ".")
+             (load-file dk/custom-settings-file))
+    (dk/log 'error "Customs file could not be loaded from "
+            dk/custom-settings-file ".")))
+
+(defun dk/install-customs-file ()
+  (interactive)
+  (let ((settings
+         `(("dk/user-system-base-path" . ,dk/user-system-base-path)
+           ("dk/org-roam-dir" . ,dk/org-roam-dir)
+           ("dk/use-40-percent-keyboard" . ,dk/use-40-percent-keyboard))))
+    (with-temp-file dk/custom-settings-file
+      (dolist (item settings)
+        (let* ((var-name (car item))
+               (var-val (cdr item))
+               (val-string (cond ((stringp var-val)(concat "\"" var-val "\""))
+                                 (t (if var-val "t" "nil")))))
+          (dk/log 'info "Getting " val-string " for " var-name " with type "
+                  (symbol-name (type-of var-val)))
+          (insert "(setq " var-name " " val-string ")\n"))))
+    (dk/log 'info "Settings file has been installed.")))
+
+(defun dk/open-customs-file ()
+  "Open the file defined in `dk/custom-settings-file'."
+  (interactive)
+  (if (file-exists-p dk/custom-settings-file)
+      (progn (find-file dk/custom-settings-file)
+             (dk/log 'info "Opened customs file."))
+    (dk/log 'error "File does not exist. "
+            "Consider calling `M-x dk/install-customs-file RET.'")))
+
+(global-set-key (kbd "C-c RET") 'dk/open-customs-file)
+
 ;; init functions
 ;;------------------------------------------------------------------------------
 
 (defun dk/load-config ()
-  (when (daemonp)
-    (require 'early-init))
-  
+  "Init function for the config."
+  (dk/load-customs-file)
   (dk/load-modules)
-
-  (dk/load-theme)
-  
   (dk/40-percent-keyboard-mode-maybe-enable)
-  (dk/log 'info "Config loaded.")
-  (setq gc-cons-threshold dk/original-gc-threshold)) ; old gc value
+  (dk/log 'info "Config loaded.")  
+  (when dk/original-gc-threshold
+    (dk/log 'info "Restoring old gc values.")
+    (setq gc-cons-threshold dk/original-gc-threshold))) ; old gc value
 
 ;; Call the entry point of the config.
 (dk/load-config)
