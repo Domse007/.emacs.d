@@ -98,4 +98,4 @@
   :config
   (load-theme 'humanoid-dark t))
 
-(provide 'base-design)
+(provide 'core-design)

@@ -39,4 +39,4 @@
 
 ;; (setq use-package-always-defer t)
 
-(provide 'base-use-package)
+(provide 'core-use-package)

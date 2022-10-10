@@ -77,12 +77,12 @@ installation instructions."
 (defconst dk/modules
   '((early-init             root   nil "The early-init file.")
     (init                   root   nil "The main init file.")
-    (base-use-package       core   t   "Setup of use-package")
-    (base-version           core   t   "Definitions of all version variables and functions") ; possibly useless
-    (base-config            core   t   "Setup of invisible packages")
-    (base-emacs             core   t   "Setup of built-in things.")
-    (base-design            core   t   "Definitions of visible related packages.")
-    (base-funcs             core   t   "General custom funcs.")
+    (core-use-package       core   t   "Setup of use-package")
+    (core-version           core   t   "Definitions of all version variables and functions") ; possibly useless
+    (core-config            core   t   "Setup of invisible packages")
+    (core-emacs             core   t   "Setup of built-in things.")
+    (core-design            core   t   "Definitions of visible related packages.")
+    (core-funcs             core   t   "General custom funcs.")
     (custom-search          module t   "Module that provides an interface to search through modules.")
     (custom-helm            module t   "Module that enables helm and presents it through posframe.")
     (text-org-mode          module t   "Module that defines basic org setup.")

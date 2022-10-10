@@ -41,4 +41,4 @@
 
 (use-package posframe)
 
-(provide 'base-config)
+(provide 'core-config)

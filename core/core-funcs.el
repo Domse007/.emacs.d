@@ -122,11 +122,11 @@ is `t'"
   (let ((missing-alist nil))
     (dolist (program dk/external-dependencies)
       (let ((program-str (if (consp program)
-                             (car program)
+                             (symbol-name (car program))
                            (symbol-name program))))
 	(unless (executable-find program-str)
 	  (push missing-alist program))))
-    (if (equal missing-alist nil)
+    (if (not missing-alist)
 	(dk/log 'info "No missing dependencies.")
       (dk/log 'error "Missing following dependencies: "
 	      (substring (format "%s" missing-alist) 1 -1)))))
@@ -145,4 +145,4 @@ is `t'"
         (when (string-equal user-input (symbol-name dep))
           (message "No instructions are available."))))))
 
-(provide 'base-funcs)
+(provide 'core-funcs)

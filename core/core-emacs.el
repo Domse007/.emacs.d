@@ -80,10 +80,8 @@
 	  w32-pipe-buffer-size (* 64 1024)    ; read more at a time (was 4K)
 	  inhibit-compacting-font-caches t))
 
-  (defcustom dk/default-coding-system 'utf-8-unix
-    "Default coding system that is used. This must be set."
-    :type 'symbol
-    :group 'dk/config)
+  (defconst dk/default-coding-system 'utf-8-unix
+    "Default coding system that is used. This must be set.")
 
   (defun dk/set-default-coding-system ()
     "Set the default coding system."
@@ -106,4 +104,4 @@
    (prog-mode . subword-mode)
    (after-init-hook . auto-revert-mode)))
 
-(provide 'base-emacs)
+(provide 'core-emacs)

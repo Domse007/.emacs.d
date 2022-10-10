@@ -46,4 +46,4 @@ is returned otherwise the whole sentence is returned."
   (dk/check-required-version-user-file)
   (dk/check-emacs-version))
 
-(provide 'base-version)
+(provide 'core-version)
