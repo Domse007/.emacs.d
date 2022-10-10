@@ -66,7 +66,7 @@ internally. Because it's a redefine, it can't have the dk/ prefix."
   (if (not (file-exists-p dk/custom-settings-file))
       (message (concat "Customs file not installed. "
                        "Consider calling `M-x dk/install-customs-file RET'."))
-    (dk/config-version)))
+    (dk/log 'info "Personal Emacs config version: " (dk/config-version-string))))
 
 ;; Org (roam) export helpers
 ;;------------------------------------------------------------------------------

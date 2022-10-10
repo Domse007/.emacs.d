@@ -1,4 +1,4 @@
-;; Macros
+;; Logging
 ;;------------------------------------------------------------------------------
 
 (defmacro dk/log (kind &rest msg)
@@ -10,6 +10,30 @@ the *Messages* buffer."
           (message (concat "[WARNING] " ,@msg)))
          ((eq ,kind 'error)
           (message (concat "[ERROR] " ,@msg)))))
+
+;; Versioning
+;;------------------------------------------------------------------------------
+
+(defconst dk/config-version '(0 6 1)
+  "The version of this config as a list.")
+
+(defun dk/config-version-string ()
+  "Get the config version as a string."
+  (format "%s.%s.%s"
+          (nth 0 dk/config-version)
+          (nth 1 dk/config-version)
+          (nth 2 dk/config-version)))
+
+(defconst dk/minimal-emacs-version "27.1"
+  "Minimal version of emacs to run this config.")
+
+(defun dk/check-emacs-version ()
+  "Check the emacs version if the config and emacs are compatible."
+  (if (version<= (dk/config-version-string) emacs-version)
+      (dk/log 'info "Emacs is satisfy version requirement.")
+    (error "Emacs does not satisfy version requirement.")))
+
+(dk/check-emacs-version)
 
 ;; Variables
 ;;------------------------------------------------------------------------------
@@ -78,7 +102,6 @@ installation instructions."
   '((early-init             root   nil "The early-init file.")
     (init                   root   nil "The main init file.")
     (core-use-package       core   t   "Setup of use-package")
-    (core-version           core   t   "Definitions of all version variables and functions") ; possibly useless
     (core-config            core   t   "Setup of invisible packages")
     (core-emacs             core   t   "Setup of built-in things.")
     (core-design            core   t   "Definitions of visible related packages.")
