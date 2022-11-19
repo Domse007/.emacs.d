@@ -1,11 +1,9 @@
 (use-package no-littering
-  :custom
-  ((no-littering-etc-directory (concat user-emacs-directory
-				       dk/user-emacs-etcdir))
-   (no-littering-var-directory (concat user-emacs-directory
-				       dk/user-emacs-etcdir))
-   ;; ((auto-save-file-name-transforms '((".*" "~/.emacs.d/var/auto-save/" . t))))
-   ))
+  :config
+  (setq no-littering-etc-directory dk/user-emacs-cache-dir)
+  (setq no-littering-var-directory dk/user-emacs-cache-dir)
+  ;; ((auto-save-file-name-transforms '((".*" "~/.emacs.d/var/auto-save/" . t))))
+  )
 
 (use-package auto-package-update
   :defer t
@@ -15,7 +13,7 @@
    (auto-package-update-delete-old-versions t)
    (auto-package-update-hide-results t)
    (auto-package-update-last-update-day-filename
-    (concat dk/user-emacs-etcdir ".last-update-day")))
+    (concat dk/user-emacs-cache-dir ".last-update-day")))
   :hook
   (auto-package-update-before-hook
    .
@@ -43,4 +41,4 @@
 
 (use-package posframe)
 
-(provide 'base-config)
+(provide 'core-config)

@@ -9,14 +9,14 @@
 
 (global-set-key (kbd "M-k") 'dk/kill-word-at-point)
 
-(defun dk/delete-window ()
-  "Wrapper around `delete-window' to balance windows after deleting the active
-window."
-  (interactive)
-  (delete-window)
-  (balance-windows))
+;; (defun dk/delete-window ()
+;;   "Wrapper around `delete-window' to balance windows after deleting the active
+;; window."
+;;   (interactive)
+;;   (delete-window)
+;;   (balance-windows))
 
-(global-set-key (kbd "C-x 0") 'dk/delete-window)
+;; (global-set-key (kbd "C-x 0") 'dk/delete-window)
 
 ;; Play a random game
 ;;------------------------------------------------------------------------------
@@ -35,21 +35,6 @@ a predefined game."
 	   (game-to-be-played (nth game-index dk/games)))
       (call-interactively game-to-be-played))))
 
-;; I'm forgetting a lot of stuff...
-;;------------------------------------------------------------------------------
-
-(require 'olivetti)
-
-(defun dk/enable-centering ()
-  "Disable the centering. This is more or less an alias for olivetti mode."
-  (interactive)
-  (olivetti-mode t))
-
-(defun dk/disable-centering ()
-  "Disable the centering. This is more or less an alias for olivetti mode."
-  (interactive)
-  (olivetti-mode nil))
-
 ;; See above...
 ;;------------------------------------------------------------------------------
 
@@ -61,24 +46,6 @@ a predefined game."
   (dk/log 'info "Updating packages...")
   (auto-package-update-now)
   (quelpa-upgrade-all-maybe))
-
-;; Config version stuff
-;;------------------------------------------------------------------------------
-
-(defun dk/config-version (&optional not-print only-version)
-  "Return the major version of the config. If NOT-PRINT is given, the function
-will not message the string. If ONLY-VERSION is given, only the version string
-is returned otherwise the whole sentence is returned."
-  (interactive)
-  (let ((version-string (concat (number-to-string dk/config-major-version)
-				"."
-				(number-to-string dk/config-minor-version)))
-	(explanation "Personal Emacs config version: "))
-    (when (not not-print)
-      (dk/log 'info explanation version-string))
-    (if only-version
-	version-string
-      (concat explanation version-string))))
 
 ;; Open working directory in file explorer
 ;;------------------------------------------------------------------------------
@@ -96,7 +63,10 @@ is returned otherwise the whole sentence is returned."
 (defun display-startup-echo-area-message ()
   "Redefining the default startup message function. It appears to be very messi
 internally. Because it's a redefine, it can't have the dk/ prefix."
-  (dk/config-version))
+  (if (not (file-exists-p dk/custom-settings-file))
+      (message (concat "Customs file not installed. "
+                       "Consider calling `M-x dk/install-customs-file RET'."))
+    (dk/log 'info "Personal Emacs config version: " (dk/config-version-string))))
 
 ;; Org (roam) export helpers
 ;;------------------------------------------------------------------------------
@@ -132,29 +102,47 @@ internally. Because it's a redefine, it can't have the dk/ prefix."
 	    (,(kbd "C-x e") . split-window-right)
 	    (,(kbd "C-x p") . dk/delete-window)))
 
-(when dk/use-40-percent-keyboard
-  (progn (dk/log 'info "Enabling 40 percent keyboard mode.")
-	 (dk/40-percent-keyboard-mode)))
+(defun dk/40-percent-keyboard-mode-maybe-enable ()
+  "Enable `dk/40-percent-keyboard-mode' when `dk/use-40-percent-keyboard'
+is `t'"
+  (when dk/use-40-percent-keyboard
+    (progn (dk/log 'info "Enabling 40 percent keyboard mode.")
+	   (dk/40-percent-keyboard-mode))))
 
 ;; Checking for external dependencies
 ;;------------------------------------------------------------------------------
 
-(defconst dk/system-dependencies
-  '("gcc" "grep" "pdflatex" "git" "python" "cargo" "zip" "unzip")
-  "List of external programs that are required to have a working config.")
+;; (defconst dk/system-dependencies
+;;   '("gcc" "grep" "pdflatex" "git" "python" "cargo" "zip" "unzip")
+;;   "List of external programs that are required to have a working config.")
 
 (defun dk/check-external-deps ()
   "Check if external programs are available."
   (interactive)
-  (let ((missing-alist))
-    (dolist (program dk/system-dependencies)
-      (when (equal (executable-find program) nil)
-	(if (not missing-alist)
-	    (setq missing-alist `(,program))
-	  (add-to-list missing-alist program))))
-    (if (equal missing-alist nil)
+  (let ((missing-alist nil))
+    (dolist (program dk/external-dependencies)
+      (let ((program-str (if (consp program)
+                             (symbol-name (car program))
+                           (symbol-name program))))
+	(unless (executable-find program-str)
+	  (push missing-alist program))))
+    (if (not missing-alist)
 	(dk/log 'info "No missing dependencies.")
       (dk/log 'error "Missing following dependencies: "
 	      (substring (format "%s" missing-alist) 1 -1)))))
 
-(provide 'base-funcs)
+(defun dk/describe-external-dependency ()
+  "Report the installation process for an external dependency."
+  (interactive)
+  (let* ((list-of-syms (mapcar (lambda (thing) (if (consp thing) (car thing) thing))
+                               dk/external-dependencies))
+         (user-input (completing-read "Dependency: " list-of-syms nil t)))
+    (dolist (dep dk/external-dependencies)
+      (if (consp dep)
+          (when (string-equal user-input (symbol-name (car dep)))
+            (message "%s can be installed with the following command: %s"
+                     (symbol-name (car dep)) (cdr dep)))
+        (when (string-equal user-input (symbol-name dep))
+          (message "No instructions are available."))))))
+
+(provide 'core-funcs)

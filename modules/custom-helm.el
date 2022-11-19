@@ -5,9 +5,19 @@
    (helm-scroll-amount 8)
    (helm-ff-file-name-history-use-recentf t)
    (helm-echo-input-in-header-line t)
-   (helm-split-window-inside-p t))
-  :config
+   (helm-split-window-inside-p t)
+   (helm-display-buffer-default-height 25)
+   (helm-candidate-number-limit 50)
+   (helm-ff-newfile-prompt-p nil)
+   (helm-ff-skip-boring-files t))
+  :init
+  (require 'helm-config)
   (helm-mode t)
+  (add-to-list 'display-buffer-alist
+	       `(,(rx bos "*helm" (* not-newline) "*" eos)
+		 (display-buffer-in-side-window)
+		 (inhibit-same-window . t)
+		 (window-height . 0.4)))
   :bind
   (("M-x" . helm-M-x)
    ("C-x C-f" . helm-find-files)
@@ -17,26 +27,27 @@
    ("C-x b" . helm-mini)
    ("M-y" . helm-show-kill-ring)
    :map helm-map
-   ("<tab>" . helm-ff-RET))
+   ("<tab>" . helm-ff-RET)))
+
+(use-package helm-flx
+  :after helm
+  :custom
+  ((helm-flx-for-helm-find-files t)
+   (helm-flx-for-helm-locate t))
   :config
-  (helm-mode t))
+  (helm-flx-mode t))
 
 (use-package helm-posframe
-  :defer nil
+  :disabled t
   :after helm
   :if window-system
   :custom
   ((helm-posframe-width 120)
-   (helm-posframe-border-width 5))
-  ;;  :init
-  ;; (setq helm-display-function #'helm-posframe-display)
-  ;; (advice-add 'helm-cleanup :around #'helm-posframe-cleanup)
-  ;; (require 'posframe)
-  ;;(helm-posframe-enable)
-  )
+   (helm-posframe-border-width 2))
+  :config
+  (helm-posframe-enable))
 
 (use-package helm-icons
-  :defer t
   :after helm
   :if window-system
   :custom

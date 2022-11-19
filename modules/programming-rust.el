@@ -1,3 +1,6 @@
+(new-external-dependency! 'cargo)
+(new-external-dependency! 'rustc)
+
 (use-package rustic
   :defer t
   :custom
@@ -12,9 +15,7 @@
         ("C-c C-c r" . lsp-rename)
         ("C-c C-c q" . lsp-workspace-restart)
         ("C-c C-c Q" . lsp-workspace-shutdown)
-        ("C-c C-c s" . lsp-rust-analyzer-status))
-  :hook
-  ((rustic-mode-hook . lsp)))
+        ("C-c C-c s" . lsp-rust-analyzer-status)))
 
 (use-package rust-auto-use
   :defer t

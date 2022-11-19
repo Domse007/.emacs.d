@@ -1,45 +1,12 @@
-(use-package lsp-mode
-  :defer t
-  :custom
-  ((lsp-rust-analyzer-cargo-watch-command "clippy")
-   (lsp-eldoc-render-all t)
-   (lsp-idle-delay 0.6)
-   (lsp-rust-analyzer-server-display-inlay-hints t)
-   (lsp-session-file
-    (concat user-emacs-directory
-	    dk/user-emacs-etcdir
-	    "lsp/lsp"))
-   (lsp-server-install-dir
-    (concat user-emacs-directory
-	    dk/user-emacs-etcdir
-	    "lsp-server/"))
-   (lsp-signature-auto-activate nil)
-   ;; rust
-   (lsp-rust-analyzer-display-closure-return-type-hints t)
-   (lsp-rust-analyzer-display-parameter-hints t)
-   (lsp-rust-analyzer-import-granularity "module"))
-  :hook
-  ((lsp-mode-hook . lsp-ui-mode)
-   (lsp-mode-hook . linum-mode))
-  :bind
-  (:map lsp-mode-map
-	("C-c C-f" . lsp-find-definition)))
+(new-external-dependency! 'grep)
+(new-external-dependency! '(ripgrep . "cargo install ripgrep"))
 
-(use-package lsp-ui
-  :defer t
+(use-package projectile
+  :bind
+  (:map projectile-mode-map
+	("C-c p" . 'projectile-command-map))
   :config
-  (lsp-ui-doc-enable t)
-  (lsp-ui-mode t)
-  :custom
-  ((lsp-ui-peek-always-show t)
-   (lsp-ui-sideline-show-hover t)
-   (lsp-ui-doc-position 'top)
-   (lsp-ui-doc-position nil)
-   (lsp-ui-doc-max-width 42)
-   (lsp-ui-doc-max-height 30)
-   (lsp-eldoc-hook nil)
-   (lsp-eldoc-enable-hover nil)
-   (lsp-ui-sideline-enable nil)))
+  (projectile-mode t))
 
 (use-package company
   :defer t
@@ -63,6 +30,12 @@
   :hook
   (company-mode . company-box-mode))
 
+(use-package prescient)
+
+(use-package company-prescient
+  :config
+  (company-prescient-mode))
+
 (use-package flycheck
   :defer t
   ;; :hook
@@ -71,7 +44,9 @@
 
 (use-package flycheck-posframe
   :defer t
-  :after flycheck)
+  :after flycheck
+  :config
+  (flycheck-posframe-configure-pretty-defaults))
 
 (use-package rainbow-delimiters
   :defer t
@@ -82,9 +57,7 @@
   :defer t
   :custom
   ((transient-history-file
-    (concat user-emacs-directory
-	    dk/user-emacs-etcdir
-	    "transient/history.el"))))
+    (expand-file-name dk/user-emacs-cache-dir "transient/history.el"))))
 
 (use-package tree-sitter
   :defer t
@@ -106,13 +79,17 @@
   :after yasnippet-snippets
   :custom
   ((yas-indent-line 'auto)
-   (yas/snippet-dirs `(;; ,(concat user-emacs-directory
-		       ;; 		dk/user-emacs-etcdir
-		       ;; 		"snippets")
-		       ,yasnippet-snippets-dir)))
+   (yas/snippet-dirs `(,yasnippet-snippets-dir)))
   :config
   (yasnippet-snippets-initialize)
-  (yas-global-mode 1))
+  (yas-global-mode 1)
+  ;; (yas-reload-all)
+  ;; (add-hook 'prog-mode-hook #'yas-minor-mode)
+  ;; (yas-global-mode 1)
+  ;; (setq yas-prompt-functions '(yas-dropdown-prompt
+  ;;                              yas-ido-prompt
+  ;;                              yas-completing-prompt))
+  )
 
 (use-package yasnippet-snippets
   :defer t)
@@ -120,9 +97,7 @@
 (use-package eshell
   :ensure nil
   :custom
-  ((eshell-directory-name (concat user-emacs-directory
-				  dk/user-emacs-etcdir
-				  "eshell"))))
+  ((eshell-directory-name (concat dk/user-emacs-cache-dir "eshell"))))
 
 (use-package treemacs-all-the-icons)
 
@@ -140,28 +115,20 @@
    (treemacs-is-never-other-window t)
    (treemacs-sorting 'alphabetic-case-insensitive-asc)
    (treemacs-persist-file
-    (concat user-emacs-directory dk/user-emacs-etcdir "treemacs-persist"))
+    (concat user-emacs-directory dk/user-emacs-cache-dir "treemacs-persist"))
    (treemacs-last-error-persist-file
-    (concat dk/user-emacs-etcdir "treemacs-last-error-persist"))
+    (concat dk/user-emacs-cache-dir "treemacs-last-error-persist"))
    (treemacs-collapse-dirs 0))
   :bind
   (("C-x t" . treemacs-select-window))
-  :hook
-  ((lsp . dk/ask-enable-treemacs)
-   (emacs-lisp-mode . dk/ask-enable-treemacs))
-  :init
-  (defun dk/ask-enable-treemacs ()
-    "Ask if treemacs should be enabled."
-    (when (and (eq (treemacs-current-visibility) 'none)
-	       (not (string-equal (buffer-name) "*scratch*")))
-      (when (y-or-n-p "Activate treemacs?")
-	(treemacs t))))
   :config
   (treemacs-follow-mode t)
   (treemacs-project-follow-mode t)
   (treemacs-filewatch-mode t)
   (treemacs-load-theme "all-the-icons")
   (treemacs-git-mode 'simple))
+
+(use-package treemacs-projectile)
 
 (use-package sublimity
   :disabled t
@@ -181,5 +148,9 @@
 (use-package hideshow-org
   :hook
   ((prog-mode . hs-org/minor-mode)))
+
+(use-package shell-pop
+  :bind
+  (("C-t" . shell-pop)))
 
 (provide 'programming-base)

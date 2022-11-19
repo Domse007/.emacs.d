@@ -1,3 +1,5 @@
+(new-external-dependency! 'gcc) ;; for compiling sqlite.
+
 (use-package org-roam
   :defer t
   :init
@@ -9,9 +11,7 @@
   ((org-roam-directory dk/org-roam-dir)
    (org-roam-completion-everywhere t)
    (org-roam-db-location
-    (concat user-emacs-directory
-	    dk/user-emacs-etcdir
-	    "org/org-roam.db"))
+    (concat dk/user-emacs-cache-dir "org/org-roam.db"))
    (org-roam-capture-templates
     `(("d" "default" plain "%?" :target
        (file+head "${slug}.org"
@@ -49,6 +49,20 @@
    (org-roam-ui-update-on-save t)
    (org-roam-ui-open-on-start t)))
 
+(use-package org-roam-peek
+  :disabled t
+  :after org-roam
+  :quelpa
+  (org-roam-peek :fetcher github :repo "domse007/org-roam-peek")
+  :hook
+  ((org-mode . org-roam-peek-mode)))
+
+(use-package org-rainbow-tags
+  :quelpa
+  (org-rainbow-tags :fetcher github :repo "KaratasFurkan/org-rainbow-tags")
+  :hook
+  ((org-mode . org-rainbow-tags-mode)))
+
 ;; (dk/get-package!
 ;;     :user "publicimageltd"
 ;;     :repo "delve"
@@ -59,9 +73,7 @@
 ;;   :quelpa
 ;;   (delve :fetcher github :repo "publicimageltd/delve")
 ;;   :custom
-;;   ((delve-store-directory (concat user-emacs-directory
-;; 				  dk/user-emacs-etcdir
-;; 				  "delve-store")))
+;;   ((delve-store-directory (concat dk/user-emacs-cache-dir "delve-store")))
 ;;   :bind
 ;;   (("<f12>" . delve))
 ;;   :config

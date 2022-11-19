@@ -12,9 +12,7 @@
 	("gnu" . "https://elpa.gnu.org/packages/")
 	("melpa" . "https://melpa.org/packages/")))
 
-;; (setq package-user-dir (concat user-emacs-directory
-;; 			       dk/user-emacs-etcdir
-;; 			       "elpa/"))
+;; (setq package-user-dir (concat dk/user-emacs-cache-dir "elpa/"))
 
 (package-initialize)
 
@@ -32,13 +30,13 @@
   ((use-package-always-ensure t)
    (use-package-compute-statistics t)))
 
+(new-external-dependency! 'git)
+
 (use-package quelpa-use-package
   :custom
-  ((quelpa-dir (concat user-emacs-directory
-		       dk/user-emacs-etcdir
-		       "quelpa/"))
+  ((quelpa-dir (concat dk/user-emacs-cache-dir "quelpa/"))
    (quelpa-checkout-melpa-p nil)))
 
 ;; (setq use-package-always-defer t)
 
-(provide 'base-use-package)
+(provide 'core-use-package)

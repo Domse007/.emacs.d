@@ -7,18 +7,24 @@
 (setq dk/get-package-override-git-availability nil)
 
 (defun dk/user-file-setup ()
-  (dk/use-module! 'custom-search)
-  (dk/use-module! 'custom-theme)
-  (dk/use-module! 'custom-helm)
-  ;; (dk/use-module! 'custom-ivy)
-  (dk/use-module! 'text-org-mode)
-  (dk/use-module! 'text-org-spell)
-  (dk/use-module! 'text-org-roam)
-  (dk/use-module! 'programming-base)
-  (dk/use-module! 'programming-rust)
-  (dk/use-module! 'programming-elisp)
-  (dk/use-module! 'programming-python)
-  (dk/use-module! 'programming-haskell)
+  (use-modules! '(
+                  custom-search
+                  custom-theme
+                  custom-helm
+                  ;; custom-ivy
+                  text-org-mode
+                  text-org-spell
+                  text-org-roam
+                  programming-base
+                  ;; programming-lsp-mode
+                  ;; programming-lsp-eglot
+                  ;; programming-lsp-bridge
+                  programming-rust
+                  programming-elisp
+                  programming-python
+                  programming-haskell
+                  optional-visuals
+                  ))
 
   (dk/theme! 'humanoid-dark))
 

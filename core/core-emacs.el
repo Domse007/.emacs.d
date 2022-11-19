@@ -1,26 +1,14 @@
 (use-package emacs
   :custom
   (;; File locations
-   (custom-file (concat user-emacs-directory
-			dk/user-emacs-etcdir
-			"custom.el"))
-   (recentf-save-file (concat user-emacs-directory
-			      dk/user-emacs-etcdir
-			      "recentf"))
+   (custom-file (concat dk/user-emacs-cache-dir "custom.el"))
+   (recentf-save-file (concat dk/user-emacs-cache-dir "recentf"))
    (default-directory dk/user-system-base-path)
-   (eshell-aliases-file (concat user-emacs-directory
-				dk/user-emacs-etcdir
-				"aliases"))
-   (backup-directory-alist
-    `((".*" . ,temporary-file-directory)))
-   (auto-save-file-name-transforms
-    `((".*" ,temporary-file-directory t)))
-   (save-place-file (concat user-emacs-directory
-			    dk/user-emacs-etcdir
-			    "places"))
-   (nsm-settings-file (concat user-emacs-directory
-			      dk/user-emacs-etcdir
-			      "network-security.data"))
+   (eshell-aliases-file (concat dk/user-emacs-cache-dir "aliases"))
+   (backup-directory-alist `((".*" . ,temporary-file-directory)))
+   (auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
+   (save-place-file (concat dk/user-emacs-cache-dir "places"))
+   (nsm-settings-file (concat dk/user-emacs-cache-dir "network-security.data"))
    ;; Emacs Built-In Quality of life improvements
    (ring-bell-function 'ignore)
    (frame-title-format '("EMACS - " emacs-version))
@@ -39,7 +27,7 @@
    (delete-old-versions t)
    (version-control t)
    ;; Movement preferences
-   (scroll-margin 8)
+   ;; (scroll-margin 8)
    (scroll-step 1)
    (scroll-conservatively 101)
    ;; (indent-tabs-mode t)
@@ -59,10 +47,8 @@
   (display-time-mode nil)
 
   ;; Enable battery usage. Disabled if not available.
-  ;; (require 'battery)
-  ;; (when (not (and battery-echo-area-format battery-status-function))
-  (display-battery-mode t)
-  ;;)
+  (unless (string-match-p "N/A" (battery))
+    (display-battery-mode 1)) 
   
   (save-place-mode t)
   (global-hl-line-mode t)
@@ -71,28 +57,31 @@
   ;; Set default encoding system
   (set-language-environment "UTF-8")
 
-  ;; better window splitting behaviour
-  (advice-add 'split-window-right :after #'balance-windows)
-
   (global-unset-key (kbd "<menu>"))
   ;; (global-unset-key (kbd "<mouse-1>"))
   ;; (global-unset-key (kbd "<down-mouse-1>"))
   (global-unset-key (kbd "<insert>"))
   
-  (when (boundp 'pixel-scroll-precision-mode)
-    (progn (pixel-scroll-precision-mode t)
-	   (dk/log 'warning "Emacs version " (emacs-version)
-		   " is used. Emacs 29.0 is prefered.")))
+  (if (boundp 'pixel-scroll-precision-mode)
+      (pixel-scroll-precision-mode t)
+    (dk/log 'warning "This emacs installation does not support "
+	    "pixel-scroll-precision-mode."))
 
   (if (member dk/default-font (font-family-list))
       (progn (dk/log 'info "Setting font: " dk/default-font)
 	     (set-face-attribute 'default nil :font dk/default-font))
     (dk/log 'error dk/default-font " is not available. Maybe install it."))
 
-  (defcustom dk/default-coding-system 'utf-8-unix
-    "Default coding system that is used. This must be set."
-    :type 'symbol
-    :group 'dk/config)
+  (when (and dk/windows-flag
+	     (boundp 'w32-get-true-file-attributes))
+    (dk/log 'info "Setting windows optimizations.")
+    (setq w32-get-true-file-attributes nil    ; decrease file IO workload
+	  w32-pipe-read-delay 0               ; faster IPC
+	  w32-pipe-buffer-size (* 64 1024)    ; read more at a time (was 4K)
+	  inhibit-compacting-font-caches t))
+
+  (defconst dk/default-coding-system 'utf-8-unix
+    "Default coding system that is used. This must be set.")
 
   (defun dk/set-default-coding-system ()
     "Set the default coding system."
@@ -115,4 +104,4 @@
    (prog-mode . subword-mode)
    (after-init-hook . auto-revert-mode)))
 
-(provide 'base-emacs)
+(provide 'core-emacs)

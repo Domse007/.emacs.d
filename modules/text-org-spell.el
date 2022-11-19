@@ -1,3 +1,5 @@
+(new-external-dependency! 'hunspell)
+
 (use-package ispell
   :defer t
   :if dk/windows-flag
@@ -26,10 +28,10 @@
 (use-package fuzzy
   :defer t)
 
-(dk/get-package!
-    :user "Domse007"
-    :repo "org-lang"
-    :force dk/get-package-override-git-availability)
+;; (dk/get-package!
+;;     :user "Domse007"
+;;     :repo "org-lang"
+;;     :force dk/get-package-override-git-availability)
 
 (use-package org-lang
   :defer t

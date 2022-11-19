@@ -1,5 +1,11 @@
 (use-package doom-modeline
   :hook (after-init . doom-modeline-mode)
+  :config
+  ;; (defun my-doom-modeline--font-height ()
+  ;;   "Calculate the actual char height of the mode-line."
+  ;;   (+ (frame-char-height) 1))
+  ;; (advice-add #'doom-modeline--font-height
+  ;; 	      :override #'my-doom-modeline--font-height)
   :custom    
   ((doom-modeline-height 25)
    (doom-modeline-bar-width 1)
@@ -27,11 +33,16 @@
    (dashboard-center-content t)
    (dashboard-set-file-icons t)
    (dashboard-set-heading-icons t)
-   (dashboard-items '((recents  . 20))))
+   (dashboard-items '((recents  . 15)
+		      (projects . 5))))
   :bind
   (:map dashboard-mode-map ("q" . nil))
   :config
   (when (eq (length command-line-args) 1)
+    (let ((home (getenv "HOME")))
+      (if (getenv "HOME")
+	  (cd home)
+	(cd (concat user-emacs-directory "../"))))
     (dashboard-setup-startup-hook)))
 
 (use-package all-the-icons
@@ -60,7 +71,7 @@
 
 (use-package olivetti
   :custom
-  ((olivetti-style 'fancy))
+  ((olivetti-style nil))
   :hook
   ((org-mode . olivetti-mode)))
 
@@ -71,4 +82,20 @@
   :hook
   ((org-mode . perfect-margin-mode)))
 
-(provide 'base-design)
+;; automatic window balancing.
+(use-package zoom
+  :disabled t
+  :custom
+  ((zoom-ignored-buffer-name-regexps '("\\`\\*helm" "\\`\\*org-roam")))
+  :config
+  (when (window-system)
+    (zoom-mode t)))
+
+(use-package humanoid-themes
+  :custom
+  ((humanoid-comment-italic t)
+   (humanoid-org-highlight t))
+  :config
+  (load-theme 'humanoid-dark t))
+
+(provide 'core-design)

@@ -1,7 +1,7 @@
+(new-external-dependency! 'python)
+
 (use-package python-mode
   :defer t
-  :hook
-  ((python-mode . lsp-deferred))
   :custom
   ;; NOTE: Set these if Python 3 is called "python3" on your system!
   ;; (python-shell-interpreter "python3")
