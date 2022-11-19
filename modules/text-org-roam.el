@@ -57,6 +57,12 @@
   :hook
   ((org-mode . org-roam-peek-mode)))
 
+(use-package org-rainbow-tags
+  :quelpa
+  (org-rainbow-tags :fetcher github :repo "KaratasFurkan/org-rainbow-tags")
+  :hook
+  ((org-mode . org-rainbow-tags-mode)))
+
 ;; (dk/get-package!
 ;;     :user "publicimageltd"
 ;;     :repo "delve"

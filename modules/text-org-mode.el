@@ -2,6 +2,9 @@
 
 (new-external-dependency! 'pdflatex)
 (new-external-dependency! 'dvipng)
+(when dk/windows-flag
+  ;; Make more obvious what to install.
+  (new-external-dependency! 'miktex))
 
 (use-package org
   :pin melpa
@@ -142,5 +145,9 @@
 (use-package org-modern
   :hook
   ((org-mode . org-modern-mode)))
+
+(new-external-dependency! 'gnupg) ;; pacman -S mingw-w32-x86_64-gnupg
+
+(use-package org-crypt)
 
 (provide 'text-org-mode)

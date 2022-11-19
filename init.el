@@ -29,7 +29,7 @@ the *Messages* buffer."
 
 (defun dk/check-emacs-version ()
   "Check the emacs version if the config and emacs are compatible."
-  (if (version<= (dk/config-version-string) emacs-version)
+  (if (version<= dk/minimal-emacs-version emacs-version)
       (dk/log 'info "Emacs is satisfy version requirement.")
     (error "Emacs does not satisfy version requirement.")))
 
@@ -157,6 +157,7 @@ module. `early-init' and `init' must be nil.")
   (let ((settings
          `(("dk/user-system-base-path" . ,dk/user-system-base-path)
            ("dk/org-roam-dir" . ,dk/org-roam-dir)
+           ("user-full-name" . ,user-full-name)
            ("dk/use-40-percent-keyboard" . ,dk/use-40-percent-keyboard))))
     (with-temp-file dk/custom-settings-file
       (dolist (item settings)
@@ -184,6 +185,9 @@ module. `early-init' and `init' must be nil.")
 
 (defun dk/load-config ()
   "Init function for the config."
+  (when dk/windows-flag
+    (setq no-native-compile t
+          package-native-compile nil))
   (dk/load-customs-file)
   (dk/load-modules)
   (dk/40-percent-keyboard-mode-maybe-enable)

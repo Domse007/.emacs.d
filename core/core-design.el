@@ -1,11 +1,11 @@
 (use-package doom-modeline
   :hook (after-init . doom-modeline-mode)
   :config
-  (defun my-doom-modeline--font-height ()
-    "Calculate the actual char height of the mode-line."
-    (+ (frame-char-height) 1))
-  (advice-add #'doom-modeline--font-height
-	      :override #'my-doom-modeline--font-height)
+  ;; (defun my-doom-modeline--font-height ()
+  ;;   "Calculate the actual char height of the mode-line."
+  ;;   (+ (frame-char-height) 1))
+  ;; (advice-add #'doom-modeline--font-height
+  ;; 	      :override #'my-doom-modeline--font-height)
   :custom    
   ((doom-modeline-height 25)
    (doom-modeline-bar-width 1)
