@@ -16,7 +16,8 @@
 
 (package-initialize)
 
-(unless (package-installed-p 'use-package)
+(unless (and (package-installed-p 'use-package)
+             (boundp 'use-package))
   (package-refresh-contents)
   (package-install 'use-package))
 

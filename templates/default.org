@@ -1,0 +1,4 @@
+#+title: ${title}
+#+author: [NAME]
+#+options: toc:nil date:nil author:t
+

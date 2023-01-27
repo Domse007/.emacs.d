@@ -11,7 +11,7 @@
    (helm-ff-newfile-prompt-p nil)
    (helm-ff-skip-boring-files t))
   :init
-  (require 'helm-config)
+  ;; (require 'helm-config)
   (helm-mode t)
   (add-to-list 'display-buffer-alist
 	       `(,(rx bos "*helm" (* not-newline) "*" eos)

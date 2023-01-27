@@ -41,4 +41,8 @@
 
 (use-package posframe)
 
+(use-package unkillable-scratch
+  :config
+  (unkillable-scratch t))
+
 (provide 'core-config)

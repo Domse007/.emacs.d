@@ -40,12 +40,19 @@ a predefined game."
 
 (require 'auto-package-update)
 
-(defun dk/package-update-packages ()
-  "Update all packages. Alias for `auto-package-update-now'."
-  (interactive)
-  (dk/log 'info "Updating packages...")
-  (auto-package-update-now)
-  (quelpa-upgrade-all-maybe))
+(defun aliased-p (fn)
+  "Return non-nil if function FN is aliased to a function symbol."
+  (let ((val (symbol-function fn)))
+    (and val                            ; `nil' means not aliased
+         (symbolp val))))
+
+(let ((fn 'package-update-packages))
+  (when (and (fboundp fn)
+             (not (aliased-p fn)))
+    (error "This function has been introduced into package.el.")))
+
+(defalias 'package-update-packages 'auto-package-update-now
+  "Alias for me to remember how the command is actually called.")
 
 ;; Open working directory in file explorer
 ;;------------------------------------------------------------------------------
@@ -121,11 +128,13 @@ is `t'"
   (interactive)
   (let ((missing-alist nil))
     (dolist (program dk/external-dependencies)
-      (let ((program-str (if (consp program)
-                             (symbol-name (car program))
-                           (symbol-name program))))
-	(unless (executable-find program-str)
-	  (push missing-alist program))))
+      (let* ((program-cons? (car program))
+             (program-str (if (consp program-cons?)
+                              (symbol-name (car program-cons?))
+                            (symbol-name program-cons?))))
+        (if (not (cdr program)) ; do not check if collection of packages.
+	    (unless (executable-find program-str)
+	      (push missing-alist program)))))
     (if (not missing-alist)
 	(dk/log 'info "No missing dependencies.")
       (dk/log 'error "Missing following dependencies: "

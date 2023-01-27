@@ -1,5 +1,5 @@
 #+HTML: <div align="center">
-* OEC: Opinionated Emacs Configuration
+* Personal Emacs Configuration
 #+HTML: </div>
 
 * Overview

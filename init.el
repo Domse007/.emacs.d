@@ -28,10 +28,10 @@ the *Messages* buffer."
   "Minimal version of emacs to run this config.")
 
 (defun dk/check-emacs-version ()
-  "Check the emacs version if the config and emacs are compatible."
-  (if (version<= dk/minimal-emacs-version emacs-version)
-      (dk/log 'info "Emacs is satisfy version requirement.")
-    (error "Emacs does not satisfy version requirement.")))
+"Check the emacs version if the config and emacs are compatible."
+(if (version<= dk/minimal-emacs-version emacs-version)
+    (dk/log 'info "Emacs does satisfy version requirement.")
+  (error "Emacs does not satisfy version requirement.")))
 
 (dk/check-emacs-version)
 
@@ -78,13 +78,18 @@ the *Messages* buffer."
 (defvar dk/external-dependencies nil
   "List of external programs that are used with this config.")
 
-(defun new-external-dependency! (program)
+(defun new-external-dependency! (program &optional nocheck)
   "Add a new external program to `dk/external-dependencies'. It is either a
 symbol or a cons. If it is a symbol, it is just the name of the dependency. If
 it is a cons cell, the car is the same symbol, but the cdr is a string with
 installation instructions."
   (unless (member program dk/external-dependencies)
-    (push program dk/external-dependencies)))
+    (push (cons program nocheck) dk/external-dependencies)))
+
+(when (and dk/windows-flag
+           (executable-find "winget"))
+  (new-external-dependency! 'winget) ;; by default included in W11
+  (new-external-dependency! '(msys2 . "winget install msys2") t))
 
 ;; Modules
 ;;------------------------------------------------------------------------------

@@ -1,5 +1,26 @@
 (new-external-dependency! 'gcc) ;; for compiling sqlite.
 
+(defun dk/org-roam-get-template (file)
+  "Get the string of a template file and modify it accordingly. Errors when
+FILE does not exist."
+  (if (file-exists-p file)
+      (with-temp-buffer
+	(insert-file-contents file)
+	(goto-char (point-min))
+	(replace-string "[NAME]" user-full-name)
+	(buffer-string))
+    (error "File %s does not exist." file)))
+
+(defconst dk/org-roam-default-template
+  (dk/org-roam-get-template (expand-file-name "templates/default.org"
+					      user-emacs-directory))
+  "Template string of the default org-roam template.")
+
+(defconst dk/org-roam-program-template
+  (dk/org-roam-get-template (expand-file-name "templates/program.org"
+					      user-emacs-directory))
+  "Tempate string for describing the functionalities of a program.")
+
 (use-package org-roam
   :defer t
   :init
@@ -14,10 +35,10 @@
     (concat dk/user-emacs-cache-dir "org/org-roam.db"))
    (org-roam-capture-templates
     `(("d" "default" plain "%?" :target
-       (file+head "${slug}.org"
-		  ,(concat "#+title: ${title}\n"
-			   "#+author: " user-full-name "\n"
-			   "#+options: toc:nil date:nil author:t\n\n"))
+       (file+head "%<%Y%m%d>-${slug}.org" ,dk/org-roam-default-template)
+       :unnarrowed t)
+      ("p" "program" plain "%?" :target
+       (file+head "program/%<%Y%m%d>-${slug}.org" ,dk/org-roam-program-template)
        :unnarrowed t))))
   :bind
   (("C-c n l" . org-roam-buffer-toggle)

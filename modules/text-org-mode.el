@@ -26,7 +26,7 @@
    ;; 		 (push '("[X]" . "☑" ) prettify-symbols-alist)
    ;; 		 (push '("[-]" . "❍" ) prettify-symbols-alist)
    ;; 		 (prettify-symbols-mode)))
-   )
+   (org-mode . company-mode))
   :custom
   ((org-src-fontify-natively t)
    (org-highlight-latex-and-related '(latex script entities))
