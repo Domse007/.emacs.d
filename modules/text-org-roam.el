@@ -100,4 +100,20 @@ FILE does not exist."
 ;;   :config
 ;;   (delve-global-minor-mode t))
 
+;;; Custom Code:
+
+(defun dk/org-roam-count-files ()
+  "Approximate the number of files in the org database."
+  (interactive)
+  (let* ((ord org-roam-directory)
+	 (directories `(,ord ,(expand-file-name "program" ord)))
+	 (res 0))
+    (dolist (dir directories)
+      (setq res (+ res (- (length (directory-files dir))
+			  2 ; subtract 2 for "." and ".."
+			  ))))
+    (when (called-interactively-p 'any)
+      (message "There are %s files in the db." res))
+    res))
+
 (provide 'text-org-roam)
