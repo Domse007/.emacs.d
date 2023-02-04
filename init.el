@@ -118,8 +118,6 @@ installation instructions."
     (text-org-roam          modules t   "Module that enables org-roam.")
     (programming-base       modules t   "Module that defines basics for programming.")
     (programming-lsp-mode   modules t   "Module that simplifies elisp programming.")
-    (programming-lsp-eglot  modules nil "Module that enables eglot - an lsp-client.")
-    (programming-lsp-bridge modules nil "Wrapper around the package lsp-bridge")
     (programming-rust       modules t   "Module that uses lsp to create a great rust environment.")
     (programming-elisp      modules t   "Module that simplifies elisp programming.")
     (programming-python     modules t   "Module that provides a better python workflow.")
