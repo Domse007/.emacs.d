@@ -18,6 +18,7 @@
    (rust-mode . lsp)
    (python-mode . lsp)
    (vue-mode . lsp)
+   (dart-mode . lsp)
    (lsp-mode-hook . lsp-ui-mode)
    (lsp-mode-hook . linum-mode))
   :bind

@@ -125,6 +125,7 @@ installation instructions."
     (programming-python     modules t   "Module that provides a better python workflow.")
     (programming-haskell    modules t   "Module that enables haskell programming.")
     (programming-vue        modules t   "Module for vue.js programming.")
+    (programming-flutter    modules t   "Module for flutter / dart programming.")
     (optional-visuals       modules nil "Module that enables more visual packages.")
     )
   "All modules that can be loaded. The first element is the module name. The
