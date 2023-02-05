@@ -39,7 +39,9 @@
    (linum-format "%5d")
    (inhibit-startup-message t)
    ;; initial major mode
-   (initial-major-mode 'emacs-lisp-mode))
+   (initial-major-mode 'emacs-lisp-mode)
+   ;; disable lockfiles. Filenames: .#FILENAME
+   (create-lockfiles nil))
   :init
   ;; Functions to enable certain emacs behaviours
   (cua-mode t)

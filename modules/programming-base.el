@@ -137,8 +137,11 @@
   ;; minimap
   (require 'sublimity-map)
   (sublimity-map-set-delay nil)
-  :hook
-  ((lsp-mode . sublimity-mode)))
+
+  (when (boundp 'programming-lsp-mode)
+    (add-hook 'lsp-after-open-hook 'sublimity-mode))
+  (when (boundp 'programming-eglot)
+    (add-hook 'eglot-connect-hook 'sublimity-mode)))
 
 ;; Code folding.
 (use-package hideshow
