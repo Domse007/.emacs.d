@@ -154,4 +154,17 @@ is `t'"
         (when (string-equal user-input (symbol-name dep))
           (message "No instructions are available."))))))
 
+;; Ask if prefer suspending instead of killing
+;;------------------------------------------------------------------------------
+
+(defun dk/maybe-suspend-else-kill (orig-fun &rest args)
+  (if (display-graphic-p)
+      (apply orig-fun args)
+    (if (y-or-n-p "Do you want to supend emacs?")
+        (suspend-emacs)
+      (let ((confirm-kill-emacs nil))
+        (apply orig-fun args)))))
+
+(advice-add 'save-buffers-kill-terminal :around #'dk/maybe-suspend-else-kill)
+
 (provide 'core-funcs)
