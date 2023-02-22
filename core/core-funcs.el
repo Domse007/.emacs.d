@@ -26,7 +26,8 @@ a predefined game."
 	   (game-to-be-played (nth game-index dk/games)))
       (call-interactively game-to-be-played))))
 
-;; See above...
+;; Aliasing for updating packages. It also checks that it has not been
+;; introduced into package.el
 ;;------------------------------------------------------------------------------
 
 (require 'auto-package-update)
@@ -75,7 +76,7 @@ a predefined game."
     (when (not (file-directory-p pub-dir))
       (make-directory pub-dir))))
 
-(org-link-set-parameters "id"  :export #'dk/org-id-link-export)
+(org-link-set-parameters "id" :export #'dk/org-id-link-export)
 
 (defun dk/org-id-link-export (link description format _)
   "Custom formatting org org-roam links in export."
@@ -113,9 +114,10 @@ is `t'"
              (program-str (if (consp program-cons?)
                               (symbol-name (car program-cons?))
                             (symbol-name program-cons?))))
-        (if (not (cdr program)) ; do not check if collection of packages.
-	    (unless (executable-find program-str)
-	      (push missing-alist program)))))
+        (when (not (cdr program)) ; do not check if collection of packages.
+	  (progn (dk/log 'info (format "Checking %s..." program-str))
+                 (unless (executable-find program-str)
+	           (push missing-alist program))))))
     (if (not missing-alist)
 	(dk/log 'info "No missing dependencies.")
       (dk/log 'error "Missing following dependencies: "
