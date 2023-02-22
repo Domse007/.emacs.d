@@ -4,12 +4,9 @@
 (defmacro dk/log-legacy (kind &rest msg)
   "Log a message. It will report to the minibuffer. The history is available in
 the *Messages* buffer."
-  `(cond ((eq ,kind 'info)
-          (message (concat "[INFO] " ,@msg)))
-         ((eq ,kind 'warning)
-          (message (concat "[WARNING] " ,@msg)))
-         ((eq ,kind 'error)
-          (message (concat "[ERROR] " ,@msg)))))
+  `(cond ((eq ,kind 'info) (message (concat "[INFO] " ,@msg)))
+         ((eq ,kind 'warning) (message (concat "[WARNING] " ,@msg)))
+         ((eq ,kind 'error) (message (concat "[ERROR] " ,@msg)))))
 
 (defalias 'dk/log 'dk/log-legacy)
 
@@ -24,15 +21,13 @@ minibuffer. The history is available in the *Messages* buffer."
 ;; Versioning
 ;;------------------------------------------------------------------------------
 
-(defconst dk/config-version '(0 6 1)
+(defconst dk/config-version '(0 6 2)
   "The version of this config as a list.")
 
 (defun dk/config-version-string ()
   "Get the config version as a string."
-  (format "%s.%s.%s"
-          (nth 0 dk/config-version)
-          (nth 1 dk/config-version)
-          (nth 2 dk/config-version)))
+  (format "%i.%i.%i" (nth 0 dk/config-version)
+          (nth 1 dk/config-version) (nth 2 dk/config-version)))
 
 (defconst dk/minimal-emacs-version "27.1"
   "Minimal version of emacs to run this config.")
@@ -60,6 +55,11 @@ minibuffer. The history is available in the *Messages* buffer."
   (progn (dk/log 'info "Detected Linux. Setting variable...")
          (string-equal system-type "gnu/linux"))
   "Flag that is set, if the host has a linux kernel.")
+
+(defconst dk/macos-flag
+  (progn (dk/log 'info "Detected macos. Setting variable...")
+         (string-equal system-type "darwin"))
+  "Flag that is set, if the host is darwin like.")
 
 (defcustom dk/user-system-base-path (expand-file-name "~/")
   "Selected path at startup"

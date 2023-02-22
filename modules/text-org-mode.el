@@ -9,13 +9,10 @@
 (use-package org
   :pin melpa
   :init
-  (org-babel-do-load-languages
-   'org-babel-load-languages
-   '((plantuml . t)
-     (python . t)
-     (shell . t)))
-  ;; (when (window-system)
-  ;;   (setq org-ellipsis " ▼ "))
+  (org-babel-do-load-languages 'org-babel-load-languages '((plantuml . t)
+							   (python . t)
+							   (shell . t)))
+  (require 'org-crypt)
   :hook
   ((org-mode-hook . org-toggle-pretty-entities)
    (org-mode-hook . prettify-symbols-mode)
@@ -38,8 +35,9 @@
    (prettify-symbols-unprettify-at-point 'right-edge)
    (org-agenda-files `(,(concat dk/user-system-base-path "TODOs.org")))
    (org-latex-preview-ltxpng-directory "~/.ltxpng/")
-   (org-latex-packages-alist '(("AUTO" "babel" nil nil)
-			       ("" "mhchem" t nil)))
+   (org-latex-listings 'minted)
+   (org-latex-packages-alist '(("AUTO" "babel"  nil nil)
+			       (""     "mhchem" t   nil)))
    (org-return-follows-link t)
    (org-confirm-babel-evaluate nil)
    (org-edit-src-content-indentation 0)

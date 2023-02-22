@@ -52,27 +52,21 @@ a predefined game."
 (defun dk/explorer ()
   "Open the current directory in the file explorer."
   (interactive)
-  (cond (dk/windows-flag (shell-command "explorer ."))
-	(dk/linux-flag (shell-command "xdg-open ."))
-	(t (dk/log 'error "This command is not supported on this platform."))))
+  (let ((inhibit-message t))
+    (cond (dk/windows-flag (shell-command "explorer ."))
+	  (dk/linux-flag (shell-command "xdg-open ."))
+          (dk/macos-flag (shell-command "open ."))
+	  (t (dk/log 'error "This command is not supported on this platform.")))))
 
-;; Init functions
-;;------------------------------------------------------------------------------
-
-(defun display-startup-echo-area-message ()
-  "Redefining the default startup message function. It appears to be very messi
-internally. Because it's a redefine, it can't have the dk/ prefix."
-  (if (not (file-exists-p dk/custom-settings-file))
-      (message (concat "Customs file not installed. "
-                       "Consider calling `M-x dk/install-customs-file RET'."))
-    (dk/log 'info "Personal Emacs config version: " (dk/config-version-string))))
+(unless (fboundp 'explorer)
+  (defalias 'explorer 'dk/explorer "Make it look like it's built in."))
 
 ;; Org (roam) export helpers
 ;;------------------------------------------------------------------------------
 
 (require 'org)
 
-(defvar org-export-output-directory-prefix ".export"
+(defvar org-export-output-directory-prefix (expand-file-name "~/.export")
   "Prefix of directory used for org-mode export")
 
 (defadvice org-export-output-file-name (before org-add-export-dir activate)
@@ -136,24 +130,71 @@ is `t'"
                                dk/external-dependencies))
          (user-input (completing-read "Dependency: " list-of-syms nil t)))
     (dolist (dep dk/external-dependencies)
-      (if (consp dep)
-          (when (string-equal user-input (symbol-name (car dep)))
-            (message "%s can be installed with the following command: %s"
-                     (symbol-name (car dep)) (cdr dep)))
-        (when (string-equal user-input (symbol-name dep))
-          (message "No instructions are available."))))))
+      (let ((data (car dep)))
+        (cond ((consp data)
+               (let ((name (symbol-name (car data)))
+                     (instr (cdr data)))
+                 (when (string-equal user-input name)
+                   (message "%s can be installed with the following command: %s"
+                            name instr))))
+              ((symbolp data)
+               (when (string-equal user-input (symbol-name data))
+                 (message "No instructions are available.")))
+              (t (dk/log 'error (format "%s has a wrong type." data))))))))
 
 ;; Ask if prefer suspending instead of killing
 ;;------------------------------------------------------------------------------
 
 (defun dk/maybe-suspend-else-kill (orig-fun &rest args)
-  (if (display-graphic-p)
-      (apply orig-fun args)
-    (if (y-or-n-p "Do you want to supend emacs?")
-        (suspend-emacs)
-      (let ((confirm-kill-emacs nil))
-        (apply orig-fun args)))))
+  (cond ((display-graphic-p) (apply orig-fun args))
+        (dk/windows-flag (apply orig-fun args))
+        (t (if (y-or-n-p "Do you want to supend emacs?")
+               (suspend-emacs)
+             (let ((confirm-kill-emacs nil))
+               (apply orig-fun args))))))
 
 (advice-add 'save-buffers-kill-terminal :around #'dk/maybe-suspend-else-kill)
+
+;; Do not ask if emacs should quit if restart-emacs is called.
+;;------------------------------------------------------------------------------
+
+(defun dk/restart-emacs-without-asking (orig-fun &rest args)
+  (let ((confirm-kill-emacs nil))
+    (apply orig-fun args)))
+
+(advice-add 'restart-emacs :around #'dk/restart-emacs-without-asking)
+
+;; Replace yes-or-no-p with y-or-n-p
+;;------------------------------------------------------------------------------
+
+(advice-add 'yes-or-no-p :around #'y-or-n-p)
+
+;; Old version:
+;; (defalias 'yes-or-no-p 'y-or-n-p)
+
+;; Change the message in the minibuffer on startup.
+;;------------------------------------------------------------------------------
+
+(defun dk/startup-echo-area-message (_orig-fun &rest _args)
+  (let ((not-installed
+         (concat "Customs file not installed. Consider calling "
+                 (substitute-command-keys "\\[dk/install-customs-file].")))
+        (daemon "Starting Emacs daemon.")
+        (normal (concat "Personal Emacs config version: "
+                        (dk/config-version-string))))
+    (if (not (file-exists-p dk/custom-settings-file))
+        not-installed
+      (if (daemonp) daemon normal))))
+
+(advice-add 'startup-echo-area-message :around #'dk/startup-echo-area-message)
+
+;; Balance windows after deleting windows.
+;;------------------------------------------------------------------------------
+(defun dk/delete-window (orig-fun &rest args)
+  (interactive)
+  (apply orig-fun args)
+  (balance-windows))
+
+(advice-add 'delete-window :around #'dk/delete-window)
 
 (provide 'core-funcs)
