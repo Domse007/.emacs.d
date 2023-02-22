@@ -1,7 +1,7 @@
 ;; Logging
 ;;------------------------------------------------------------------------------
 
-(defmacro dk/log (kind &rest msg)
+(defmacro dk/log-legacy (kind &rest msg)
   "Log a message. It will report to the minibuffer. The history is available in
 the *Messages* buffer."
   `(cond ((eq ,kind 'info)
@@ -10,6 +10,16 @@ the *Messages* buffer."
           (message (concat "[WARNING] " ,@msg)))
          ((eq ,kind 'error)
           (message (concat "[ERROR] " ,@msg)))))
+
+(defalias 'dk/log 'dk/log-legacy)
+
+(defmacro dk/log2 (kind fmt &rest strings)
+  "New version of logging macro. Log a message. It will report to the
+minibuffer. The history is available in the *Messages* buffer."
+  `(let ((pre (cond ((eq ,kind 'info) "[INFO]")
+                    ((eq ,kind 'warning) "[WARNING]")
+                    ((eq ,kind 'error) "[ERROR]"))))
+     (message "%s %s" pre (format fmt ,@strings))))
 
 ;; Versioning
 ;;------------------------------------------------------------------------------
@@ -28,10 +38,10 @@ the *Messages* buffer."
   "Minimal version of emacs to run this config.")
 
 (defun dk/check-emacs-version ()
-"Check the emacs version if the config and emacs are compatible."
-(if (version<= dk/minimal-emacs-version emacs-version)
-    (dk/log 'info "Emacs does satisfy version requirement.")
-  (error "Emacs does not satisfy version requirement.")))
+  "Check the emacs version if the config and emacs are compatible."
+  (if (version<= dk/minimal-emacs-version emacs-version)
+      (dk/log 'info "Emacs does satisfy version requirement.")
+    (error "Emacs does not satisfy version requirement.")))
 
 (dk/check-emacs-version)
 
@@ -66,7 +76,10 @@ the *Messages* buffer."
   :type 'bool
   :group 'dk/config)
 
-(defconst dk/default-font "Source Code Pro"
+(defconst dk/default-font
+  (let ((fonts '("Source Code Pro" "Consolas" "DejaVu Sans Mono" "SF Mono")))
+    (car (seq-filter (lambda (f) (if (find-font (font-spec :name f)) f nil))
+		     fonts)))
   "The default font that will be used.")
 
 (defconst dk/user-emacs-cache-dir (expand-file-name "var/" user-emacs-directory)

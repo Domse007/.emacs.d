@@ -9,15 +9,6 @@
 
 (global-set-key (kbd "M-k") 'dk/kill-word-at-point)
 
-;; (defun dk/delete-window ()
-;;   "Wrapper around `delete-window' to balance windows after deleting the active
-;; window."
-;;   (interactive)
-;;   (delete-window)
-;;   (balance-windows))
-
-;; (global-set-key (kbd "C-x 0") 'dk/delete-window)
-
 ;; Play a random game
 ;;------------------------------------------------------------------------------
 
@@ -35,7 +26,8 @@ a predefined game."
 	   (game-to-be-played (nth game-index dk/games)))
       (call-interactively game-to-be-played))))
 
-;; See above...
+;; Aliasing for updating packages. It also checks that it has not been
+;; introduced into package.el
 ;;------------------------------------------------------------------------------
 
 (require 'auto-package-update)
@@ -90,7 +82,7 @@ internally. Because it's a redefine, it can't have the dk/ prefix."
     (when (not (file-directory-p pub-dir))
       (make-directory pub-dir))))
 
-(org-link-set-parameters "id"  :export #'dk/org-id-link-export)
+(org-link-set-parameters "id" :export #'dk/org-id-link-export)
 
 (defun dk/org-id-link-export (link description format _)
   "Custom formatting org org-roam links in export."
@@ -119,10 +111,6 @@ is `t'"
 ;; Checking for external dependencies
 ;;------------------------------------------------------------------------------
 
-;; (defconst dk/system-dependencies
-;;   '("gcc" "grep" "pdflatex" "git" "python" "cargo" "zip" "unzip")
-;;   "List of external programs that are required to have a working config.")
-
 (defun dk/check-external-deps ()
   "Check if external programs are available."
   (interactive)
@@ -132,9 +120,10 @@ is `t'"
              (program-str (if (consp program-cons?)
                               (symbol-name (car program-cons?))
                             (symbol-name program-cons?))))
-        (if (not (cdr program)) ; do not check if collection of packages.
-	    (unless (executable-find program-str)
-	      (push missing-alist program)))))
+        (when (not (cdr program)) ; do not check if collection of packages.
+	  (progn (dk/log 'info (format "Checking %s..." program-str))
+                 (unless (executable-find program-str)
+	           (push missing-alist program))))))
     (if (not missing-alist)
 	(dk/log 'info "No missing dependencies.")
       (dk/log 'error "Missing following dependencies: "
