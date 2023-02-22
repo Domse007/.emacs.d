@@ -1,27 +1,18 @@
 ;; Logging
 ;;------------------------------------------------------------------------------
 
-(defmacro dk/log-legacy (kind &rest msg)
-  "Log a message. It will report to the minibuffer. The history is available in
-the *Messages* buffer."
-  `(cond ((eq ,kind 'info) (message (concat "[INFO] " ,@msg)))
-         ((eq ,kind 'warning) (message (concat "[WARNING] " ,@msg)))
-         ((eq ,kind 'error) (message (concat "[ERROR] " ,@msg)))))
-
-(defalias 'dk/log 'dk/log-legacy)
-
-(defmacro dk/log2 (kind fmt &rest strings)
+(defmacro dk/log (kind fmt &rest strings)
   "New version of logging macro. Log a message. It will report to the
 minibuffer. The history is available in the *Messages* buffer."
   `(let ((pre (cond ((eq ,kind 'info) "[INFO]")
                     ((eq ,kind 'warning) "[WARNING]")
                     ((eq ,kind 'error) "[ERROR]"))))
-     (message "%s %s" pre (format fmt ,@strings))))
+     (message "%s %s" pre (format ,fmt ,@strings))))
 
 ;; Versioning
 ;;------------------------------------------------------------------------------
 
-(defconst dk/config-version '(0 6 2)
+(defconst dk/config-version '(0 6 3)
   "The version of this config as a list.")
 
 (defun dk/config-version-string ()
@@ -151,8 +142,8 @@ module. `early-init' and `init' must be nil.")
           (location (nth 1 module-cons))
           (arg (nth 2 module-cons)))
       (when arg
-        (dk/log 'info "Loading file " (symbol-name name) " from "
-                (symbol-name location) ".")
+        (dk/log 'info "Loading file %s from %s."
+                (symbol-name name) (symbol-name location))
         (require name)))))
 
 ;; machine specific settings
@@ -164,11 +155,11 @@ module. `early-init' and `init' must be nil.")
 (defun dk/load-customs-file ()
   "Function that loads the machine specific settings."
   (if (file-exists-p dk/custom-settings-file)
-      (progn (dk/log 'info "Loading customs file from "
-                     dk/custom-settings-file ".")
+      (progn (dk/log 'info "Loading customs file from %s."
+                     dk/custom-settings-file)
              (load-file dk/custom-settings-file))
-    (dk/log 'error "Customs file could not be loaded from "
-            dk/custom-settings-file ".")))
+    (dk/log 'error "Customs file could not be loaded from %s."
+            dk/custom-settings-file)))
 
 (defun dk/install-customs-file ()
   (interactive)
@@ -183,8 +174,8 @@ module. `early-init' and `init' must be nil.")
                (var-val (cdr item))
                (val-string (cond ((stringp var-val)(concat "\"" var-val "\""))
                                  (t (if var-val "t" "nil")))))
-          (dk/log 'info "Getting " val-string " for " var-name " with type "
-                  (symbol-name (type-of var-val)))
+          (dk/log 'info "Getting %s for %s with type %s."
+                  val-string var-name (symbol-name (type-of var-val)))
           (insert "(setq " var-name " " val-string ")\n"))))
     (dk/log 'info "Settings file has been installed.")))
 

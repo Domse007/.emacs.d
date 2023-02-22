@@ -115,12 +115,12 @@ is `t'"
                               (symbol-name (car program-cons?))
                             (symbol-name program-cons?))))
         (when (not (cdr program)) ; do not check if collection of packages.
-	  (progn (dk/log 'info (format "Checking %s..." program-str))
-                 (unless (executable-find program-str)
-	           (push missing-alist program))))))
+	  (progn (dk/log 'info "Checking %s..." program-str)
+		 (unless (executable-find program-str)
+		   (push missing-alist program))))))
     (if (not missing-alist)
 	(dk/log 'info "No missing dependencies.")
-      (dk/log 'error "Missing following dependencies: "
+      (dk/log 'error "Missing following dependencies: %s"
 	      (substring (format "%s" missing-alist) 1 -1)))))
 
 (defun dk/describe-external-dependency ()
@@ -140,7 +140,7 @@ is `t'"
               ((symbolp data)
                (when (string-equal user-input (symbol-name data))
                  (message "No instructions are available.")))
-              (t (dk/log 'error (format "%s has a wrong type." data))))))))
+              (t (dk/log 'error "%s has a wrong type." data)))))))
 
 ;; Ask if prefer suspending instead of killing
 ;;------------------------------------------------------------------------------
@@ -167,10 +167,7 @@ is `t'"
 ;; Replace yes-or-no-p with y-or-n-p
 ;;------------------------------------------------------------------------------
 
-(advice-add 'yes-or-no-p :around #'y-or-n-p)
-
-;; Old version:
-;; (defalias 'yes-or-no-p 'y-or-n-p)
+(defalias 'yes-or-no-p 'y-or-n-p)
 
 ;; Change the message in the minibuffer on startup.
 ;;------------------------------------------------------------------------------
@@ -190,11 +187,30 @@ is `t'"
 
 ;; Balance windows after deleting windows.
 ;;------------------------------------------------------------------------------
+
 (defun dk/delete-window (orig-fun &rest args)
   (interactive)
   (apply orig-fun args)
   (balance-windows))
 
 (advice-add 'delete-window :around #'dk/delete-window)
+
+;; Balance windows after deleting windows.
+;;------------------------------------------------------------------------------
+
+(require 'subr-x)
+
+(defun dk/config-version ()
+  "Report the current version and commit into the minibuffer."
+  (interactive)
+  (let* ((version (dk/config-version-string))
+	 (hash (if (executable-find "git")
+		   (let ((default-directory user-emacs-directory))
+		     (shell-command-to-string
+		      (format "git rev-parse --short HEAD"
+			      user-emacs-directory)))
+		 nil))
+	 (commit-msg (if hash (format "(commit: %s)" (string-trim hash)) "")))
+    (message "Config version %s. %s" version commit-msg)))
 
 (provide 'core-funcs)

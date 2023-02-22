@@ -15,7 +15,7 @@
 		(t
 		 (setq file-to-open (concat file-location "/"
 					    file-name ".el")))))))
-    (dk/log 'info "Opening config file: " file-to-open)
+    (dk/log 'info "Opening config file: %s" file-to-open)
     (find-file (expand-file-name file-to-open user-emacs-directory))))
 
 (global-set-key (kbd "C-x RET") 'dk/open-config-file)

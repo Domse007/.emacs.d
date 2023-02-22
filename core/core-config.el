@@ -17,7 +17,7 @@
   :hook
   (auto-package-update-before-hook
    .
-   (lambda () (dk/log 'info "I will update packages now"))))
+   (lambda () (dk/log 'info "Emacs will update the packages now."))))
 
 (use-package good-scroll
   :defer t

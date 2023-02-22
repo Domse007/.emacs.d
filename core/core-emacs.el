@@ -66,13 +66,13 @@
   
   (if (boundp 'pixel-scroll-precision-mode)
       (pixel-scroll-precision-mode t)
-    (dk/log 'warning "This emacs installation does not support "
+    (dk/log 'warning "This emacs installation does not support %s"
 	    "pixel-scroll-precision-mode."))
 
-  (if (member dk/default-font (font-family-list))
-      (progn (dk/log 'info "Setting font: " dk/default-font)
+  (if (and (member dk/default-font (font-family-list)) (not window-system))
+      (progn (dk/log 'info "Setting font: %s" dk/default-font)
 	     (set-face-attribute 'default nil :font dk/default-font))
-    (dk/log 'error dk/default-font " is not available. Maybe install it."))
+    (dk/log 'error "%s is not available. Maybe install it." dk/default-font))
 
   (when (and dk/windows-flag
 	     (boundp 'w32-get-true-file-attributes))
@@ -89,7 +89,7 @@
     "Set the default coding system."
     (interactive)
     (if (not (eq dk/default-coding-system nil))
-	(progn (dk/log 'info "Setting default coding system: "
+	(progn (dk/log 'info "Setting default coding system: %s"
 		       (symbol-name dk/default-coding-system))
 	       (prefer-coding-system 'utf-8-unix))
       (dk/log 'error "No default coding system defined.")))
