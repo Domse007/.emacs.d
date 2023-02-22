@@ -1,4 +1,4 @@
-(new-external-dependency! "flutter")
+(new-external-dependency! 'flutter)
 
 (use-package dart-mode)
 

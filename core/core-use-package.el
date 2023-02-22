@@ -7,10 +7,8 @@
   (setq package-native-compile t
 	warning-minimum-level :emergency))
 
-(setq package-archives
-      '(("nongnu" . "http://elpa.nongnu.org/nongnu/")
-	("gnu" . "https://elpa.gnu.org/packages/")
-	("melpa" . "https://melpa.org/packages/")))
+(setq package-archives '(("gnu"   . "https://elpa.gnu.org/packages/")
+	                 ("melpa" . "https://melpa.org/packages/")))
 
 ;; (setq package-user-dir (concat dk/user-emacs-cache-dir "elpa/"))
 
