@@ -69,10 +69,9 @@
     (dk/log 'warning "This emacs installation does not support %s"
 	    "pixel-scroll-precision-mode."))
 
-  (if (and (member dk/default-font (font-family-list)) (not window-system))
-      (progn (dk/log 'info "Setting font: %s" dk/default-font)
-	     (set-face-attribute 'default nil :font dk/default-font))
-    (dk/log 'error "%s is not available. Maybe install it." dk/default-font))
+  (when dk/default-font
+    (progn (dk/log 'info "Setting font: %s" dk/default-font)
+	   (set-face-attribute 'default nil :font dk/default-font)))
 
   (when (and dk/windows-flag
 	     (boundp 'w32-get-true-file-attributes))

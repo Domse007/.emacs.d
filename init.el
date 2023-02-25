@@ -68,9 +68,10 @@ minibuffer. The history is available in the *Messages* buffer."
   :group 'dk/config)
 
 (defconst dk/default-font
-  (let ((fonts '("Source Code Pro" "Consolas" "DejaVu Sans Mono" "SF Mono")))
-    (car (seq-filter (lambda (f) (if (find-font (font-spec :name f)) f nil))
-		     fonts)))
+  (let* ((fonts '("Source Code Pro" "Consolas" "DejaVu Sans Mono" "SF Mono"))
+         (filtered (seq-filter (lambda (f) (if (find-font (font-spec :name f))
+                                               f nil)) fonts)))
+    (if (length> filtered 0) (car filtered) nil))
   "The default font that will be used.")
 
 (defconst dk/user-emacs-cache-dir (expand-file-name "var/" user-emacs-directory)
