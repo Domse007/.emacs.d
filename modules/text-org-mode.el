@@ -12,7 +12,6 @@
   (org-babel-do-load-languages 'org-babel-load-languages '((plantuml . t)
 							   (python . t)
 							   (shell . t)))
-  (require 'org-crypt)
   :hook
   ((org-mode-hook . org-toggle-pretty-entities)
    (org-mode-hook . prettify-symbols-mode)
@@ -145,7 +144,5 @@
   ((org-mode . org-modern-mode)))
 
 (new-external-dependency! 'gnupg) ;; pacman -S mingw-w32-x86_64-gnupg
-
-(use-package org-crypt)
 
 (provide 'text-org-mode)
