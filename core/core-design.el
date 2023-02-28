@@ -91,11 +91,16 @@
   (when (window-system)
     (zoom-mode t)))
 
-(use-package humanoid-themes
-  :custom
-  ((humanoid-comment-italic t)
-   (humanoid-org-highlight t))
+;; (use-package humanoid-themes
+;;   :custom
+;;   ((humanoid-comment-italic t)
+;;    (humanoid-org-highlight t))
+;;   :config
+;;   (load-theme 'humanoid-dark t))
+;; Alternatives: kaolin-aurora
+
+(use-package monokai-theme
   :config
-  (load-theme 'humanoid-dark t))
+  (load-theme 'monokai t))
 
 (provide 'core-design)

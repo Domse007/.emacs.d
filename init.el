@@ -80,14 +80,24 @@ minibuffer. The history is available in the *Messages* buffer."
 ;; Tracking of external dependencies
 ;;------------------------------------------------------------------------------
 
+(require 'cl-macs)
+
 (defvar dk/external-dependencies nil
   "List of external programs that are used with this config.")
+
+(defun dk/type-equal (obj type)
+  "Assert that OBJ is of type TYPE."
+  (cl-assert (eq (type-of obj) type)))
 
 (defun new-external-dependency! (program &optional nocheck)
   "Add a new external program to `dk/external-dependencies'. It is either a
 symbol or a cons. If it is a symbol, it is just the name of the dependency. If
 it is a cons cell, the car is the same symbol, but the cdr is a string with
 installation instructions."
+  (if (consp program)
+      (progn (dk/type-equal (car program) 'symbol)
+             (dk/type-equal (cdr program) 'string))
+    (dk/type-equal program 'symbol))
   (unless (member program dk/external-dependencies)
     (push (cons program nocheck) dk/external-dependencies)))
 
@@ -130,7 +140,7 @@ installation instructions."
     (programming-haskell    modules t   "Module that enables haskell programming.")
     (programming-vue        modules t   "Module for vue.js programming.")
     (programming-flutter    modules t   "Module for flutter / dart programming.")
-    (optional-visuals       modules nil "Module that enables more visual packages.")
+    (optional-visuals       modules t   "Module that enables more visual packages.")
     )
   "All modules that can be loaded. The first element is the module name. The
 second element is the location of the module. The third element is the arg if

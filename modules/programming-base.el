@@ -99,6 +99,11 @@
   :custom
   ((eshell-directory-name (concat dk/user-emacs-cache-dir "eshell"))))
 
+(use-package eshell-syntax-highlighting
+  :after eshell-mode
+  :config
+  (eshell-syntax-highlighting-global-mode t))
+
 (use-package treemacs-all-the-icons)
 
 (use-package treemacs
@@ -120,13 +125,16 @@
     (concat dk/user-emacs-cache-dir "treemacs-last-error-persist"))
    (treemacs-collapse-dirs 0))
   :bind
-  (("C-x t" . treemacs-select-window))
+  (("C-x t" . treemacs-select-window)
+   ("C-o" . treemacs))
   :config
   (treemacs-follow-mode t)
   (treemacs-project-follow-mode t)
   (treemacs-filewatch-mode t)
   (treemacs-load-theme "all-the-icons")
-  (treemacs-git-mode 'simple))
+  (treemacs-git-mode 'simple)
+  (treemacs-tag-follow-mode t)
+  (remove-hook 'kill-emacs-hook #'treemacs--persist))
 
 (use-package treemacs-projectile)
 
@@ -153,7 +161,20 @@
   ((prog-mode . hs-org/minor-mode)))
 
 (use-package shell-pop
+  :custom
+  ((shell-pop-full-span t)
+   (shell-pop-shell-type '("eshell" "*eshell*" (lambda () (eshell)))))
   :bind
   (("C-t" . shell-pop)))
+
+(use-package highlight-numbers
+  :hook
+  ((prog-mode . highlight-numbers-mode)))
+
+(use-package highlight-indent-guides
+  :custom
+  ((highlight-indent-guides-method 'character))
+  :hook
+  ((prog-mode . highlight-indent-guides-mode)))
 
 (provide 'programming-base)

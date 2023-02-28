@@ -3,6 +3,10 @@
   :hook
   (emacs-lisp-mode . highlight-defined-mode))
 
+(use-package highlight-quoted
+  :hook
+  (emacs-lisp-mode . highlight-quoted-mode))
+
 ;; (dk/get-package!
 ;;     :user "zainab-ali"
 ;;     :repo "pair-tree.el"

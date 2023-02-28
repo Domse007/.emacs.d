@@ -213,4 +213,18 @@ is `t'"
 	 (commit-msg (if hash (format "(commit: %s)" (string-trim hash)) "")))
     (message "Config version %s. %s" version commit-msg)))
 
+;; Interactively describe the major mode.
+;;------------------------------------------------------------------------------
+
+(defun dk/describe-major-mode ()
+  "Interactively describe the current major-mode."
+  (interactive)
+  (let ((mode major-mode)
+	(type (type-of major-mode)))
+    (message "The current major mode is: %s. major-mode is of type %s"
+	     mode type)))
+
+(unless (fboundp major-mode) ; Prevents future incompatibility.
+  (defalias 'major-mode 'dk/describe-major-mode))
+
 (provide 'core-funcs)
