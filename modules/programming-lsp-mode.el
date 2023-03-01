@@ -22,8 +22,7 @@
    (lsp-mode-hook . lsp-ui-mode)
    (lsp-mode-hook . linum-mode))
   :bind
-  (:map lsp-mode-map
-	("C-c C-f" . lsp-find-definition)))
+  (:map lsp-mode-map ("C-c C-f" . lsp-find-definition)))
 
 (use-package lsp-ui
   :defer t
@@ -32,14 +31,14 @@
   (lsp-ui-mode t)
   :custom
   ((lsp-ui-peek-always-show t)
-   (lsp-ui-sideline-show-hover t)
+   (lsp-ui-sideline-show-hover nil)
    (lsp-ui-doc-position 'top)
    ;; (lsp-ui-doc-position nil)
    ;; (lsp-ui-doc-max-width 42)
    ;; (lsp-ui-doc-max-height 30)
    (lsp-eldoc-hook nil)
-   (lsp-eldoc-enable-hover t)
-   (lsp-ui-sideline-enable t)))
+   (lsp-eldoc-enable-hover nil)
+   (lsp-ui-sideline-enable nil)))
 
 (new-external-dependency! 'gdb)
 

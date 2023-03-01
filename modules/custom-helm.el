@@ -51,7 +51,8 @@
   :after helm
   :if window-system
   :custom
-  (helm-icons-provider 'all-the-icons)
+  ((helm-icons-provider 'all-the-icons)
+   (helm-icons-mode->icon nil)) ; mitigates error: strinp, dir-closed
   :config
   (helm-icons-enable))
 
