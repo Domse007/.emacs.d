@@ -100,7 +100,7 @@
   ((eshell-directory-name (concat dk/user-emacs-cache-dir "eshell"))))
 
 (use-package eshell-syntax-highlighting
-  :after eshell-mode
+  :after eshell
   :config
   (eshell-syntax-highlighting-global-mode t))
 
