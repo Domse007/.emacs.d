@@ -67,15 +67,22 @@ minibuffer. The history is available in the *Messages* buffer."
   :type 'bool
   :group 'dk/config)
 
-(defconst dk/default-font
-  (let* ((fonts '("Source Code Pro" "Consolas" "DejaVu Sans Mono" "SF Mono"))
-         (filtered (seq-filter (lambda (f) (if (find-font (font-spec :name f))
-                                               f nil)) fonts)))
-    (if (length> filtered 0) (car filtered) nil))
-  "The default font that will be used.")
-
 (defconst dk/user-emacs-cache-dir (expand-file-name "var/" user-emacs-directory)
   "Default location for device specific files.")
+
+;; Font selecting
+;;------------------------------------------------------------------------------
+
+(defun dk/select-default-font ()
+  "Select a font and return it."
+  (let* ((fonts '("Source Code Pro" "Consolas" "DejaVu Sans Mono" "SF Mono"))
+         (filtered (seq-filter (lambda (f) (if (find-font (font-spec :name f))
+                                               f nil))
+                               fonts)))
+    (if (length> filtered 0) (car filtered) nil)))
+
+(defvar dk/default-font (dk/select-default-font)
+  "The default font that will be used.")
 
 ;; Tracking of external dependencies
 ;;------------------------------------------------------------------------------
@@ -126,13 +133,14 @@ installation instructions."
     (core-emacs             core    t   "Setup of built-in things.")
     (core-design            core    t   "Definitions of visible related packages.")
     (core-funcs             core    t   "General custom funcs.")
+    (core-daemon            core    t   "Setup hooks for frame creation with daemon.")
     (custom-search          modules t   "Module that provides an interface to search through modules.")
     (custom-helm            modules t   "Module that enables helm and presents it through posframe.")
     (text-org-mode          modules t   "Module that defines basic org setup.")
     (text-org-spell         modules t   "Module that enables spell checking in org.")
     (text-org-roam          modules t   "Module that enables org-roam.")
     (programming-eglot      modules t   "Module that enables the eglot client for LSP.")
-    (programming-lsp-mode   modules nil "Module that enables the lsp-mode client for LSP.")
+    (programming-lsp-mode   modules t   "Module that enables the lsp-mode client for LSP.")
     (programming-base       modules t   "Module that defines basics for programming.")
     (programming-rust       modules t   "Module that uses lsp to create a great rust environment.")
     (programming-elisp      modules t   "Module that simplifies elisp programming.")

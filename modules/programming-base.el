@@ -173,7 +173,7 @@
 
 (use-package highlight-indent-guides
   :custom
-  ((highlight-indent-guides-method 'character))
+  ((highlight-indent-guides-method 'bitmap))
   :hook
   ((prog-mode . highlight-indent-guides-mode)))
 

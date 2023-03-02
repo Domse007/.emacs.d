@@ -69,9 +69,14 @@
     (dk/log 'warning "This emacs installation does not support %s"
 	    "pixel-scroll-precision-mode."))
 
-  (when dk/default-font
-    (progn (dk/log 'info "Setting font: %s" dk/default-font)
-	   (set-face-attribute 'default nil :font dk/default-font)))
+  (defun dk/set-default-font ()
+    "Load the default font. This is a function, because it is reused in
+   core-daemon.el"
+    (when dk/default-font
+      (progn (dk/log 'info "Setting font: %s" dk/default-font)
+	     (set-face-attribute 'default nil :font dk/default-font))))
+
+  (dk/set-default-font)
 
   (when (and dk/windows-flag
 	     (boundp 'w32-get-true-file-attributes))
