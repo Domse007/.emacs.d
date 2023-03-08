@@ -67,8 +67,16 @@ minibuffer. The history is available in the *Messages* buffer."
   :type 'bool
   :group 'dk/config)
 
-(defconst dk/user-emacs-cache-dir (expand-file-name "var/" user-emacs-directory)
+(defconst dk/user-emacs-cache-dir
+  (let ((dir (expand-file-name "var/" user-emacs-directory)))
+    (unless (file-directory-p dir) (make-directory dir)) dir)
   "Default location for device specific files.")
+
+(defconst dk/config-git-remote
+  (let ((default-directory user-emacs-directory)
+        (cmd "git config --get remote.origin.url"))
+    (string-trim (shell-command-to-string cmd)))
+  "Remote URL of the config.")
 
 ;; Font selecting
 ;;------------------------------------------------------------------------------

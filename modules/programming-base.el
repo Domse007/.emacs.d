@@ -57,7 +57,14 @@
   :defer t
   :custom
   ((transient-history-file
-    (expand-file-name dk/user-emacs-cache-dir "transient/history.el"))))
+    (let ((file (expand-file-name "transient-history.el"
+                                  dk/user-emacs-cache-dir)))
+      (unless (file-exists-p file) (make-empty-file file))
+      file))))
+
+(use-package magit-todos
+  :config
+  (magit-todos-mode t))
 
 (use-package tree-sitter
   :defer t
@@ -176,5 +183,9 @@
   ((highlight-indent-guides-method 'bitmap))
   :hook
   ((prog-mode . highlight-indent-guides-mode)))
+
+(use-package hl-todo
+  :hook
+  ((prog-mode . hl-todo-mode)))
 
 (provide 'programming-base)
