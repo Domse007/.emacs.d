@@ -227,4 +227,22 @@ is `t'"
 (unless (fboundp major-mode) ; Prevents future incompatibility.
   (defalias 'major-mode 'dk/describe-major-mode))
 
+;; Check for new commits on remote.
+;;------------------------------------------------------------------------------
+
+(defun dk/version-check-remote-ahead ()
+  "Check if the local emacs config is up-to-date with remote."
+  (interactive)
+  (let* ((default-directory user-emacs-directory)
+	 (_ (shell-command-to-string "git fetch"))
+	 (local-hash (string-trim (shell-command-to-string
+				   "git rev-parse HEAD")))
+	 (remote-hash (string-trim (shell-command-to-string
+				    "git rev-parse origin"))))
+    (if (string-equal local-hash remote-hash)
+	(dk/log 'info "Config is on latest commit.")
+      (dk/log 'warning "Config on remote is ahead."))))
+
+(run-with-idle-timer 0.3 nil #'dk/version-check-remote-ahead)
+
 (provide 'core-funcs)

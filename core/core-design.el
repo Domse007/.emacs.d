@@ -26,7 +26,11 @@
    (doom-modeline-github-timer nil)
    (doom-modeline-gnus-timer nil)))
 
+(use-package all-the-icons)
+
 (use-package dashboard
+  :init
+  (require 'all-the-icons)
   :custom
   ((dashboard-startup-banner 'logo)
    (dashboard-show-shortcuts t)
@@ -34,7 +38,19 @@
    (dashboard-set-file-icons t)
    (dashboard-set-heading-icons t)
    (dashboard-items '((recents  . 15)
-		      (projects . 5))))
+		      (projects . 5)))
+   (dashboard-set-navigator t)
+   (dashboard-navigator-buttons
+    `(((,(all-the-icons-octicon "mark-github" :height 1.0 :v-adjust -0.05)
+        "Homepage" "Browse homepage"
+	(lambda (&rest _) (browse-url dk/config-git-remote)))
+       (,(all-the-icons-octicon "info" :height 1.0 :v-adjust -0.05)
+	"Help" "Show Help" (lambda (&rest _) (help-with-tutorial)))
+       (,(all-the-icons-octicon "file-code" :height 1.0 :v-adjust -0.05)
+	"Custom File" "Custom file" (lambda (&rest _) (dk/open-customs-file)))
+       (,(all-the-icons-octicon "file-code" :height 1.0 :v-adjust -0.05)
+	"Explore config" "Explore config files."
+	(lambda (&rest _) (dk/open-config-file)))))))
   :bind
   (:map dashboard-mode-map ("q" . nil))
   :config
