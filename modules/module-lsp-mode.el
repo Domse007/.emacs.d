@@ -44,5 +44,5 @@
 
 (use-package dap-mode)
 
-(provide 'programming-lsp-mode)
+(provide 'module-lsp-mode)
 

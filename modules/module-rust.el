@@ -34,4 +34,4 @@
   :defer t
   :after flycheck)
 
-(provide 'programming-rust)
+(provide 'module-rust)

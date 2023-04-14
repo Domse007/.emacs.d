@@ -8,4 +8,4 @@
    (vue-mode . eglot)
    (dart-mode . eglot)))
 
-(provide 'programming-eglot)
+(provide 'module-eglot)

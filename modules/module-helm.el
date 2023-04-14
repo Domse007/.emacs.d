@@ -56,4 +56,4 @@
   :config
   (helm-icons-enable))
 
-(provide 'custom-helm)
+(provide 'module-helm)

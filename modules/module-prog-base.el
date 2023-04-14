@@ -188,4 +188,4 @@
   :hook
   ((prog-mode . hl-todo-mode)))
 
-(provide 'programming-base)
+(provide 'module-prog-base)

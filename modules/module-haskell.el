@@ -1,4 +1,4 @@
 (use-package haskell-mode
   :defer t)
 
-(provide 'programming-haskell)
+(provide 'module-haskell)

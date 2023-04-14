@@ -20,4 +20,4 @@
 
 (global-set-key (kbd "C-x RET") 'dk/open-config-file)
 
-(provide 'custom-search)
+(provide 'module-search)

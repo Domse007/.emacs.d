@@ -97,4 +97,4 @@
 
 (new-external-dependency! 'gnupg) ;; pacman -S mingw-w32-x86_64-gnupg
 
-(provide 'text-org-mode)
+(provide 'module-org-mode)

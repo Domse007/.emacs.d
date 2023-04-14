@@ -18,4 +18,4 @@
    ("C-h v" . helpful-variable)
    ("C-h k" . helpful-key)))
 
-(provide 'optional-visuals)
+(provide 'module-visuals)

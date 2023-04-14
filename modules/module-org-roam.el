@@ -116,4 +116,4 @@ FILE does not exist."
       (message "There are %s files in the db." res))
     res))
 
-(provide 'text-org-roam)
+(provide 'module-org-roam)

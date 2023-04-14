@@ -19,4 +19,4 @@
   :defer t
   :after lsp)
 
-(provide 'programming-python)
+(provide 'module-python)
