@@ -146,7 +146,7 @@ installation instructions."
     (module-helm      modules t   "Configures helm and posframe.")
     (module-org-mode  modules t   "Definition of org setup.")
     (module-org-roam  modules t   "Definition of org-roam setup.")
-    (module-spell     modules t   "Global spell checking.")
+    (module-spell     modules nil "Global spell checking.")
     (module-eglot     modules t   "Configuration of eglot LSP client.")
     (module-lsp-mode  modules t   "Configuration of lsp-mode LSP client.")
     (module-prog-base modules t   "Universal configs for programming.")
