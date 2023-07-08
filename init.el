@@ -147,7 +147,6 @@ installation instructions."
     (module-org-mode  modules t   "Definition of org setup.")
     (module-org-roam  modules t   "Definition of org-roam setup.")
     (module-spell     modules nil "Global spell checking.")
-    (module-eglot     modules t   "Configuration of eglot LSP client.")
     (module-prog-base modules t   "Universal configs for programming.")
     (module-lspce     modules t   "A better lsp client.")
     (module-rust      modules t   "Configs for rust programming.")
