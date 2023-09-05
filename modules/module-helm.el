@@ -26,8 +26,9 @@
    ("C-s" . helm-occur)
    ("C-x b" . helm-mini)
    ("M-y" . helm-show-kill-ring)
-   :map helm-map
-   ("<tab>" . helm-ff-RET)))
+   ;; :map helm-map
+   ;; ("<tab>" . helm-ff-RET)
+   ))
 
 (use-package helm-flx
   :after helm
