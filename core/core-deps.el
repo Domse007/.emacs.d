@@ -1,3 +1,5 @@
+(use-package dash)
+
 (require 'cl-macs)
 (require 'dash)
 
