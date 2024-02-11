@@ -102,46 +102,6 @@ is `t'"
     (progn (dk/log 'info "Enabling 40 percent keyboard mode.")
 	   (dk/40-percent-keyboard-mode))))
 
-;; Checking for external dependencies
-;;------------------------------------------------------------------------------
-
-(defun dk/check-external-deps ()
-  "Check if external programs are available."
-  (interactive)
-  (let ((missing-alist nil))
-    (dolist (program dk/external-dependencies)
-      (let* ((program-cons? (car program))
-             (program-str (if (consp program-cons?)
-                              (symbol-name (car program-cons?))
-                            (symbol-name program-cons?))))
-        (when (not (cdr program)) ; do not check if collection of packages.
-	  (progn (dk/log 'info "Checking %s..." program-str)
-		 (unless (executable-find program-str)
-		   (push missing-alist program))))))
-    (if (not missing-alist)
-	(dk/log 'info "No missing dependencies.")
-      (dk/log 'error "Missing following dependencies: %s"
-	      (substring (format "%s" missing-alist) 1 -1)))))
-
-(defun dk/describe-external-dependency ()
-  "Report the installation process for an external dependency."
-  (interactive)
-  (let* ((list-of-syms (mapcar (lambda (thing) (if (consp thing) (car thing) thing))
-                               dk/external-dependencies))
-         (user-input (completing-read "Dependency: " list-of-syms nil t)))
-    (dolist (dep dk/external-dependencies)
-      (let ((data (car dep)))
-        (cond ((consp data)
-               (let ((name (symbol-name (car data)))
-                     (instr (cdr data)))
-                 (when (string-equal user-input name)
-                   (message "%s can be installed with the following command: %s"
-                            name instr))))
-              ((symbolp data)
-               (when (string-equal user-input (symbol-name data))
-                 (message "No instructions are available.")))
-              (t (dk/log 'error "%s has a wrong type." data)))))))
-
 ;; Ask if prefer suspending instead of killing
 ;;------------------------------------------------------------------------------
 
@@ -203,15 +163,17 @@ is `t'"
 (defun dk/config-version ()
   "Report the current version and commit into the minibuffer."
   (interactive)
-  (let* ((version (dk/config-version-string))
-	 (hash (if (executable-find "git")
-		   (let ((default-directory user-emacs-directory))
-		     (shell-command-to-string
-		      (format "git rev-parse --short HEAD"
-			      user-emacs-directory)))
-		 nil))
-	 (commit-msg (if hash (format "(commit: %s)" (string-trim hash)) "")))
-    (message "Config version %s. %s" version commit-msg)))
+  (let* ((default-directory user-emacs-directory)
+	 (git-found (executable-find "git"))
+	 (version (dk/config-version-string))
+	 (hash (when git-found
+		 (string-trim (shell-command-to-string
+			       "git rev-parse --short HEAD"))))
+	 (branch (when git-found
+		   (string-trim (shell-command-to-string
+				 "git rev-parse --abbrev-ref HEAD")))))
+    (message "Version: %s %s %s" version (if branch (concat "@" branch) "")
+	     (if branch (concat "#" hash) ""))))
 
 ;; Interactively describe the major mode.
 ;;------------------------------------------------------------------------------

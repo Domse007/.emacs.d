@@ -18,6 +18,13 @@
 		    (copy-file "target/release/lspce_module.d"
 			       "lspce-module.d" t))))
       (message "Done.")))
-  (require 'lspce))
+  (require 'lspce)
+  :hook
+  ((rust-mode . lspce-mode)
+   (python-mode . lspce-mode)))
+
+(use-package eldoc-box
+  :hook
+  ((lspce-mode . eldoc-box-hover-mode)))
 
 (provide 'module-lspce)
