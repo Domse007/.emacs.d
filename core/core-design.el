@@ -115,8 +115,22 @@
 ;;   (load-theme 'humanoid-dark t))
 ;; Alternatives: kaolin-aurora
 
-(use-package monokai-theme
+;; (use-package monokai-theme
+;;   :config
+;;   (load-theme 'monokai t))
+
+(use-package doom-themes
   :config
-  (load-theme 'monokai t))
+  (load-theme 'doom-bluloco-dark t))
+
+(use-package golden-ratio
+  :custom
+  ((golden-ratio-adjust-factor 0.8))
+  :config
+  (golden-ratio-mode t))
+
+(use-package solaire-mode
+  :config
+  (solaire-global-mode t))
 
 (provide 'core-design)
