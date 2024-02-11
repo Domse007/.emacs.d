@@ -28,8 +28,6 @@
   ((use-package-always-ensure t)
    (use-package-compute-statistics t)))
 
-(new-external-dependency! 'git)
-
 (use-package quelpa-use-package
   :custom
   ((quelpa-dir (concat dk/user-emacs-cache-dir "quelpa/"))

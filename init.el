@@ -92,35 +92,6 @@ minibuffer. The history is available in the *Messages* buffer."
 (defvar dk/default-font (dk/select-default-font)
   "The default font that will be used.")
 
-;; Tracking of external dependencies
-;;------------------------------------------------------------------------------
-
-(require 'cl-macs)
-
-(defvar dk/external-dependencies nil
-  "List of external programs that are used with this config.")
-
-(defun dk/type-equal (obj type)
-  "Assert that OBJ is of type TYPE."
-  (cl-assert (eq (type-of obj) type)))
-
-(defun new-external-dependency! (program &optional nocheck)
-  "Add a new external program to `dk/external-dependencies'. It is either a
-symbol or a cons. If it is a symbol, it is just the name of the dependency. If
-it is a cons cell, the car is the same symbol, but the cdr is a string with
-installation instructions."
-  (if (consp program)
-      (progn (dk/type-equal (car program) 'symbol)
-             (dk/type-equal (cdr program) 'string))
-    (dk/type-equal program 'symbol))
-  (unless (member program dk/external-dependencies)
-    (push (cons program nocheck) dk/external-dependencies)))
-
-(when (and dk/windows-flag
-           (executable-find "winget"))
-  (new-external-dependency! 'winget) ;; by default included in W11
-  (new-external-dependency! '(msys2 . "winget install msys2") t))
-
 ;; Modules
 ;;------------------------------------------------------------------------------
 
@@ -137,6 +108,7 @@ installation instructions."
   '((early-init       root    nil "The early-init file.")
     (init             root    nil "The main init file.")
     (core-use-package core    t   "Setup of use-package")
+    (core-deps        core    t   "Setup of dependency management.")
     (core-config      core    t   "Setup of invisible packages")
     (core-emacs       core    t   "Setup of built-in things.")
     (core-design      core    t   "Definitions of visible related packages.")
@@ -231,5 +203,15 @@ module. `early-init' and `init' must be nil.")
 
 ;; Call the entry point of the config.
 (dk/load-config)
+
+
+;; Tracking of external dependencies
+;;------------------------------------------------------------------------------
+
+;; Should be declared in core-use-package but function is not yet defined.
+(new-external-dependency! 'git)
+(when dk/windows-flag
+  (new-external-dependency! 'winget)
+  (new-external-dependency! '(msys2 . "winget install msys2") t))
 
 (provide 'init)

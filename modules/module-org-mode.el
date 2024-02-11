@@ -9,9 +9,9 @@
 (use-package org
   :pin melpa
   :init
-  (org-babel-do-load-languages 'org-babel-load-languages '((plantuml . t)
-							   (python . t)
-							   (shell . t)))
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((emacs-lisp . t)(plantuml . t)(python . t)(shell . t)(C . t)))
   :hook
   ((org-mode-hook . org-toggle-pretty-entities)
    (org-mode-hook . prettify-symbols-mode)
@@ -34,7 +34,8 @@
    (prettify-symbols-unprettify-at-point 'right-edge)
    (org-agenda-files `(,(concat dk/user-system-base-path "TODOs.org")))
    (org-latex-preview-ltxpng-directory "~/.ltxpng/")
-   (org-latex-listings 'minted)
+   ;; (org-latex-listings 'minted)
+   (org-latex-src-block-backend 'engraved)
    (org-latex-packages-alist '(("AUTO" "babel"  nil nil)
 			       (""     "mhchem" t   nil)))
    (org-return-follows-link t)
@@ -62,6 +63,9 @@
 ;;    (org-hide-leading-stars nil)
 ;;    (org-superstar-leading-bullet ?\s)
 ;;    (org-superstar-special-todo-items t)))
+
+;; For setting org-latex-src-block-backend
+(use-package engrave-faces)
 
 (use-package htmlize
   :defer t)
