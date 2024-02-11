@@ -152,9 +152,7 @@
   ;; minimap
   (require 'sublimity-map)
   (sublimity-map-set-delay nil)
-
-  (when (boundp 'programming-lsp-mode)
-    (add-hook 'lsp-after-open-hook 'sublimity-mode))
+  
   (when (boundp 'programming-eglot)
     (add-hook 'eglot-connect-hook 'sublimity-mode)))
 
