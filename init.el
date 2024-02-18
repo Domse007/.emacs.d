@@ -1,217 +1,195 @@
-;; Logging
-;;------------------------------------------------------------------------------
+;;; init.el -*- lexical-binding: t; -*-
 
-(defmacro dk/log (kind fmt &rest strings)
-  "New version of logging macro. Log a message. It will report to the
-minibuffer. The history is available in the *Messages* buffer."
-  `(let ((pre (cond ((eq ,kind 'info) "[INFO]")
-                    ((eq ,kind 'warning) "[WARNING]")
-                    ((eq ,kind 'error) "[ERROR]"))))
-     (message "%s %s" pre (format ,fmt ,@strings))))
+;; This file controls what Doom modules are enabled and what order they load
+;; in. Remember to run 'doom sync' after modifying it!
 
-;; Versioning
-;;------------------------------------------------------------------------------
+;; NOTE Press 'SPC h d h' (or 'C-h d h' for non-vim users) to access Doom's
+;;      documentation. There you'll find a link to Doom's Module Index where all
+;;      of our modules are listed, including what flags they support.
 
-(defconst dk/config-version '(0 6 3)
-  "The version of this config as a list.")
+;; NOTE Move your cursor over a module's name (or its flags) and press 'K' (or
+;;      'C-c c k' for non-vim users) to view its documentation. This works on
+;;      flags as well (those symbols that start with a plus).
+;;
+;;      Alternatively, press 'gd' (or 'C-c c d') on a module to browse its
+;;      directory (for easy access to its source code).
 
-(defun dk/config-version-string ()
-  "Get the config version as a string."
-  (format "%i.%i.%i" (nth 0 dk/config-version)
-          (nth 1 dk/config-version) (nth 2 dk/config-version)))
+(doom! :input
+       ;;bidi              ; (tfel ot) thgir etirw uoy gnipleh
+       ;;chinese
+       ;;japanese
+       ;;layout            ; auie,ctsrnm is the superior home row
 
-(defconst dk/minimal-emacs-version "27.1"
-  "Minimal version of emacs to run this config.")
+       :completion
+       (company           ; the ultimate code completion backend
+        +childframe)
+       ;;helm              ; the *other* search engine for love and life
+       ;;ido               ; the other *other* search engine...
+       ;;ivy               ; a search engine for love and life
+       vertico           ; the search engine of the future
 
-(defun dk/check-emacs-version ()
-  "Check the emacs version if the config and emacs are compatible."
-  (if (version<= dk/minimal-emacs-version emacs-version)
-      (dk/log 'info "Emacs does satisfy version requirement.")
-    (error "Emacs does not satisfy version requirement.")))
+       :ui
+       ;;deft              ; notational velocity for Emacs
+       doom              ; what makes DOOM look the way it does
+       doom-dashboard    ; a nifty splash screen for Emacs
+       ;;doom-quit         ; DOOM quit-message prompts when you quit Emacs
+       ;;(emoji +unicode)  ; 🙂
+       hl-todo           ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
+       ;;hydra
+       ;;indent-guides     ; highlighted indent columns
+       ;;ligatures         ; ligatures and symbols to make your code pretty again
+       ;;minimap           ; show a map of the code on the side
+       modeline          ; snazzy, Atom-inspired modeline, plus API
+       ;;nav-flash         ; blink cursor line after big motions
+       ;;neotree           ; a project drawer, like NERDTree for vim
+       ophints           ; highlight the region an operation acts on
+       (popup +defaults)   ; tame sudden yet inevitable temporary windows
+       ;;tabs              ; a tab bar for Emacs
+       ;;treemacs          ; a project drawer, like neotree but cooler
+       ;;unicode           ; extended unicode support for various languages
+       (vc-gutter +pretty) ; vcs diff in the fringe
+       vi-tilde-fringe   ; fringe tildes to mark beyond EOB
+       ;;window-select     ; visually switch windows
+       workspaces        ; tab emulation, persistence & separate workspaces
+       zen               ; distraction-free coding or writing
 
-(dk/check-emacs-version)
+       :editor
+       (evil +everywhere); come to the dark side, we have cookies
+       file-templates    ; auto-snippets for empty files
+       fold              ; (nigh) universal code folding
+       (format +onsave)  ; automated prettiness
+       ;;god               ; run Emacs commands without modifier keys
+       ;;lispy             ; vim for lisp, for people who don't like vim
+       ;;multiple-cursors  ; editing in many places at once
+       ;;objed             ; text object editing for the innocent
+       ;;parinfer          ; turn lisp into python, sort of
+       ;;rotate-text       ; cycle region at point between text candidates
+       snippets          ; my elves. They type so I don't have to
+       ;;word-wrap         ; soft wrapping with language-aware indent
 
-;; Variables
-;;------------------------------------------------------------------------------
+       :emacs
+       dired             ; making dired pretty [functional]
+       electric          ; smarter, keyword-based electric-indent
+       ;;ibuffer         ; interactive buffer management
+       undo              ; persistent, smarter undo for your inevitable mistakes
+       vc                ; version-control and Emacs, sitting in a tree
 
-(defgroup dk/config nil
-  "Group for all custom config variables.")
+       :term
+       eshell            ; the elisp shell that works everywhere
+       ;;shell             ; simple shell REPL for Emacs
+       ;;term              ; basic terminal emulator for Emacs
+       ;;vterm             ; the best terminal emulation in Emacs
 
-(defconst dk/windows-flag
-  (progn (dk/log 'info "Detected Windows. Setting variable...")
-         (string-equal system-type "windows-nt"))
-  "Flag that is set, if the host is a windows-nt kernel.")
+       :checkers
+       syntax              ; tasing you for every semicolon you forget
+       (spell +flyspell +hunspell +everywhere) ; tasing you for misspelling mispelling
+       ;;grammar           ; tasing grammar mistake every you make
 
-(defconst dk/linux-flag
-  (progn (dk/log 'info "Detected Linux. Setting variable...")
-         (string-equal system-type "gnu/linux"))
-  "Flag that is set, if the host has a linux kernel.")
+       :tools
+       ;;ansible
+       ;;biblio            ; Writes a PhD for you (citation needed)
+       ;;collab            ; buffers with friends
+       ;;debugger          ; FIXME stepping through code, to help you add bugs
+       ;;direnv
+       ;;docker
+       editorconfig      ; let someone else argue about tabs vs spaces
+       ;;ein               ; tame Jupyter notebooks with emacs
+       (eval +overlay)     ; run code, run (also, repls)
+       lookup              ; navigate your code and its documentation
+       ;;lsp               ; M-x vscode
+       magit             ; a git porcelain for Emacs
+       make              ; run make tasks from Emacs
+       ;;pass              ; password manager for nerds
+       ;;pdf               ; pdf enhancements
+       ;;prodigy           ; FIXME managing external services & code builders
+       rgb               ; creating color strings
+       ;;taskrunner        ; taskrunner for all your projects
+       ;;terraform         ; infrastructure as code
+       ;;tmux              ; an API for interacting with tmux
+       tree-sitter       ; syntax and parsing, sitting in a tree...
+       ;;upload            ; map local to remote projects via ssh/ftp
 
-(defconst dk/macos-flag
-  (progn (dk/log 'info "Detected macos. Setting variable...")
-         (string-equal system-type "darwin"))
-  "Flag that is set, if the host is darwin like.")
+       :os
+       (:if (featurep :system 'macos) macos)  ; improve compatibility with macOS
+       ;;tty               ; improve the terminal Emacs experience
 
-(defcustom dk/user-system-base-path (expand-file-name "~/")
-  "Selected path at startup"
-  :type 'string
-  :group 'dk/config)
+       :lang
+       ;;agda              ; types of types of types of types...
+       ;;beancount         ; mind the GAAP
+       ;;(cc +lsp)         ; C > C++ == 1
+       ;;clojure           ; java with a lisp
+       ;;common-lisp       ; if you've seen one lisp, you've seen them all
+       ;;coq               ; proofs-as-programs
+       ;;crystal           ; ruby at the speed of c
+       ;;csharp            ; unity, .NET, and mono shenanigans
+       ;;data              ; config/data formats
+       ;;(dart +flutter)   ; paint ui and not much else
+       ;;dhall
+       ;;elixir            ; erlang done right
+       ;;elm               ; care for a cup of TEA?
+       emacs-lisp        ; drown in parentheses
+       ;;erlang            ; an elegant language for a more civilized age
+       ;;ess               ; emacs speaks statistics
+       ;;factor
+       ;;faust             ; dsp, but you get to keep your soul
+       ;;fortran           ; in FORTRAN, GOD is REAL (unless declared INTEGER)
+       ;;fsharp            ; ML stands for Microsoft's Language
+       ;;fstar             ; (dependent) types and (monadic) effects and Z3
+       ;;gdscript          ; the language you waited for
+       ;;(go +lsp)         ; the hipster dialect
+       ;;(graphql +lsp)    ; Give queries a REST
+       ;;(haskell +lsp)    ; a language that's lazier than I am
+       ;;hy                ; readability of scheme w/ speed of python
+       ;;idris             ; a language you can depend on
+       ;;json              ; At least it ain't XML
+       ;;(java +lsp)       ; the poster child for carpal tunnel syndrome
+       ;;javascript        ; all(hope(abandon(ye(who(enter(here))))))
+       ;;julia             ; a better, faster MATLAB
+       ;;kotlin            ; a better, slicker Java(Script)
+       ;;latex             ; writing papers in Emacs has never been so fun
+       ;;lean              ; for folks with too much to prove
+       ;;ledger            ; be audit you can be
+       ;;lua               ; one-based indices? one-based indices
+       markdown          ; writing docs for people to ignore
+       ;;nim               ; python + lisp at the speed of c
+       ;;nix               ; I hereby declare "nix geht mehr!"
+       ;;ocaml             ; an objective camel
+       org               ; organize your plain life in plain text
+       ;;php               ; perl's insecure younger brother
+       ;;plantuml          ; diagrams for confusing people more
+       ;;purescript        ; javascript, but functional
+       ;;python            ; beautiful is better than ugly
+       ;;qt                ; the 'cutest' gui framework ever
+       ;;racket            ; a DSL for DSLs
+       ;;raku              ; the artist formerly known as perl6
+       ;;rest              ; Emacs as a REST client
+       ;;rst               ; ReST in peace
+       ;;(ruby +rails)     ; 1.step {|i| p "Ruby is #{i.even? ? 'love' : 'life'}"}
+       (rust +lsp)       ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
+       ;;scala             ; java, but good
+       ;;(scheme +guile)   ; a fully conniving family of lisps
+       sh                ; she sells {ba,z,fi}sh shells on the C xor
+       ;;sml
+       ;;solidity          ; do you need a blockchain? No.
+       ;;swift             ; who asked for emoji variables?
+       ;;terra             ; Earth and Moon in alignment for performance.
+       ;;web               ; the tubes
+       ;;yaml              ; JSON, but readable
+       ;;zig               ; C, but simpler
 
-(defcustom dk/org-roam-dir (expand-file-name "~/Notes/")
-  "Default directory of org files that should be indexed by roam."
-  :type 'string
-  :group 'dk/config)
+       :email
+       ;;(mu4e +org +gmail)
+       ;;notmuch
+       ;;(wanderlust +gmail)
 
-(defcustom dk/use-40-percent-keyboard nil
-  "Flag that specifies if 40% keyboard specific keybindings should be enabled."
-  :type 'bool
-  :group 'dk/config)
+       :app
+       ;;calendar
+       ;;emms
+       ;;everywhere        ; *leave* Emacs!? You must be joking
+       ;;irc               ; how neckbeards socialize
+       ;;(rss +org)        ; emacs as an RSS reader
+       ;;twitter           ; twitter client https://twitter.com/vnought
 
-(defconst dk/user-emacs-cache-dir
-  (let ((dir (expand-file-name "var/" user-emacs-directory)))
-    (unless (file-directory-p dir) (make-directory dir)) dir)
-  "Default location for device specific files.")
-
-(defconst dk/config-git-remote
-  (let ((default-directory user-emacs-directory)
-        (cmd "git config --get remote.origin.url"))
-    (string-trim (shell-command-to-string cmd)))
-  "Remote URL of the config.")
-
-;; Font selecting
-;;------------------------------------------------------------------------------
-
-(defun dk/select-default-font ()
-  "Select a font and return it."
-  (let* ((fonts '("Source Code Pro" "Consolas" "DejaVu Sans Mono" "SF Mono"))
-         (filtered (seq-filter (lambda (f) (if (find-font (font-spec :name f))
-                                               f nil))
-                               fonts)))
-    (if (length> filtered 0) (car filtered) nil)))
-
-(defvar dk/default-font (dk/select-default-font)
-  "The default font that will be used.")
-
-;; Modules
-;;------------------------------------------------------------------------------
-
-(defconst dk/config-core-path (expand-file-name "core/" user-emacs-directory)
-  "Location where the core files are located.")
-
-(defconst dk/config-optional-path (expand-file-name "modules/" user-emacs-directory)
-  "Default location of config files.")
-
-(add-to-list 'load-path dk/config-core-path)
-(add-to-list 'load-path dk/config-optional-path)
-
-(defconst dk/modules
-  '((early-init       root    nil "The early-init file.")
-    (init             root    nil "The main init file.")
-    (core-use-package core    t   "Setup of use-package")
-    (core-deps        core    t   "Setup of dependency management.")
-    (core-config      core    t   "Setup of invisible packages")
-    (core-emacs       core    t   "Setup of built-in things.")
-    (core-design      core    t   "Definitions of visible related packages.")
-    (core-funcs       core    t   "General custom funcs.")
-    (core-daemon      core    t   "Setup hooks for frame creation with daemon.")
-    (module-search    modules t   "Search through config modules.")
-    (module-helm      modules t   "Configures helm and posframe.")
-    (module-org-mode  modules t   "Definition of org setup.")
-    (module-org-roam  modules t   "Definition of org-roam setup.")
-    (module-spell     modules nil "Global spell checking.")
-    (module-prog-base modules t   "Universal configs for programming.")
-    (module-lspce     modules t   "A better lsp client.")
-    (module-rust      modules t   "Configs for rust programming.")
-    (module-elisp     modules t   "Configs for better elisp programming.")
-    (module-haskell   modules t   "Basic setup for haskell programming.")
-    (module-vue       modules t   "Very basic vue setup.")
-    (module-flutter   modules t   "Flutter / dart setup.")
-    (module-visuals   modules t   "More visual packages."))
-  "All modules that can be loaded. The first element is the module name. The
-second element is the location of the module. The third element is the arg if
-the module should be loaded. The fourth element is the description of the
-module. `early-init' and `init' must be nil.")
-
-(defun dk/load-modules ()
-  (dolist (module-cons dk/modules)
-    (let ((name (nth 0 module-cons))
-          (location (nth 1 module-cons))
-          (arg (nth 2 module-cons)))
-      (when arg
-        (dk/log 'info "Loading file %s from %s."
-                (symbol-name name) (symbol-name location))
-        (require name)))))
-
-;; machine specific settings
-;;------------------------------------------------------------------------------
-
-(defconst dk/custom-settings-file (expand-file-name "~/.emacs-customs.el")
-  "File where the machine specific settings are stored.")
-
-(defun dk/load-customs-file ()
-  "Function that loads the machine specific settings."
-  (if (file-exists-p dk/custom-settings-file)
-      (progn (dk/log 'info "Loading customs file from %s."
-                     dk/custom-settings-file)
-             (load-file dk/custom-settings-file))
-    (dk/log 'error "Customs file could not be loaded from %s."
-            dk/custom-settings-file)))
-
-(defun dk/install-customs-file ()
-  (interactive)
-  (let ((settings
-         `(("dk/user-system-base-path" . ,dk/user-system-base-path)
-           ("dk/org-roam-dir" . ,dk/org-roam-dir)
-           ("user-full-name" . ,user-full-name)
-           ("dk/use-40-percent-keyboard" . ,dk/use-40-percent-keyboard))))
-    (with-temp-file dk/custom-settings-file
-      (dolist (item settings)
-        (let* ((var-name (car item))
-               (var-val (cdr item))
-               (val-string (cond ((stringp var-val)(concat "\"" var-val "\""))
-                                 (t (if var-val "t" "nil")))))
-          (dk/log 'info "Getting %s for %s with type %s."
-                  val-string var-name (symbol-name (type-of var-val)))
-          (insert "(setq " var-name " " val-string ")\n"))))
-    (dk/log 'info "Settings file has been installed.")))
-
-(defun dk/open-customs-file ()
-  "Open the file defined in `dk/custom-settings-file'."
-  (interactive)
-  (if (file-exists-p dk/custom-settings-file)
-      (progn (find-file dk/custom-settings-file)
-             (dk/log 'info "Opened customs file."))
-    "Consider calling `M-x dk/install-customs-file RET.'"))
-
-(global-set-key (kbd "C-c RET") 'dk/open-customs-file)
-
-;; init functions
-;;------------------------------------------------------------------------------
-
-(defun dk/load-config ()
-  "Init function for the config."
-  (when dk/windows-flag
-    (setq no-native-compile t
-          package-native-compile nil))
-  (dk/load-customs-file)
-  (dk/load-modules)
-  (dk/40-percent-keyboard-mode-maybe-enable)
-  (dk/log 'info "Config loaded.")  
-  (when dk/original-gc-threshold
-    (dk/log 'info "Restoring old gc values.")
-    (setq gc-cons-threshold dk/original-gc-threshold))) ; old gc value
-
-;; Call the entry point of the config.
-(dk/load-config)
-
-
-;; Tracking of external dependencies
-;;------------------------------------------------------------------------------
-
-;; Should be declared in core-use-package but function is not yet defined.
-(new-external-dependency! 'git)
-(when dk/windows-flag
-  (new-external-dependency! 'winget)
-  (new-external-dependency! '(msys2 . "winget install msys2") t))
-
-(provide 'init)
+       :config
+       ;;literate
+       (default +bindings +smartparens))
