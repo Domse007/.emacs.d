@@ -1,0 +1,4 @@
+#+title: ${title}
+#+author: [NAME]
+#+filetags: eth
+#+options: date:nil author:t

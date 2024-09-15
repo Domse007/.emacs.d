@@ -21,6 +21,11 @@ FILE does not exist."
 					      user-emacs-directory))
   "Tempate string for describing the functionalities of a program.")
 
+(defconst dk/org-roam-eth-template
+  (dk/org-roam-get-template (expand-file-name "templates/eth.org"
+                                              user-emacs-directory))
+  "Template string for describint an eth note.")
+
 (use-package org-roam
   :defer t
   :init
@@ -39,6 +44,9 @@ FILE does not exist."
        :unnarrowed t)
       ("p" "program" plain "%?" :target
        (file+head "program/%<%Y%m%d>-${slug}.org" ,dk/org-roam-program-template)
+       :unnarrowed t)
+      ("e" "eth" plain "%?" :target
+       (file+head "eth/%<%Y%m%d>-${slug}.org" ,dk/org-roam-eth-template)
        :unnarrowed t))))
   :bind
   (("C-c n l" . org-roam-buffer-toggle)
