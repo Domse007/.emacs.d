@@ -49,7 +49,14 @@
    (org-image-actual-width nil)
    (org-special-ctrl-a/e t))
   :hook
-  ((org-mode-hook . (lambda () (linum-mode nil)))))
+  ;; ((org-mode-hook . (lambda () (linum-mode nil))))
+  )
+
+(defun dk/org-latex-fragments-scaling ()
+  (interactive)
+  (let* ((current (plist-get org-format-latex-options :scale))
+	 (new (read-number (format "New scaling (current %s): " current) 1.0)))
+    (plist-put org-format-latex-options :scale new)))
 
 ;; (use-package org-superstar
 ;;   :defer t
