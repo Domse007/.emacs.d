@@ -66,17 +66,31 @@
 
 ;; End [Custom Macro System]----------------------------------------------------
 
+(use-package org-git
+  :defer nil
+  :vc (:url "https://code.tecosaur.net/tec/org-mode"
+            :rev :newest
+            :lisp-dir "lisp"
+            :make "autoloads")
+  :config
+  (message "DK: Org-git run"))
+
 (use-package org
-  :pin melpa
+  ;; :pin melpa
+  :defer nil
   :init
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((emacs-lisp . t)(plantuml . t)(python . t)(shell . t)(C . t)))
+  (message "DK: org-init")
   :hook
   ((org-mode . prettify-symbols-mode)
    (org-mode . (lambda () (setq fill-column 70)))
    (org-mode . turn-on-auto-fill)
-   (org-mode . company-mode))
+   (org-mode . company-mode)
+   ;; Testing
+   (org-mode . org-latex-preview-auto-mode)
+   )
   :custom
   ((org-src-fontify-natively t)
    (org-highlight-latex-and-related '(latex script entities))
@@ -92,7 +106,6 @@
    (org-latex-src-block-backend 'engraved)
    (org-latex-packages-alist '(("AUTO" "babel"  nil nil)
         		       (""     "mhchem" t   nil)))
-   (org-return-follows-link t)
    (org-confirm-babel-evaluate nil)
    (org-edit-src-content-indentation 0)
    (org-src-preserve-indentation t)
@@ -101,7 +114,14 @@
     (concat dk/user-emacs-cache-dir "org/.org-id-locations"))
    (org-export-allow-bind-keywords t)
    (org-image-actual-width nil)
-   (org-special-ctrl-a/e t))
+   (org-special-ctrl-a/e t)
+   (org-return-follows-link t)
+   ;; Testing
+   (org-latex-preview-live '(inline block edit-special))
+   (org-latex-preview-numbered t)
+   (org-latex-preview-live t)
+   (org-latex-preview-live-debounce 0.25)
+   )
   :bind
   (:map org-mode-map
         ("C-c m s" . dk/org-latex-command-insert)
@@ -115,15 +135,26 @@
         ("C-c m c" . dk/org-latex-cases)
         ("C-c m t" . dk/org-latex-text))
   :config
+  (message "DK: after org.")
   (local-unset-key (kbd "C-x m"))
   ;; Make doc-view-mode not ask to revert buffer.
-  (setq revert-without-query '(".pdf")))
+  (setq revert-without-query '(".pdf"))
+  (when (executable-find "dvisvgm")
+    (setq org-preview-latex-default-process 'dvisvgm)
+    (dk/org-latex-fragments-scaling 0.5)))
 
-(defun dk/org-latex-fragments-scaling ()
+(defun dk/org-latex-fragments-scaling (&optional scaling)
   (interactive)
   (let* ((current (plist-get org-format-latex-options :scale))
-	 (new (read-number (format "New scaling (current %s): " current) 1.0)))
+	 (new (if scaling scaling
+                (read-number (format "New scaling (current %s): " current) 1.0))))
     (plist-put org-format-latex-options :scale new)))
+
+(defun dk/org-latex-fragments-toggle ()
+  "TESTING"
+  (interactive)
+  (org-latex-preview 'buffer)
+  (org-latex-preview-auto-mode))
 
 (use-package anki-editor
   :quelpa (anki-editor :fetcher github
@@ -137,6 +168,7 @@
   :defer t)
 
 (use-package org-fragtog
+  :disabled t
   :defer t
   :if (window-system)
   :hook
