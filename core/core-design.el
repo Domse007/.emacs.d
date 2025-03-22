@@ -71,7 +71,7 @@
   ((after-init . beacon-mode)))
 
 (use-package dimmer
-  ;; :disabled t
+  :disabled t
   :config
   (dimmer-configure-helm)
   (dimmer-configure-company-box)

@@ -162,6 +162,8 @@
 
 ;; Org like TAB behaviour for hideshow.
 (use-package hideshow-org
+  ;; disabled because of recursion error with asm
+  :disabled t
   :hook
   ((prog-mode . hs-org/minor-mode)))
 

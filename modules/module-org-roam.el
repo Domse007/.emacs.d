@@ -33,6 +33,8 @@ FILE does not exist."
   ;; currently this built-in package isn't loaded
   ;; can be removed in the future.
   (require 'ucs-normalize)
+  :hook
+  ((org-roam-mode . org-latex-preview))
   :custom
   ((org-roam-directory dk/org-roam-dir)
    (org-roam-completion-everywhere t)

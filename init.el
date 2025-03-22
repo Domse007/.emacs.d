@@ -12,7 +12,15 @@ minibuffer. The history is available in the *Messages* buffer."
 ;; Versioning
 ;;------------------------------------------------------------------------------
 
-(defconst dk/config-version '(0 6 3)
+(defun dk/read-config-version (file)
+  "Read the version from the VERSION file."
+  (let* ((path (expand-file-name file user-emacs-directory))
+	 (buffer (with-temp-buffer
+		   (insert-file-contents path)
+		   (buffer-string))))
+    (mapcar #'string-to-number (split-string buffer "\\."))))
+
+(defconst dk/config-version (dk/read-config-version "VERSION")
   "The version of this config as a list.")
 
 (defun dk/config-version-string ()
@@ -20,7 +28,7 @@ minibuffer. The history is available in the *Messages* buffer."
   (format "%i.%i.%i" (nth 0 dk/config-version)
           (nth 1 dk/config-version) (nth 2 dk/config-version)))
 
-(defconst dk/minimal-emacs-version "27.1"
+(defconst dk/minimal-emacs-version "31.0.50"
   "Minimal version of emacs to run this config.")
 
 (defun dk/check-emacs-version ()
@@ -92,6 +100,29 @@ minibuffer. The history is available in the *Messages* buffer."
 (defvar dk/default-font (dk/select-default-font)
   "The default font that will be used.")
 
+;; Lsp stuff
+;;------------------------------------------------------------------------------
+
+(defconst dk/preferred-lsp-client 'lsp-mode
+  "The preferred lsp client. Either `lspce' or `lsp-mode'")
+
+(let ((handler (lambda (arg) (dk/log 'info "Got argument %s" arg))))
+  (push (cons "--lspce" handler) command-switch-alist)
+  (push (cons "--lsp-mode" handler) command-switch-alist))
+
+(defvar dk/selected-lsp-client
+  (let ((lsp-mode? (member "--lsp-mode" command-line-args))
+        (lspce? (member "--lspce" command-line-args)))
+    (cond
+     ((and lsp-mode? lspce?) dk/preferred-lsp-client)
+     ((and lsp-mode? (not lspce?) 'lsp-mode))
+     ((and (not lsp-mode?) lspce?) 'lspce)
+     (t dk/preferred-lsp-client)))
+  "The computed lsp client that will be used.")
+
+(defun lsp-m? () (equal dk/selected-lsp-client 'lsp-mode))
+(defun lspce? () (equal dk/selected-lsp-client 'lspce))
+
 ;; Modules
 ;;------------------------------------------------------------------------------
 
@@ -105,28 +136,30 @@ minibuffer. The history is available in the *Messages* buffer."
 (add-to-list 'load-path dk/config-optional-path)
 
 (defconst dk/modules
-  '((early-init       root    nil "The early-init file.")
-    (init             root    nil "The main init file.")
-    (core-use-package core    t   "Setup of use-package")
-    (core-deps        core    t   "Setup of dependency management.")
-    (core-config      core    t   "Setup of invisible packages")
-    (core-emacs       core    t   "Setup of built-in things.")
-    (core-design      core    t   "Definitions of visible related packages.")
-    (core-funcs       core    t   "General custom funcs.")
-    (core-daemon      core    t   "Setup hooks for frame creation with daemon.")
-    (module-search    modules t   "Search through config modules.")
-    (module-helm      modules t   "Configures helm and posframe.")
-    (module-org-mode  modules t   "Definition of org setup.")
-    (module-org-roam  modules t   "Definition of org-roam setup.")
-    (module-spell     modules nil "Global spell checking.")
-    (module-prog-base modules t   "Universal configs for programming.")
-    (module-lspce     modules t   "A better lsp client.")
-    (module-rust      modules t   "Configs for rust programming.")
-    (module-elisp     modules t   "Configs for better elisp programming.")
-    (module-haskell   modules t   "Basic setup for haskell programming.")
-    (module-vue       modules t   "Very basic vue setup.")
-    (module-flutter   modules t   "Flutter / dart setup.")
-    (module-visuals   modules t   "More visual packages."))
+  `((early-init       root    nil       "The early-init file.")
+    (init             root    nil       "The main init file.")
+    (core-use-package core    t         "Setup of use-package")
+    (core-deps        core    t         "Setup of dependency management.")
+    (core-config      core    t         "Setup of invisible packages")
+    (core-emacs       core    t         "Setup of built-in things.")
+    (core-design      core    t         "Definitions of visible related packages.")
+    (core-funcs       core    t         "General custom funcs.")
+    (core-daemon      core    t         "Setup hooks for frame creation with daemon.")
+    (module-search    modules t         "Search through config modules.")
+    (module-helm      modules t         "Configures helm and posframe.")
+    (module-org-mode  modules t         "Definition of org setup.")
+    (module-org-roam  modules t         "Definition of org-roam setup.")
+    (module-spell     modules nil       "Global spell checking.")
+    (module-prog-base modules t         "Universal configs for programming.")
+    (module-lspce     modules ,(lspce?) "A better lsp client.")
+    (module-lsp-mode  modules ,(lsp-m?) "The feature rich lsp client.")
+    (module-rust      modules t         "Configs for rust programming.")
+    (module-elisp     modules t         "Configs for better elisp programming.")
+    (module-haskell   modules t         "Basic setup for haskell programming.")
+    (module-vue       modules t         "Very basic vue setup.")
+    (module-flutter   modules t         "Flutter / dart setup.")
+    (module-cobol     modules ,(lsp-m?) "Cobol setup. Requires lsp-mode.")
+    (module-visuals   modules t         "More visual packages."))
   "All modules that can be loaded. The first element is the module name. The
 second element is the location of the module. The third element is the arg if
 the module should be loaded. The fourth element is the description of the

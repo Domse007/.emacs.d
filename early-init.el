@@ -23,20 +23,23 @@
 ;; DisableUnnecessaryInterface
 (menu-bar-mode -1)
 (unless (display-graphic-p)
-  (setq default-frame-alist '((fullscreen . maximized)
+  (setq default-frame-alist '(;; (fullscreen . maximized)
 			      (background-color . "#000000")
 			      (menu-bar-lines . 0)
 			      (tool-bar-lines . 0)
 			      (vertical-scroll-bars . nil))
-	initial-frame-alist '((fullscreen . maximized)
+	initial-frame-alist '(;; (fullscreen . maximized)
 			      (menu-bar-lines . 0)
 			      (tool-bar-lines . 0)
 			      (vertical-scroll-bars . nil))))
 ;; -DisableUnnecessaryInterface
 
-;; (set-face-attribute 'default nil
-;;                     :height 90)
-;; (set-face-attribute 'fixed-pitch nil
-;;                     :height 90)
+(defvar dk/original-frame-decorations default-frame-alist)
+
+(defun dk/toggle-frame-decorations ()
+  (interactive)
+  (if (assoc 'undecorated default-frame-alist)
+      (setq default-frame-alist '((undecorated . t)))
+    (setq default-frame-alist dk/original-frame-decorations)))
 
 (provide 'early-init)
