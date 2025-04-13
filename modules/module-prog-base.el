@@ -8,33 +8,77 @@
   :config
   (projectile-mode t))
 
-(use-package company
-  :defer t
-  :bind
-  (:map company-active-map
-	("C-n". company-select-next)
-	("C-p". company-select-previous)
-	("M-<". company-select-first)
-	("M->". company-select-last))
-  :custom
-  ((company-tooltip-maximum-width 60)
-   (company-tooltip-width-grow-only t)
-   (company-idle-delay 0)
-   (company-tooltip-idle-delay 0))
-  :hook
-  ((emacs-lisp-mode . company-mode)
-   (prog-mode . company-mode)))
-
-(use-package company-box
-  :defer t
-  :hook
-  (company-mode . company-box-mode))
-
 (use-package prescient)
 
-(use-package company-prescient
-  :config
-  (company-prescient-mode))
+;; General completion variables
+
+(defconst dk/completion-max-width 60
+  "Maximum width for completion drop-downs.")
+
+(defconst dk/completion-min-width 10
+  "Minimum width for completion drop-downs.")
+
+;; Company setup
+;; -----------------------------------------------------------------------------
+
+(when (dk/use-company?)
+  (use-package company
+    :bind
+    (:map company-active-map
+	  ("C-n". company-select-next)
+	  ("C-p". company-select-previous)
+	  ("M-<". company-select-first)
+	  ("M->". company-select-last))
+    :custom
+    ((company-tooltip-maximum-width dk/completion-max-width)
+     (company-tooltip-minimum-width dk/completion-min-width)
+     (company-tooltip-width-grow-only t)
+     (company-idle-delay 0)
+     (company-tooltip-idle-delay 0))
+    :hook
+    ((emacs-lisp-mode . company-mode)
+     (prog-mode . company-mode)))
+  
+  (use-package company-box
+    :defer t
+    :hook
+    (company-mode . company-box-mode))
+
+  (use-package company-prescient
+    :config
+    (company-prescient-mode)))
+
+;; Corfu setup
+;; -----------------------------------------------------------------------------
+
+(when (dk/use-corfu?)
+  (use-package corfu
+    :custom
+    ((corfu-auto t)
+     (corfu-cycle t)
+     (corfu-quit-no-match 'separator)
+     (corfu-auto-delay 0)
+     (corfu-auto-prefix 2)
+     (corfu-max-width dk/completion-max-width)
+     (corfu-min-width dk/completion-min-width)
+     (tab-always-indent 'complete))
+    :init
+    (global-corfu-mode)
+    (corfu-popupinfo-mode))
+
+  (use-package cape
+    :init
+    (add-hook 'completion-at-point-functions #'cape-dabbrev)
+    (add-hook 'completion-at-point-functions #'cape-file)
+    (add-hook 'completion-at-point-functions #'cape-elisp-block))
+  
+  (use-package nerd-icons-corfu
+    :init
+    (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
+
+  (use-package corfu-prescient))
+
+;; -----------------------------------------------------------------------------
 
 (use-package flycheck
   :defer t

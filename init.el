@@ -103,7 +103,7 @@ minibuffer. The history is available in the *Messages* buffer."
 ;; Lsp stuff
 ;;------------------------------------------------------------------------------
 
-(defconst dk/preferred-lsp-client 'lsp-mode
+(defconst dk/preferred-lsp-client 'lspce
   "The preferred lsp client. Either `lspce' or `lsp-mode'")
 
 (let ((handler (lambda (arg) (dk/log 'info "Got argument %s" arg))))
@@ -120,8 +120,26 @@ minibuffer. The history is available in the *Messages* buffer."
      (t dk/preferred-lsp-client)))
   "The computed lsp client that will be used.")
 
+(defun dk/lsp-client ()
+  (interactive)
+  (message "Current lsp client is: %s" dk/preferred-lsp-client))
+
 (defun lsp-m? () (equal dk/selected-lsp-client 'lsp-mode))
 (defun lspce? () (equal dk/selected-lsp-client 'lspce))
+
+;; Completion stuff
+;;------------------------------------------------------------------------------
+
+(defconst dk/preferred-completion-provider 'corfu
+  "The prefered completion provider. Either `company' or `corfu'")
+
+(defun dk/completion-provider ()
+  (interactive)
+  (message "Current completion provider is: %s"
+           dk/preferred-completion-provider))
+
+(defun dk/use-company? () (equal dk/preferred-completion-provider 'company))
+(defun dk/use-corfu? () (equal dk/preferred-completion-provider 'corfu))
 
 ;; Modules
 ;;------------------------------------------------------------------------------
@@ -152,6 +170,7 @@ minibuffer. The history is available in the *Messages* buffer."
     (module-spell     modules nil       "Global spell checking.")
     (module-prog-base modules t         "Universal configs for programming.")
     (module-lspce     modules ,(lspce?) "A better lsp client.")
+    (module-dape      modules ,(lspce?) "A generic debugger implementing dap.")
     (module-lsp-mode  modules ,(lsp-m?) "The feature rich lsp client.")
     (module-rust      modules t         "Configs for rust programming.")
     (module-elisp     modules t         "Configs for better elisp programming.")
