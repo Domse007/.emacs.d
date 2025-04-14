@@ -64,23 +64,22 @@ a predefined game."
 ;; Org (roam) export helpers
 ;;------------------------------------------------------------------------------
 
-(require 'org)
+(with-eval-after-load 'org
+  (defvar org-export-output-directory-prefix (expand-file-name "~/.export")
+    "Prefix of directory used for org-mode export")
 
-(defvar org-export-output-directory-prefix (expand-file-name "~/.export")
-  "Prefix of directory used for org-mode export")
+  (defadvice org-export-output-file-name (before org-add-export-dir activate)
+    "Modifies org-export to place exported files in a different directory"
+    (when (not pub-dir)
+      (setq pub-dir org-export-output-directory-prefix)
+      (when (not (file-directory-p pub-dir))
+	(make-directory pub-dir))))
 
-(defadvice org-export-output-file-name (before org-add-export-dir activate)
-  "Modifies org-export to place exported files in a different directory"
-  (when (not pub-dir)
-    (setq pub-dir org-export-output-directory-prefix)
-    (when (not (file-directory-p pub-dir))
-      (make-directory pub-dir))))
+  (org-link-set-parameters "id" :export #'dk/org-id-link-export)
 
-(org-link-set-parameters "id" :export #'dk/org-id-link-export)
-
-(defun dk/org-id-link-export (link description format _)
-  "Custom formatting org org-roam links in export."
-  description)
+  (defun dk/org-id-link-export (link description format _)
+    "Custom formatting org org-roam links in export."
+    description))
 
 ;; Support for 40% keyboards
 ;;------------------------------------------------------------------------------

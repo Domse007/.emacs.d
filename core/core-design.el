@@ -119,9 +119,13 @@
 ;;   :config
 ;;   (load-theme 'monokai t))
 
-(use-package doom-themes
+;; (use-package doom-themes
+;;   :config
+;;   (load-theme 'doom-bluloco-dark t))
+
+(use-package badwolf-theme
   :config
-  (load-theme 'doom-bluloco-dark t))
+  (load-theme 'badwolf t))
 
 (use-package golden-ratio
   :custom

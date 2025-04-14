@@ -12,11 +12,8 @@
 
 ;; General completion variables
 
-(defconst dk/completion-max-width 60
-  "Maximum width for completion drop-downs.")
-
-(defconst dk/completion-min-width 10
-  "Minimum width for completion drop-downs.")
+(defconst dk/completion-width 60
+  "Width for completion drop-downs.")
 
 ;; Company setup
 ;; -----------------------------------------------------------------------------
@@ -30,8 +27,8 @@
 	  ("M-<". company-select-first)
 	  ("M->". company-select-last))
     :custom
-    ((company-tooltip-maximum-width dk/completion-max-width)
-     (company-tooltip-minimum-width dk/completion-min-width)
+    ((company-tooltip-maximum-width dk/completion-width)
+     (company-tooltip-minimum-width dk/completion-width)
      (company-tooltip-width-grow-only t)
      (company-idle-delay 0)
      (company-tooltip-idle-delay 0))
@@ -57,10 +54,11 @@
     ((corfu-auto t)
      (corfu-cycle t)
      (corfu-quit-no-match 'separator)
+     (corfu-on-exact-match nil)
      (corfu-auto-delay 0)
      (corfu-auto-prefix 2)
-     (corfu-max-width dk/completion-max-width)
-     (corfu-min-width dk/completion-min-width)
+     (corfu-max-width dk/completion-width)
+     (corfu-min-width dk/completion-width)
      (tab-always-indent 'complete))
     :init
     (global-corfu-mode)
@@ -171,9 +169,9 @@
    (treemacs-is-never-other-window t)
    (treemacs-sorting 'alphabetic-case-insensitive-asc)
    (treemacs-persist-file
-    (concat user-emacs-directory dk/user-emacs-cache-dir "treemacs-persist"))
+    (expand-file-name "treemacs-persist" dk/user-emacs-cache-dir))
    (treemacs-last-error-persist-file
-    (concat dk/user-emacs-cache-dir "treemacs-last-error-persist"))
+    (expand-file-name "treemacs-last-error-persist" dk/user-emacs-cache-dir))
    (treemacs-collapse-dirs 0))
   :bind
   (("C-x t" . treemacs-select-window)

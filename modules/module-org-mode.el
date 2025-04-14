@@ -120,7 +120,8 @@
 (use-package org-git
   :defer nil
   :vc (:url "https://code.tecosaur.net/tec/org-mode"
-            :rev :newest
+            ;; Update in future
+            :rev "507578fb66"
             :lisp-dir "lisp"
             :make "autoloads")
   :config
@@ -138,7 +139,6 @@
   ((org-mode . prettify-symbols-mode)
    (org-mode . (lambda () (setq fill-column 70)))
    (org-mode . turn-on-auto-fill)
-   (org-mode . company-mode)
    ;; Testing
    (org-mode . org-latex-preview-auto-mode)
    )
