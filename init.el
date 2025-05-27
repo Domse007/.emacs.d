@@ -103,18 +103,21 @@ minibuffer. The history is available in the *Messages* buffer."
 ;; Lsp stuff
 ;;------------------------------------------------------------------------------
 
-(defconst dk/preferred-lsp-client 'lspce
-  "The preferred lsp client. Either `lspce' or `lsp-mode'")
+(defconst dk/preferred-lsp-client 'lsp-proxy
+  "The preferred lsp client. Either `lsp-proxy', `lspce' or `lsp-mode'")
 
 (let ((handler (lambda (arg) (dk/log 'info "Got argument %s" arg))))
   (push (cons "--lspce" handler) command-switch-alist)
-  (push (cons "--lsp-mode" handler) command-switch-alist))
+  (push (cons "--lsp-mode" handler) command-switch-alist)
+  (push (cons "--lsp-proxy" handler) command-switch-alist))
 
 (defvar dk/selected-lsp-client
   (let ((lsp-mode? (member "--lsp-mode" command-line-args))
-        (lspce? (member "--lspce" command-line-args)))
+        (lspce? (member "--lspce" command-line-args))
+        (lsp-proxy? (member "--lsp-proxy" command-line-args)))
     (cond
      ((and lsp-mode? lspce?) dk/preferred-lsp-client)
+     ;; WARNING: lsp-proxy missing, but most likely this code is never used.
      ((and lsp-mode? (not lspce?) 'lsp-mode))
      ((and (not lsp-mode?) lspce?) 'lspce)
      (t dk/preferred-lsp-client)))
@@ -126,6 +129,7 @@ minibuffer. The history is available in the *Messages* buffer."
 
 (defun lsp-m? () (equal dk/selected-lsp-client 'lsp-mode))
 (defun lspce? () (equal dk/selected-lsp-client 'lspce))
+(defun lsp-p? () (equal dk/selected-lsp-client 'lsp-proxy))
 
 ;; Completion stuff
 ;;------------------------------------------------------------------------------
@@ -172,6 +176,7 @@ minibuffer. The history is available in the *Messages* buffer."
     (module-lspce     modules ,(lspce?) "A better lsp client.")
     (module-dape      modules ,(lspce?) "A generic debugger implementing dap.")
     (module-lsp-mode  modules ,(lsp-m?) "The feature rich lsp client.")
+    (module-lsp-proxy modules ,(lsp-p?) "The feature rich, native lsp client.")
     (module-rust      modules t         "Configs for rust programming.")
     (module-elisp     modules t         "Configs for better elisp programming.")
     (module-haskell   modules t         "Basic setup for haskell programming.")

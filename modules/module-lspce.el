@@ -19,13 +19,22 @@
 			       "lspce-module.d" t))))
       (message "Done.")))
   (require 'lspce)
+  :config
+  (defun lspce-vue-initializationOptions ()
+    (let ((options (make-hash-table :test #'equal)))
+      (setq options (lspce--add-option "serverMode" 0 options))
+      (setq options (lspce--add-option "diagnosticMode" 1 options))
+      (setq options (lspce--add-option "textDocumentSync" 2 options))
+      (message "Called initialization %s" options)
+      options))
+  (add-to-list 'lspce-server-programs '("vue" "vue-language-server" "--stdio"))
   :hook
   ((rust-mode . lspce-mode)
    (python-mode . lspce-mode)))
 
 (use-package eldoc-box
-  :hook
-  ((window-size-change-functions . dk/eldoc-set-box-sizes))
+  ;; :hook
+  ;; ((window-size-change-functions . dk/eldoc-set-box-sizes))
   :init
   (defun dk/approximate-frame-width ()
     (* (* (frame-width) (frame-char-width)) 2))

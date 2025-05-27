@@ -114,6 +114,15 @@
    (concat "\\begin{algorithm}[H]\n\\caption{}\n\\begin{algorithmic}[1]"
            "\n\\end{algorithmic}\n\\end{algorithm}")
    58 25))
+(dk/org-gen-defun! dk/org-latex-mathbb
+  "mathbb function"
+  (dk/org-gen-insert-lambda "\\mathbb{}" 1 nil))
+(dk/org-gen-defun! dk/org-latex-mathrm
+  "mathrm function"
+  (dk/org-gen-insert-lambda "\\mathrm{}" 1 nil))
+(dk/org-gen-defun! dk/org-latex-mathcal
+  "mathcal function"
+  (dk/org-gen-insert-lambda "\\mathcal{}" 1 nil))
 
 ;; End [Custom Macro System]----------------------------------------------------
 

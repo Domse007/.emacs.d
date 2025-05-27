@@ -56,6 +56,7 @@
      (corfu-quit-no-match 'separator)
      (corfu-on-exact-match nil)
      (corfu-auto-delay 0)
+     (corfu-popupinfo-delay '(0.5 . 1.0))
      (corfu-auto-prefix 2)
      (corfu-max-width dk/completion-width)
      (corfu-min-width dk/completion-width)
@@ -66,7 +67,7 @@
 
   (use-package cape
     :init
-    (add-hook 'completion-at-point-functions #'cape-dabbrev)
+    ;; (add-hook 'completion-at-point-functions #'cape-dabbrev)
     (add-hook 'completion-at-point-functions #'cape-file)
     (add-hook 'completion-at-point-functions #'cape-elisp-block))
   
