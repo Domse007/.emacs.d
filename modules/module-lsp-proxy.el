@@ -11,6 +11,13 @@
   (expand-file-name "node_modules/typescript/lib"
                     dk/lsp-proxy-global-node-modules-path))
 
+(defconst dk/lsp-proxy-cobol-lsp
+  (let ((file-base "var/lsp-proxy/cobol/cobol-server"))
+    (expand-file-name (if (equal system-type 'windows-nt)
+			  (concat file-base ".exe") file-base)
+		      user-emacs-directory))
+  "Path to the cobol lsp.")
+
 (defconst dk/lsp-proxy-config
   `(("[language-server.typescript-language-server]"
      ("config.plugins" . (("name" . "@vue/typescript-plugin")
@@ -42,7 +49,18 @@
 	 [ ".eslintrc.js" ".eslintrc.cjs" ".eslintrc.yaml" ".eslintrc.yml"
 	   ".eslintrc" ".eslintrc.json" "eslint.config.js" "eslint.config.mjs"
 	   "eslint.config.cjs" "eslint.config.ts" "eslint.config.mts"
-	   "eslint.config.cts"]))]))))
+	   "eslint.config.cts" ]))]))
+    ;; testing for cobol.
+    ("[language-server.cobol-language-server]"
+     ("command" . ,dk/lsp-proxy-cobol-lsp)
+     ("args" . [ "pipeEnabled" "-Dline.separator=\\r\\n"
+		 "-Dlogback.statusListenerClass=ch.qos.logback.core.status.NopStatusListener"]))
+    ("[[language]]"
+     ("name" . "cobol")
+     ("language-id" . "cobol")
+     ("file-types" . [ "cbl" "cob" "cpy" ])
+     ("roots" . [ "Makefile" "settings.json" ])
+     ("language-servers" . [ "cobol-language-server" ]))))
 
 (defun dk/to-toml--rhs (rhs)
   (cond ((symbolp rhs) (insert (symbol-name rhs)))
@@ -109,6 +127,7 @@
   :hook
   ((rust-mode . lsp-proxy-mode)
    (vue-ts-mode . lsp-proxy-mode)
+   (cobol-mode . lsp-proxy-mode)
    (lsp-proxy-mode . (lambda ()
                        (local-set-key (kbd "C-c C-f")
                                       #'lsp-proxy-format-buffer)))))

@@ -182,7 +182,7 @@ minibuffer. The history is available in the *Messages* buffer."
     (module-haskell   modules t         "Basic setup for haskell programming.")
     (module-vue       modules t         "Very basic vue setup.")
     (module-flutter   modules t         "Flutter / dart setup.")
-    (module-cobol     modules ,(lsp-m?) "Cobol setup. Requires lsp-mode.")
+    (module-cobol     modules t         "Cobol setup. Requires lsp-mode.")
     (module-visuals   modules t         "More visual packages."))
   "All modules that can be loaded. The first element is the module name. The
 second element is the location of the module. The third element is the arg if
