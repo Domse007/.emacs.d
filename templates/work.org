@@ -1,0 +1,4 @@
+#+title: ${title}
+#+author: [NAME]
+#+filetags: work
+#+options: date:nil author:t
