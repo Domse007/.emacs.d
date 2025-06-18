@@ -77,4 +77,12 @@
 		  (condition-case err (apply f args)
 		    (message "[ERROR] %s" err))))))
 
+(use-package ob-cobol
+  :quelpa (ob-cobol :fetcher github :repo "domse007/ob-cobol" :files ("ob-cobol.el"))
+  :custom
+  ((ob-cobol-compiler 'gcobol)))
+
+;; (use-package jcl-mode
+;;   :quelpa (jcl-mode :fetcher github :repo "lsiksous/jcl-mode.el" :files ("jcl-mode.el")))
+
 (provide 'module-cobol)
