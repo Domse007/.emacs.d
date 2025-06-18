@@ -26,6 +26,11 @@ FILE does not exist."
                                               user-emacs-directory))
   "Template string for describint an eth note.")
 
+(defconst dk/org-roam-work-template
+  (dk/org-roam-get-template (expand-file-name "templates/work.org"
+                                              user-emacs-directory))
+  "Template string for describing an work note.")
+
 (use-package org-roam
   :defer t
   :init
@@ -49,6 +54,9 @@ FILE does not exist."
        :unnarrowed t)
       ("e" "eth" plain "%?" :target
        (file+head "eth/%<%Y%m%d>-${slug}.org" ,dk/org-roam-eth-template)
+       :unnarrowed t)
+      ("w" "work" plain "%?" :target
+       (file+head "work/%<%Y%m%d>-${slug}.org" ,dk/org-roam-work-template)
        :unnarrowed t))))
   :bind
   (("C-c n l" . org-roam-buffer-toggle)
