@@ -27,8 +27,9 @@
 	  ("M-<". company-select-first)
 	  ("M->". company-select-last))
     :custom
-    ((company-tooltip-maximum-width dk/completion-width)
-     (company-tooltip-minimum-width dk/completion-width)
+    (
+     ;;(company-tooltip-maximum-width dk/completion-width)
+     ;; (company-tooltip-minimum-width dk/completion-width)
      (company-tooltip-width-grow-only t)
      (company-idle-delay 0)
      (company-tooltip-idle-delay 0))

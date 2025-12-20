@@ -126,15 +126,15 @@
 
 ;; End [Custom Macro System]----------------------------------------------------
 
-(use-package org-git
-  :defer nil
-  :vc (:url "https://code.tecosaur.net/tec/org-mode"
-            ;; Update in future
-            :rev "507578fb66"
-            :lisp-dir "lisp"
-            :make "autoloads")
-  :config
-  (message "DK: Org-git run"))
+;; (use-package org-git
+;;   :defer nil
+;;   :vc (:url "https://code.tecosaur.net/tec/org-mode"
+;;             ;; Update in future
+;;             :rev "507578fb66"
+;;             :lisp-dir "lisp"
+;;             :make "autoloads")
+;;   :config
+;;   (message "DK: Org-git run"))
 
 (use-package org
   ;; :pin melpa
@@ -149,7 +149,7 @@
    (org-mode . (lambda () (setq fill-column 70)))
    (org-mode . turn-on-auto-fill)
    ;; Testing
-   (org-mode . org-latex-preview-auto-mode)
+   ;; (org-mode . org-latex-preview-auto-mode)
    )
   :custom
   ((org-src-fontify-natively t)
