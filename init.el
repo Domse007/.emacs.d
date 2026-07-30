@@ -173,6 +173,7 @@ minibuffer. The history is available in the *Messages* buffer."
     (module-org-roam  modules t         "Definition of org-roam setup.")
     (module-spell     modules nil       "Global spell checking.")
     (module-prog-base modules t         "Universal configs for programming.")
+    (module-elixir    modules t         "Elixir support. Only lspce supported.")
     (module-lspce     modules ,(lspce?) "A better lsp client.")
     (module-dape      modules ,(lspce?) "A generic debugger implementing dap.")
     (module-lsp-mode  modules ,(lsp-m?) "The feature rich lsp client.")

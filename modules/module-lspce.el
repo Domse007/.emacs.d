@@ -28,9 +28,14 @@
       (message "Called initialization %s" options)
       options))
   (add-to-list 'lspce-server-programs '("vue" "vue-language-server" "--stdio"))
+  (add-to-list 'lspce-server-programs
+	       (list "elixir"
+		     (expand-file-name "language_server.sh" elixir-ls-install-dir)
+		     ""))
   :hook
   ((rust-mode . lspce-mode)
-   (python-mode . lspce-mode)))
+   (python-mode . lspce-mode)
+   (elixir-mode . lspce-mode)))
 
 (use-package eldoc-box
   ;; :hook

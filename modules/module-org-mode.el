@@ -142,7 +142,7 @@
   :init
   (org-babel-do-load-languages
    'org-babel-load-languages
-   '((emacs-lisp . t)(plantuml . t)(python . t)(shell . t)(C . t)))
+   '((emacs-lisp . t)(plantuml . t)(python . t)(shell . t)(C . t)(html . t)))
   (message "DK: org-init")
   :hook
   ((org-mode . prettify-symbols-mode)
@@ -259,6 +259,41 @@
 (use-package org-modern
   :hook
   ((org-mode . org-modern-mode)))
+
+;; Install and configure org-re-reveal
+(use-package org-re-reveal
+  :ensure t
+  :after org
+  :config
+  ;; Use CDN for reveal.js 4.x
+  (setq org-re-reveal-root "https://cdn.jsdelivr.net/npm/reveal.js@4.6.1")
+  
+  ;; Specify reveal.js version
+  (setq org-re-reveal-revealjs-version "4")
+  
+  ;; ENABLE Klipse globally (you can disable per-block with :no-klipsify t)
+  (setq org-re-reveal-klipsify-src nil)
+  
+  ;; Klipse configuration - CRITICAL for it to work
+  (setq org-re-reveal-klipse-css "https://storage.googleapis.com/app.klipse.tech/css/codemirror.css")
+  (setq org-re-reveal-klipse-js "https://storage.googleapis.com/app.klipse.tech/plugin_prod/js/klipse_plugin.min.js")
+  
+  ;; Configure which languages Klipse should handle
+  (setq org-re-reveal-klipse-setup
+        '(("javascript" "selector_eval_js" "language-klipse-eval-js")
+          ("js" "selector_eval_js" "language-klipse-eval-js")
+          ("clojure" "selector" "language-klipse")
+          ("python" "selector_eval_python_client" "language-klipse-eval-python")
+          ("ruby" "selector_eval_ruby" "language-klipse-eval-ruby")
+          ("scheme" "selector_eval_scheme" "language-klipse-eval-scheme")))
+  
+  ;; Use highlight.js for NON-klipse code blocks
+  (setq org-re-reveal-hlevel 1)
+  (setq org-re-reveal-highlight-css "%r/plugin/highlight/monokai.css")
+  
+  ;; Enable MathJax
+  (setq org-re-reveal-mathjax-url
+        "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"))
 
 (new-external-dependency! 'gnupg) ;; pacman -S mingw-w32-x86_64-gnupg
 
